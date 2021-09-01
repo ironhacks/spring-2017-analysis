@@ -11,8 +11,8 @@ Total number of Participants in each category for ALL Phase for Purdue Hack
 
 Total number of Participants in each category for ALL Phases for Bogota Hacks
 
-:grinning: Bogota 0 = 43 people
-:grinning: Bogota 1 = 42 people
+:grinning: Bogota 0 = 39 people
+:grinning: Bogota 1 = 41 people
 :grinning: Bogota 2 = 41 people
 :grinning: Bogota 3 = 41 people
 
