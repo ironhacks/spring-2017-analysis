@@ -1,6 +1,11 @@
 # Spring 2017 IronHacks ReadMe :wink:
 ## Spring 2017 Purdue and Bogota IronHacks :neckbeard: 
 
+
+## Link to Analysis Plan - https://docs.google.com/document/d/1VVUgQH9RfCzhaBqLwxk4KuRjpURCHKJN3kYDWh8GTSY/edit
+
+## Link to Data Dictionary - https://github.com/ironhacks/participants-code-2015-2019/blob/main/analysis/Spring-2017-Data-Dictionary.ipynb
+
 ### During the first part of this document, you will read about the general process of the Gold Ironhacks. On the subsequent part, you will get a deeper understanding on the raw data collected. Finally, you will be guided through the process of how we transform the data collected.
 
 ## 00 Pre-Analysis of Participant :purple_heart: 
