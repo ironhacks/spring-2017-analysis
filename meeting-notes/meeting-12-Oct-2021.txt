@@ -1,0 +1,43 @@
+## Agenda for 12th October 2021 
+
+Data Dictionary for Spring 2017 
+
+- add the link to judging readme
+
+- make sure the following info is there - 
+
+(1) inter-rater reliability 
+(2) scales used for each section 
+
+Scores Click Data 
+
+- add schema for the clicks data 
+- add some explanations 
+
+Pre-Survey Data 
+
+- missing links 
+
+Missing Post Survey 
+
+- missing links 
+
+Total Score Analysis 2017 
+
+- check the consistency of the results from line 90 to line 94 
+
+- split up the notebooks into 2
+
+(1) metrics construction ( define variable name )
+
+(2) improvement score 
+
+- phase 1 - 2
+- phase 2 - 3
+- phase 3 - 4
+- phase 4 - 5
+- phase 1 - 5
+
+- correlation between all types of improvement score 
+- generate the graphs and run ANOVA and Tukey Test for all types of scores 
+
