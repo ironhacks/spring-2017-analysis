@@ -1,0 +1,27 @@
+- run ANOVA on subscores ->  improve-tech-15, improve-ur-15, improve-novelty-15, improve-vis-15
+
+- 
+
+- Perform Cronbach alpha on improve-total-15
+
+- Find a better compound measure than improve-total-15 using PCA
+
+with improve-tech-15, improve-ur-15, improve-vis-15, improve-novelty-15
+
+## Steps of Performing PCA 
+
+- Check assumptions of PCA
+
+- Use Varimax Rotation
+
+- Report unrotated factors
+
+(a) Overall sample  
+
+(b) Subsample sample   
+
+- Think about how the re-coding of the treatment variable transparency would affect how we perform the ANOVA 
+
+
+
+ 
