@@ -4,7 +4,7 @@
 setwd("H:/RWorkshop")
 
 # Read in the data file (.csv)
-temp = read.csv("Q2-final.csv", sep=",", row.names=1)
+temp = read.csv("/Users/jialincheoh/Desktop/survey-motivation.csv", sep=",")
 head(temp)
 temp1 <- as.matrix(temp)
 head(temp1)
