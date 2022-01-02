@@ -17,12 +17,12 @@ correlation::correlation(motivation,
                          include_factors = TRUE, method = "auto"
 )
 
-# display p-values (rounded to 3 decimals)
-round(res$P, 3)
 
 fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
 
 fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
+
+# looks like oblimin rotation is the best case for us right now. 
 
 fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
 

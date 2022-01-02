@@ -91,8 +91,8 @@ ggplot(data=pca.data, aes(x=X, y=Y, label=Sample)) +
 
 loading_scores <- pca$rotation[,1]
 head(loading_scores)
-survey_scores <- abs(loading_scores) ## get the magnitudes
-survey_score_ranked <- sort(survey_scores, decreasing=TRUE)
+#survey_scores <- abs(loading_scores) ## get the magnitudes
+survey_score_ranked <- sort(loading_scores, decreasing=TRUE)
 head(survey_score_ranked)
 
 ## get the name of the top 5 survey items that contribute
@@ -100,7 +100,16 @@ head(survey_score_ranked)
 
 loading_scores <- pca$rotation[,2]
 head(loading_scores)
-survey_scores <- abs(loading_scores) ## get the magnitudes
-survey_score_ranked <- sort(survey_scores, decreasing=TRUE)
+#survey_scores <- abs(loading_scores) ## get the magnitudes
+survey_score_ranked <- sort(loading_scores, decreasing=TRUE)
 head(survey_score_ranked)
+
+# Now draw the BiPlot
+# From the biplot of PC2, we can see that the intrinsic motivations tend to be negatively correlated with extrinsic. 
+# All the survey items are negatively loaded on PC1 
+biplot(pca, cex=c(1, 0.7))
+
+# Apply the Varimax Rotation
+my.var <- varimax(my.prc$rotation)
+my.var
 

@@ -1,0 +1,259 @@
+---
+title: "Exploratory Factor Analysis"
+output: html_notebook
+---
+
+### （1）EFA with "pass class" survey item removed 
+
+### (a) Notes on Total Variance Explained and Communalities
+
+> While performing EFA using Principal Axis Factoring with Promax rotation, Osborne,
+Costello, & Kellow (2008) suggests the communalities above 0.4 is acceptable
+
+> Dawson (2016) suggests that the total value of Total Variance Explained should be between 50% and 90% for factor analysis. 
+
+* Dawson, J. (2016). Analysing quantitative survey data for business and management students. Sage.
+
+* Costello, AB & Osborne, Jason. (2005). Best Practices in Exploratory Factor Analysis: Four Recommendations for Getting the Most From Your Analysis. Practical Assessment, Research & Evaluation. 10. 1-9. 
+
+### (b) Notes on Rotation Types
+
+> "The next decision is rotation method. The goal of rotation is to simplify and clarify the data structure., there area variety of choices. Varimax rotation is by far themost common choice. Varimax, quartimax, and equamax are commonly available orthogonal methods of rotation; direct oblimin, quartimin, and promax are oblique. Orthogonal rotations produce factors that are
+uncorrelated; oblique methods allow the factors to correlate. Conventional wisdom advises researchers to use orthogonal rotation because it produces moreeasily interpretable results, but this is a flawed argument. **In the social sciences we generally expect some correlation among factors, since behavior is rarely partitioned into neatly packaged units that function independently of one another. Therefore using orthogonal rotation results in a loss of valuable information if the factors are correlated, and oblique rotation should theoretically render a more accurate, and perhaps more reproducible, solution.** If the factors are truly uncorrelated, orthogonal and oblique
+rotation produce nearly identical results."
+
+* Costello, AB & Osborne, Jason. (2005). Best Practices in Exploratory Factor Analysis: Four Recommendations for Getting the Most From Your Analysis. Practical Assessment, Research & Evaluation. 10. 1-9. 
+
+
+```{r}
+# Loading required package: psych
+require(psych)
+
+# Loading required package: GPArotation
+require(GPArotation)
+
+```
+
+
+
+```{r}
+# remove "pass class" survey item 13
+motivation <- read.table("/Users/jialincheoh/Desktop/survey-motivation-WQ13.csv", header=TRUE, sep = ",")
+motivation
+```
+
+### Summary of Data
+
+```{r}
+
+describe(motivation)
+```
+
+### Interpretation: 
+
+> Response distributions for most items are approximately normal; the "improve_skills", "test_capability", "keep_up" items have excessive skewness, and the "improve_skills" item also has high kurtosis. 
+
+> Looking forward, we might expect some bias (inaccuracy) in the factor loading estimates for the "improve_skills" item, particularly, but the maximum likelihood estimation that will be used for FA has some robustness to non-normality.
+
+
+
+```{r}
+KMO(motivation)
+```
+
+### Interpretation: 
+  
+> MSA The overall Measure of Sampling Adequacy
+
+> MSAi The measure of sampling adequacy for each item item
+
+> The Kaiser-Meyer-Olkin Measure of Sampling Adequacy is a statistic that indicates the proportion of variance in your variables that might be caused by underlying factors. High values (close to 1.0) generally indicate that a factor analysis may be useful for the data. If the value is less than 0.50, the results of the factor analysis probably won’t be very useful. Previous studies have suggested that KMO greater than 0.5 can be used for factor analysis, while KMO greater than 0.8 is very suitable for factor analysis. 
+
+> Both the p.value attribute of cortest.bartlett()’s output is very much lower than 0.05 and the MSA attribute of KMO()’s output, 0.91, is close to 1, which means that they both recommend that EFA.
+
+* Li, N., Huang, J., & Feng, Y. (2020). Construction and confirmatory factor analysis of the core cognitive ability index system of ship C2 system operators. PloS one, 15(8), e0237339. https://doi.org/10.1371/journal.pone.0237339
+
+* Kaiser, H. F. (1974). An index of factorial simplicity. Psychometrika, 39(1), 31-36.
+
+
+```{r}
+hist(motivation$improve_skills)
+```
+
+
+```{r}
+lowerCor(motivation)
+```
+
+### Interpretation: 
+
+> Pearson correlations indicate the items have non-trivial pairwise interrelationships. Particularly, none of the item pairs have near-zero or very small correlations. 
+
+```{r}
+library(correlation)
+
+correlation::correlation(motivation,
+                         include_factors = TRUE, method = "auto"
+)
+
+```
+
+### Interpretation: 
+
+> All the correlations are significant. 
+
+```{r}
+fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+```
+### Interpretation: 
+
+> Parallel analysis suggests that the number of factors = 2
+
+```{r}
+fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
+```
+
+### Interpretation: 
+
+> Items loaded on ML2 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
+
+* "excellent_programmer", "introduce_ideas", "get_in_touch" and "known_creativity" are under "SHOW IDEAS" category in Fuller paper. "dissatisfaction" is under the category of "DISSATISFACTION" in Fuller paper. Both "SHOW IDEAS" and "DISSATISFACTION" lie on the "EXTRINSIC" side of motivations in Fuller paper. 
+
+> Items loaded on ML1 - "improve_skills", "test_capability", "enjoy_problems", "keep_up"
+
+* "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
+
+> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
+
+* Comment: 0.938 ( Great )
+
+> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
+
+* Comment: 0.00064 ( Not Pass ) - not a big issue as reason above
+
+> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
+
+* Comment: 0.072 ( Great )
+
+
+```{r}
+fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
+```
+
+### Interpretation: 
+
+> Items loaded on ML2 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
+
+* "excellent_programmer", "introduce_ideas", "get_in_touch" and "known_creativity" are under "SHOW IDEAS" category in Fuller paper. "dissatisfaction" is under the category of "DISSATISFACTION" in Fuller paper. Both "SHOW IDEAS" and "DISSATISFACTION" lie on the "EXTRINSIC" side of motivations in Fuller paper. 
+
+> Items loaded on ML1 - "improve_skills", "test_capability", "enjoy_problems", "keep_up"
+
+* "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
+
+
+> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
+
+* Comment: 0.938 ( Great )
+
+> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
+
+* Comment: 0.00064 ( Not Pass ) - not a big issue as reason above
+
+> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
+
+* Comment: 0.072 ( Great )
+
+
+```{r}
+fa(r=motivation, nfactors=2, rotate='varimax', fm='ml')
+```
+### Interpretation: 
+
+> Items loaded on ML1 - "excellent_programmer", "internship", "get_in_touch", "improve_skills", "test_capability", "enjoy_problems", "keep_up", "curious"
+
+> Items loaded on ML2 - "known creativity", "enjoy_problems", "keep_up", "introduce_ideas", "internship", "excellent_programmer", "dissatisfaction", "curious"
+
+> Problematic ross loadings is happening with the varimax rotation ( orthogonal ). The solution here is to use oblique method ( promax, oblimin ) as of above since behavior is rarely partitioned into neatly packaged units that function independently of one another. ( Costello et al., 2005 ) so we cannot say that the survey items are not related with each other. 
+
+* Costello, AB & Osborne, Jason. (2005). Best Practices in Exploratory Factor Analysis: Four Recommendations for Getting the Most From Your Analysis. Practical Assessment, Research & Evaluation. 10. 1-9. 
+
+
+> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
+
+* Comment: 0.938 ( Great )
+
+> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
+
+* Comment: 0.00064 ( Not Pass ) - not a big issue as reason above
+
+> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
+
+* Comment: 0.072 ( Great )
+
+### （2）EFA with "pass_class" survey item removed and "monetary_compensation" survey item removed. 
+
+```{r}
+# remove "pass class" survey item 13 and "money" survey item 1
+motivation <- read.table("/Users/jialincheoh/Desktop/survey-motivation-WQ13-WQ1.csv", header=TRUE, sep = ",")
+motivation
+```
+
+```{r}
+lowerCor(motivation)
+```
+
+### Interpretation: 
+
+> Pearson correlations indicate the items have non-trivial pairwise interrelationships. Particularly, none of the item pairs have near-zero or very small correlations. 
+
+```{r}
+fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+```
+### Interpretation: 
+
+> Parallel analysis suggests that the number of factors = 2
+
+
+```{r}
+fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
+```
+
+### Interpretation: 
+
+> Items loaded on ML2 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
+
+* "excellent_programmer", "introduce_ideas", "get_in_touch" and "known_creativity" are under "SHOW IDEAS" category in Fuller paper. "dissatisfaction" is under the category of "DISSATISFACTION" in Fuller paper. Both "SHOW IDEAS" and "DISSATISFACTION" lie on the "EXTRINSIC" side of motivations in Fuller paper. 
+
+> Items loaded on ML1 - "improve_skills", "test_capability", "enjoy_problems", "keep_up"
+
+* "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
+
+```{r}
+fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
+```
+
+### Interpretation: 
+
+> Items loaded on ML2 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
+
+* "excellent_programmer", "introduce_ideas", "get_in_touch" and "known_creativity" are under "SHOW IDEAS" category in Fuller paper. "dissatisfaction" is under the category of "DISSATISFACTION" in Fuller paper. Both "SHOW IDEAS" and "DISSATISFACTION" lie on the "EXTRINSIC" side of motivations in Fuller paper. 
+
+> Items loaded on ML1 - "improve_skills", "test_capability", "enjoy_problems", "keep_up"
+
+* "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
+
+```{r}
+fa(r=motivation, nfactors=2, rotate='varimax', fm='ml')
+```
+
+### Interpretation: 
+
+> Items loaded on ML1 - "excellent_programmer", "internship", "get_in_touch", "improve_skills", "test_capability", "enjoy_problems", "keep_up", "curious"
+
+> Items loaded on ML2 - "known creativity", "enjoy_problems", "keep_up", "introduce_ideas", "internship", "excellent_programmer", "dissatisfaction", "curious"
+
+> Problematic ross loadings is happening with the varimax rotation ( orthogonal ). The solution here is to use oblique method ( promax, oblimin ) as of above since behavior is rarely partitioned into neatly packaged units that function independently of one another. ( Costello et al., 2005 ) so we cannot say that the survey items are not related with each other. 
+
+* Costello, AB & Osborne, Jason. (2005). Best Practices in Exploratory Factor Analysis: Four Recommendations for Getting the Most From Your Analysis. Practical Assessment, Research & Evaluation. 10. 1-9. 
+
+
