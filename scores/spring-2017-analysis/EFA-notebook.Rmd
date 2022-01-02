@@ -7,6 +7,8 @@ output:
 
 ### （1）EFA with "pass class" survey item removed 
 
+Participating in the hack doesn't affect the grades in the class. 
+
 ### (a) Notes on Total Variance Explained and Communalities
 
 > While performing EFA using Principal Axis Factoring with Promax rotation, Osborne,
@@ -230,6 +232,19 @@ fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
 
 * "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
 
+
+> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
+
+* Comment: 0.927 ( Great ) - slightly lower than when one survey item was removed, but still in the "great" range. 
+
+> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
+
+* Comment: 0.00013 ( Not Pass ) - not a big issue as reason above, but worst than when only one survey item was removed. 
+
+> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
+
+* Comment: 0.083 ( acceptable ) - but slightly worst than only when one survey item was removed. Moved down from great fit to acceptable fit. 
+
 ```{r}
 fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
 ```
@@ -243,6 +258,18 @@ fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
 > Items loaded on ML1 - "improve_skills", "test_capability", "enjoy_problems", "keep_up"
 
 * "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
+
+> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
+
+* Comment: 0.927 ( Great ) - slightly lower than when one survey item was removed, but still in the "great" range. 
+
+> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
+
+* Comment: 0.00013 ( Not Pass ) - not a big issue as reason above, but worst than when only one survey item was removed. 
+
+> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
+
+* Comment: 0.083 ( acceptable ) - but slightly worst than only when one survey item was removed. Moved down from great fit to acceptable fit. 
 
 ```{r}
 fa(r=motivation, nfactors=2, rotate='varimax', fm='ml')
@@ -258,4 +285,86 @@ fa(r=motivation, nfactors=2, rotate='varimax', fm='ml')
 
 * Costello, AB & Osborne, Jason. (2005). Best Practices in Exploratory Factor Analysis: Four Recommendations for Getting the Most From Your Analysis. Practical Assessment, Research & Evaluation. 10. 1-9. 
 
+> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
+
+* Comment: 0.927 ( Great ) - slightly lower than when one survey item was removed, but still in the "great" range. 
+
+> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
+
+* Comment: 0.00013 ( Not Pass ) - not a big issue as reason above, but worst than when only one survey item was removed. 
+
+> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
+
+* Comment: 0.083 ( acceptable ) - but slightly worst than only when one survey item was removed. Moved down from great fit to acceptable fit. 
+
+```{r}
+# remove "pass class" survey item 13 and "money" survey item 1
+motivation <- read.table("/Users/jialincheoh/Desktop/survey-motivation-WQ13-WQ1-WQ3-W12.csv", header=TRUE, sep = ",")
+motivation
+```
+```{r}
+KMO(motivation)
+```
+```{r}
+lowerCor(motivation)
+```
+```{r}
+fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+```
+```{r}
+fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
+```
+## Interpretation: 
+
+> Cumulative variance now at 58%, but model fit is lower than previous. 
+
+> Items loaded on ML1 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
+
+* "excellent_programmer", "introduce_ideas", "get_in_touch" and "known_creativity" are under "SHOW IDEAS" category in Fuller paper. "dissatisfaction" is under the category of "DISSATISFACTION" in Fuller paper. Both "SHOW IDEAS" and "DISSATISFACTION" lie on the "EXTRINSIC" side of motivations in Fuller paper. 
+
+> Items loaded on ML2 - "improve_skills", "test_capability", "enjoy_problems", "keep_up"
+
+* "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
+
+> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
+
+* Comment: 0.924 ( Great ) - slightly lower than when one survey item was removed, but still in the "great" range. 
+
+> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
+
+* Comment:3e-04 ( Not Pass ) - Worst than when only one survey item was removed. 
+
+> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
+
+* Comment: 0.096 ( only a marginally acceptable fit ) - but slightly worst than only when one survey item was removed. Moved down from great fit to marginally acceptable fit. 
+
+```{r}
+fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
+```
+## Interpretation: 
+
+### Note: Things start to change here - "excellent programmer" went into the intrinsic group ( lower model fit ). 
+
+> Cumulative variance now at 58%. 
+
+> Items loaded on ML1 -  "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
+
+* "excellent_programmer", "introduce_ideas", "get_in_touch" and "known_creativity" are under "SHOW IDEAS" category in Fuller paper. "dissatisfaction" is under the category of "DISSATISFACTION" in Fuller paper. Both "SHOW IDEAS" and "DISSATISFACTION" lie on the "EXTRINSIC" side of motivations in Fuller paper. 
+
+> Items loaded on ML2 - "improve_skills", "test_capability", "enjoy_problems", "keep_up", "excellent_programmer",
+
+* "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
+
+
+> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
+
+* Comment: 0.924 ( Great ) - slightly lower than when one survey item was removed, but still in the "great" range. 
+
+> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
+
+* Comment:3e-04 ( Not Pass ) - Worst than when only one survey item was removed. 
+
+> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
+
+* Comment: 0.096 ( only a marginally acceptable fit ) - but slightly worst than only when one survey item was removed. Moved down from great fit to marginally acceptable fit. 
 
