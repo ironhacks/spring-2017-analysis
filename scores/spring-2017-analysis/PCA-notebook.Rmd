@@ -1,0 +1,60 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Principle Component Analysis in R 
+
+```{r}
+library(lattice)
+url <- "/Users/jialincheoh/Desktop/survey-motivation-WQ13.csv"
+motivation <- read.csv(url, header=TRUE)
+motivation
+```
+
+```{r}
+# Do the PCA 
+
+my.prc = prcomp(motivation[-1], center=TRUE, scale=TRUE)
+screeplot(my.prc, main="Scree Plot", xlab="Components")
+screeplot(my.prc, main="Scree Plot", type="line" )
+```
+```{r}
+# Kaiser criterion to determine the number of principle components to keep 
+my.prc$sdev ^ 2
+```
+
+```{r}
+
+screeplot(my.prc, main="Scree Plot", xlab="Components")
+```
+```{r}
+# DotPlot PC1
+
+load    <- my.prc$rotation
+sorted.loadings <- load[order(load[, 1]), 1]
+myTitle <- "Loadings Plot for PC1" 
+myXlab  <- "Variable Loadings"
+dotplot(sorted.loadings, main=myTitle, xlab=myXlab, cex=1.5, col="red")
+summary(my.prc)
+```
+
+```{r}
+# DotPlot PC2
+
+sorted.loadings <- load[order(load[, 2]), 2]
+myTitle <- "Loadings Plot for PC2"
+myXlab  <- "Variable Loadings"
+dotplot(sorted.loadings, main=myTitle, xlab=myXlab, cex=1.5, col="red")
+```
+```{r}
+# Now draw the BiPlot
+biplot(my.prc, cex=c(1, 0.7))
+```
+```{r}
+# Apply the Varimax Rotation
+my.var <- varimax(my.prc$rotation)
+
+my.var
+```
+

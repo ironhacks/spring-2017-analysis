@@ -1,6 +1,8 @@
 ---
 title: "Exploratory Factor Analysis"
-output: html_notebook
+output:
+  html_notebook: default
+  pdf_document: default
 ---
 
 ### （1）EFA with "pass class" survey item removed 

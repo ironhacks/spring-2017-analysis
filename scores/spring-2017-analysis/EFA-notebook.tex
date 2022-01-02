@@ -1,0 +1,2208 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Exploratory Factor Analysis},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Exploratory Factor Analysis}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\hypertarget{efa-with-pass-class-survey-item-removed}{%
+\subsubsection{（1）EFA with ``pass class'' survey item
+removed}\label{efa-with-pass-class-survey-item-removed}}
+
+\hypertarget{a-notes-on-total-variance-explained-and-communalities}{%
+\subsubsection{(a) Notes on Total Variance Explained and
+Communalities}\label{a-notes-on-total-variance-explained-and-communalities}}
+
+\begin{quote}
+While performing EFA using Principal Axis Factoring with Promax
+rotation, Osborne, Costello, \& Kellow (2008) suggests the communalities
+above 0.4 is acceptable
+\end{quote}
+
+\begin{quote}
+Dawson (2016) suggests that the total value of Total Variance Explained
+should be between 50\% and 90\% for factor analysis.
+\end{quote}
+
+\begin{itemize}
+\item
+  Dawson, J. (2016).~Analysing quantitative survey data for business and
+  management students. Sage.
+\item
+  Costello, AB \& Osborne, Jason. (2005). Best Practices in Exploratory
+  Factor Analysis: Four Recommendations for Getting the Most From Your
+  Analysis. Practical Assessment, Research \& Evaluation. 10. 1-9.
+\end{itemize}
+
+\hypertarget{b-notes-on-rotation-types}{%
+\subsubsection{(b) Notes on Rotation
+Types}\label{b-notes-on-rotation-types}}
+
+\begin{quote}
+``The next decision is rotation method. The goal of rotation is to
+simplify and clarify the data structure., there area variety of choices.
+Varimax rotation is by far themost common choice. Varimax, quartimax,
+and equamax are commonly available orthogonal methods of rotation;
+direct oblimin, quartimin, and promax are oblique. Orthogonal rotations
+produce factors that are uncorrelated; oblique methods allow the factors
+to correlate. Conventional wisdom advises researchers to use orthogonal
+rotation because it produces moreeasily interpretable results, but this
+is a flawed argument. \textbf{In the social sciences we generally expect
+some correlation among factors, since behavior is rarely partitioned
+into neatly packaged units that function independently of one another.
+Therefore using orthogonal rotation results in a loss of valuable
+information if the factors are correlated, and oblique rotation should
+theoretically render a more accurate, and perhaps more reproducible,
+solution.} If the factors are truly uncorrelated, orthogonal and oblique
+rotation produce nearly identical results.''
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Costello, AB \& Osborne, Jason. (2005). Best Practices in Exploratory
+  Factor Analysis: Four Recommendations for Getting the Most From Your
+  Analysis. Practical Assessment, Research \& Evaluation. 10. 1-9.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Loading required package: psych}
+\FunctionTok{require}\NormalTok{(psych)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: psych
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Loading required package: GPArotation}
+\FunctionTok{require}\NormalTok{(GPArotation)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: GPArotation
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# remove "pass class" survey item 13}
+\NormalTok{motivation }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\StringTok{"/Users/jialincheoh/Desktop/survey{-}motivation{-}WQ13.csv"}\NormalTok{, }\AttributeTok{header=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{sep =} \StringTok{","}\NormalTok{)}
+\NormalTok{motivation}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     monetary_compensation excellent_programmer internship introduce_ideas
+## 1                       3                    5          5               3
+## 2                       2                    5          2               2
+## 3                       3                    2          6               2
+## 4                       4                    4          3               0
+## 5                       1                    5          5               2
+## 6                       3                    4          4               2
+## 7                       0                    2          3               2
+## 8                       4                    5          4               3
+## 9                       3                    3          6               3
+## 10                      3                    6          6               4
+## 11                      3                    4          4               1
+## 12                      5                    3          5               1
+## 13                      4                    5          3               4
+## 14                      0                    3          4               3
+## 15                      0                    4          4               4
+## 16                      5                    5          4               4
+## 17                      3                    5          5               4
+## 18                      4                    3          6               4
+## 19                      0                    5          3               1
+## 20                      4                    4          5               1
+## 21                      5                    2          4               3
+## 22                      3                    5          6               5
+## 23                      3                    4          4               3
+## 24                      4                    4          4               4
+## 25                      5                    6          6               4
+## 26                      3                    5          4               4
+## 27                      6                    4          6               1
+## 28                      4                    6          4               5
+## 29                      3                    4          5               3
+## 30                      3                    3          4               3
+## 31                      5                    5          6               4
+## 32                      3                    4          5               1
+## 33                      3                    5          6               4
+## 34                      2                    5          5               4
+## 35                      0                    0          1               0
+## 36                      3                    5          5               3
+## 37                      0                    6          3               0
+## 38                      4                    6          6               4
+## 39                      3                    5          6               6
+## 40                      0                    0          0               0
+## 41                      0                    4          3               3
+## 42                      5                    5          3               4
+## 43                      5                    3          5               3
+## 44                      1                    5          5               3
+## 45                      4                    5          3               5
+## 46                      1                    5          2               3
+## 47                      3                    5          3               4
+## 48                      3                    4          3               4
+## 49                      4                    3          3               3
+## 50                      3                    4          4               1
+## 51                      3                    6          6               6
+## 52                      0                    4          5               0
+## 53                      4                    2          2               3
+## 54                      3                    3          3               3
+## 55                      0                    4          0               0
+## 56                      4                    3          4               4
+## 57                      6                    5          4               4
+## 58                      4                    6          4               4
+## 59                      4                    6          5               3
+## 60                      4                    1          2               0
+## 61                      2                    3          1               1
+## 62                      4                    6          4               5
+## 63                      0                    3          5               3
+## 64                      4                    4          5               1
+## 65                      4                    4          4               4
+## 66                      4                    3          2               0
+## 67                      4                    3          4               3
+## 68                      1                    3          3               2
+## 69                      3                    5          4               3
+## 70                      1                    2          1               0
+## 71                      4                    5          4               4
+## 72                      4                    5          6               3
+## 73                      2                    3          4               3
+## 74                      4                    5          6               4
+## 75                      6                    4          5               1
+## 76                      5                    5          6               3
+## 77                      6                    6          6               4
+## 78                      0                    3          2               2
+## 79                      0                    2          6               0
+## 80                      1                    1          3               2
+## 81                      6                    6          6               5
+## 82                      2                    3          3               3
+## 83                      1                    3          5               2
+## 84                      4                    6          5               4
+## 85                      3                    5          4               1
+## 86                      3                    4          4               3
+## 87                      3                    3          3               0
+## 88                      3                    4          5               3
+## 89                      3                    5          6               5
+## 90                      4                    6          6               3
+## 91                      4                    3          5               2
+## 92                      6                    6          0               6
+## 93                      0                    3          3               0
+## 94                      3                    5          5               4
+## 95                      5                    4          6               3
+## 96                      1                    4          5               5
+## 97                      3                    6          6               4
+## 98                      0                    3          6               3
+## 99                      4                    5          5               4
+## 100                     4                    4          4               3
+## 101                     4                    6          6               3
+## 102                     0                    6          6               3
+## 103                     4                    5          6               4
+## 104                     2                    5          5               0
+## 105                     3                    3          4               3
+## 106                     4                    5          4               4
+## 107                     4                    5          6               5
+## 108                     2                    2          2               2
+## 109                     4                    4          2               3
+## 110                     0                    2          3               1
+## 111                     2                    3          3               3
+## 112                     3                    3          3               3
+## 113                     1                    3          3               3
+## 114                     3                    4          3               3
+## 115                     3                    5          6               5
+## 116                     3                    6          6               6
+## 117                     2                    1          2               3
+## 118                     2                    3          3               2
+## 119                     3                    5          6               0
+## 120                     0                    5          5               5
+## 121                     3                    4          4               3
+## 122                     2                    4          3               4
+## 123                     0                    6          6               6
+## 124                     2                    4          6               2
+## 125                     4                    3          5               4
+## 126                     1                    3          2               4
+## 127                     2                    4          3               3
+## 128                     5                    6          4               4
+## 129                     4                    6          6               3
+## 130                     4                    1          4               3
+## 131                     3                    4          4               5
+## 132                     3                    6          6               2
+## 133                     4                    5          6               5
+## 134                     0                    0          3               0
+## 135                     6                    6          6               6
+## 136                     5                    5          5               5
+## 137                     0                    0          0               0
+## 138                     4                    6          4               3
+## 139                     0                    0          0               0
+## 140                     4                    5          5               6
+## 141                     4                    4          5               3
+## 142                     2                    5          4               4
+## 143                     3                    6          3               1
+## 144                     4                    5          4               3
+## 145                     3                    6          4               5
+## 146                     1                    4          6               2
+## 147                     1                    4          6               5
+## 148                     1                    3          5               5
+## 149                     3                    4          3               3
+## 150                     1                    1          1               1
+## 151                     3                    3          3               3
+## 152                     5                    5          5               5
+## 153                     3                    4          0               1
+## 154                     5                    5          5               5
+## 155                     4                    4          4               4
+## 156                     5                    5          5               4
+## 157                     5                    5          6               6
+## 158                     3                    3          3               3
+## 159                     3                    3          3               3
+## 160                     2                    2          2               2
+## 161                     3                    4          4               2
+## 162                     5                    6          6               2
+## 163                     0                    0          5               4
+##     get_in_touch known_creativity improve_skills test_capability enjoy_problems
+## 1              4                3              5               5              3
+## 2              3                3              5               4              3
+## 3              2                2              6               5              3
+## 4              0                0              6               6              5
+## 5              2                3              5               4              3
+## 6              4                2              5               4              5
+## 7              2                4              5               5              4
+## 8              4                5              5               4              4
+## 9              4                5              6               4              5
+## 10             5                5              6               6              5
+## 11             4                4              4               3              3
+## 12             1                4              6               6              6
+## 13             4                5              4               4              5
+## 14             0                5              5               3              3
+## 15             4                5              4               5              4
+## 16             3                6              5               5              5
+## 17             5                5              5               4              5
+## 18             6                3              6               6              6
+## 19             3                3              6               6              5
+## 20             4                4              6               5              2
+## 21             1                3              5               4              3
+## 22             6                5              5               6              5
+## 23             4                5              5               6              4
+## 24             4                4              4               4              4
+## 25             6                6              6               6              6
+## 26             2                5              4               0              2
+## 27             3                6              5               3              3
+## 28             4                4              5               5              4
+## 29             5                4              5               5              5
+## 30             4                5              5               4              4
+## 31             5                5              6               5              5
+## 32             4                3              6               5              3
+## 33             4                5              6               4              5
+## 34             4                5              5               5              5
+## 35             0                0              4               0              0
+## 36             5                5              6               5              5
+## 37             1                5              4               2              5
+## 38             6                5              6               6              6
+## 39             6                4              5               5              5
+## 40             0                0              5               2              0
+## 41             4                4              6               5              5
+## 42             3                4              5               5              4
+## 43             3                4              4               4              4
+## 44             4                5              5               5              5
+## 45             2                6              6               4              5
+## 46             3                5              5               4              4
+## 47             4                4              6               6              5
+## 48             5                3              5               4              5
+## 49             3                3              4               3              1
+## 50             3                4              4               3              2
+## 51             6                6              5               4              5
+## 52             4                5              5               5              5
+## 53             5                3              6               5              4
+## 54             4                3              6               5              4
+## 55             0                4              5               4              3
+## 56             2                3              4               4              4
+## 57             4                4              5               6              3
+## 58             5                4              5               5              3
+## 59             5                6              6               5              5
+## 60             2                3              6               4              5
+## 61             2                3              3               2              1
+## 62             5                5              6               5              5
+## 63             4                3              5               4              4
+## 64             2                3              6               3              4
+## 65             4                4              4               4              4
+## 66             4                3              6               3              4
+## 67             4                2              6               5              3
+## 68             2                3              2               4              2
+## 69             6                4              6               6              4
+## 70             4                1              6               5              0
+## 71             4                5              6               6              5
+## 72             5                5              6               6              6
+## 73             3                4              5               5              5
+## 74             6                4              5               6              6
+## 75             2                5              6               4              5
+## 76             6                5              5               5              5
+## 77             6                6              6               6              6
+## 78             5                4              6               5              5
+## 79             4                5              4               5              4
+## 80             5                5              6               5              4
+## 81             4                4              6               6              3
+## 82             3                3              4               4              3
+## 83             2                3              5               4              1
+## 84             5                5              6               6              5
+## 85             4                0              6               5              5
+## 86             4                4              5               5              4
+## 87             2                1              3               2              2
+## 88             5                3              6               4              5
+## 89             5                5              6               6              4
+## 90             6                4              6               6              4
+## 91             5                3              5               4              6
+## 92             6                6              3               6              6
+## 93             0                4              4               4              0
+## 94             5                4              6               5              6
+## 95             5                3              6               4              5
+## 96             5                4              5               5              5
+## 97             5                4              6               5              6
+## 98             4                3              6               6              6
+## 99             4                5              5               5              5
+## 100            3                5              4               4              5
+## 101            4                6              6               6              6
+## 102            6                6              5               5              5
+## 103            5                6              6               4              4
+## 104            3                5              6               5              4
+## 105            4                3              4               3              3
+## 106            4                5              5               5              4
+## 107            5                5              6               6              6
+## 108            2                2              3               4              3
+## 109            3                5              5               6              5
+## 110            1                4              1               1              4
+## 111            3                3              3               4              4
+## 112            3                4              6               4              4
+## 113            3                3              3               3              3
+## 114            3                3              5               4              4
+## 115            5                3              6               5              4
+## 116            6                4              6               5              6
+## 117            3                1              2               1              1
+## 118            3                4              6               5              5
+## 119            5                3              6               5              3
+## 120            5                5              5               5              5
+## 121            3                4              5               5              4
+## 122            4                4              5               4              4
+## 123            6                6              6               6              4
+## 124            1                3              4               3              3
+## 125            4                4              5               3              3
+## 126            4                4              3               2              4
+## 127            3                4              5               3              4
+## 128            5                4              6               5              5
+## 129            5                6              6               4              3
+## 130            3                4              5               4              5
+## 131            3                4              5               4              4
+## 132            4                4              5               3              5
+## 133            5                5              1               5              4
+## 134            0                0              2               0              1
+## 135            6                6              6               6              6
+## 136            5                5              5               5              5
+## 137            0                0              0               0              0
+## 138            5                6              5               5              6
+## 139            0                0              0               0              0
+## 140            6                5              6               4              5
+## 141            4                3              5               4              3
+## 142            5                4              5               5              5
+## 143            6                3              6               5              3
+## 144            4                5              6               6              5
+## 145            5                3              5               5              5
+## 146            2                3              5               3              5
+## 147            5                4              6               6              6
+## 148            5                4              4               5              4
+## 149            3                2              6               3              2
+## 150            1                1              1               1              1
+## 151            3                3              3               3              3
+## 152            4                5              6               5              5
+## 153            3                1              4               5              5
+## 154            4                5              4               5              4
+## 155            4                4              4               4              4
+## 156            4                4              5               5              4
+## 157            5                5              6               5              6
+## 158            5                3              6               6              6
+## 159            3                3              3               3              3
+## 160            2                2              2               2              2
+## 161            2                2              5               5              5
+## 162            4                5              4               4              4
+## 163            6                0              6               6              6
+##     keep_up dissatisfaction curious
+## 1         3               3       3
+## 2         4               3       4
+## 3         6               4       6
+## 4         6               0       0
+## 5         4               4       4
+## 6         5               3       4
+## 7         5               1       1
+## 8         5               3       4
+## 9         5               4       4
+## 10        5               5       5
+## 11        2               0       2
+## 12        6               4       6
+## 13        5               5       4
+## 14        4               4       5
+## 15        4               5       4
+## 16        5               3       4
+## 17        4               3       4
+## 18        6               3       5
+## 19        6               5       4
+## 20        5               3       5
+## 21        3               4       4
+## 22        5               4       5
+## 23        5               2       4
+## 24        4               4       4
+## 25        6               3       5
+## 26        5               4       5
+## 27        6               5       6
+## 28        5               0       5
+## 29        4               2       5
+## 30        3               3       3
+## 31        5               5       4
+## 32        4               2       4
+## 33        5               5       6
+## 34        3               6       5
+## 35        1               4       0
+## 36        5               4       6
+## 37        3               1       4
+## 38        6               2       6
+## 39        6               5       0
+## 40        5               4       1
+## 41        5               5       4
+## 42        4               3       4
+## 43        4               3       3
+## 44        3               1       4
+## 45        6               5       4
+## 46        4               3       2
+## 47        5               4       5
+## 48        4               4       3
+## 49        3               1       2
+## 50        4               0       3
+## 51        6               5       5
+## 52        5               0       5
+## 53        5               2       4
+## 54        4               3       4
+## 55        5               0       4
+## 56        3               4       3
+## 57        5               1       2
+## 58        4               4       6
+## 59        4               3       3
+## 60        4               2       5
+## 61        2               3       1
+## 62        6               6       6
+## 63        6               2       4
+## 64        3               1       3
+## 65        4               4       4
+## 66        5               0       4
+## 67        3               0       6
+## 68        3               2       3
+## 69        3               4       3
+## 70        3               0       1
+## 71        5               2       4
+## 72        6               3       5
+## 73        4               3       4
+## 74        4               4       4
+## 75        3               1       4
+## 76        5               2       5
+## 77        6               4       5
+## 78        4               3       4
+## 79        5               1       5
+## 80        5               3       5
+## 81        6               3       4
+## 82        3               3       4
+## 83        2               2       1
+## 84        5               5       4
+## 85        3               1       3
+## 86        4               3       4
+## 87        4               2       3
+## 88        5               3       5
+## 89        6               5       4
+## 90        5               4       5
+## 91        4               2       6
+## 92        6               4       6
+## 93        4               0       3
+## 94        5               5       3
+## 95        5               3       4
+## 96        5               5       4
+## 97        5               3       4
+## 98        6               3       3
+## 99        5               5       5
+## 100       6               1       5
+## 101       6               6       6
+## 102       5               1       5
+## 103       6               4       2
+## 104       5               3       3
+## 105       4               3       3
+## 106       5               3       3
+## 107       6               5       6
+## 108       2               2       3
+## 109       5               3       2
+## 110       0               1       2
+## 111       5               3       3
+## 112       5               3       4
+## 113       3               3       3
+## 114       3               3       4
+## 115       4               5       4
+## 116       5               5       6
+## 117       2               2       3
+## 118       3               4       4
+## 119       5               3       2
+## 120       6               5       6
+## 121       5               3       3
+## 122       5               4       5
+## 123       6               3       5
+## 124       5               1       3
+## 125       5               2       4
+## 126       4               2       4
+## 127       4               3       4
+## 128       5               6       4
+## 129       6               0       4
+## 130       4               2       4
+## 131       5               5       4
+## 132       3               3       4
+## 133       5               5       5
+## 134       4               0       3
+## 135       6               6       6
+## 136       5               5       5
+## 137       0               0       0
+## 138       6               3       2
+## 139       0               0       0
+## 140       5               3       5
+## 141       5               2       4
+## 142       5               6       6
+## 143       5               6       3
+## 144       5               3       6
+## 145       5               3       4
+## 146       5               4       3
+## 147       5               5       4
+## 148       4               3       5
+## 149       3               3       4
+## 150       1               1       1
+## 151       3               3       3
+## 152       6               4       4
+## 153       5               5       0
+## 154       5               5       4
+## 155       4               4       4
+## 156       5               4       4
+## 157       5               6       6
+## 158       6               3       3
+## 159       3               3       3
+## 160       2               2       2
+## 161       4               1       3
+## 162       5               5       2
+## 163       6               4       6
+\end{verbatim}
+
+\hypertarget{summary-of-data}{%
+\subsubsection{Summary of Data}\label{summary-of-data}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{describe}\NormalTok{(motivation)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                       vars   n mean   sd median trimmed  mad min max range
+## monetary_compensation    1 163 2.90 1.66      3    2.94 1.48   0   6     6
+## excellent_programmer     2 163 4.06 1.50      4    4.21 1.48   0   6     6
+## internship               3 163 4.15 1.57      4    4.31 1.48   0   6     6
+## introduce_ideas          4 163 2.99 1.59      3    3.05 1.48   0   6     6
+## get_in_touch             5 163 3.75 1.56      4    3.87 1.48   0   6     6
+## known_creativity         6 163 3.85 1.45      4    3.98 1.48   0   6     6
+## improve_skills           7 163 4.94 1.26      5    5.17 1.48   0   6     6
+## test_capability          8 163 4.38 1.38      5    4.56 1.48   0   6     6
+## enjoy_problems           9 163 4.09 1.45      4    4.24 1.48   0   6     6
+## keep_up                 10 163 4.45 1.29      5    4.58 1.48   0   6     6
+## dissatisfaction         11 163 3.10 1.60      3    3.17 1.48   0   6     6
+## curious                 12 163 3.85 1.43      4    3.95 1.48   0   6     6
+##                        skew kurtosis   se
+## monetary_compensation -0.34    -0.70 0.13
+## excellent_programmer  -0.78     0.28 0.12
+## internship            -0.70     0.02 0.12
+## introduce_ideas       -0.28    -0.53 0.12
+## get_in_touch          -0.66    -0.07 0.12
+## known_creativity      -0.85     0.61 0.11
+## improve_skills        -1.63     2.92 0.10
+## test_capability       -1.22     1.65 0.11
+## enjoy_problems        -0.99     0.75 0.11
+## keep_up               -1.09     1.38 0.10
+## dissatisfaction       -0.27    -0.61 0.13
+## curious               -0.68     0.43 0.11
+\end{verbatim}
+
+\hypertarget{interpretation}{%
+\subsubsection{Interpretation:}\label{interpretation}}
+
+\begin{quote}
+Response distributions for most items are approximately normal; the
+``improve\_skills'', ``test\_capability'', ``keep\_up'' items have
+excessive skewness, and the ``improve\_skills'' item also has high
+kurtosis.
+\end{quote}
+
+\begin{quote}
+Looking forward, we might expect some bias (inaccuracy) in the factor
+loading estimates for the ``improve\_skills'' item, particularly, but
+the maximum likelihood estimation that will be used for FA has some
+robustness to non-normality.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{KMO}\NormalTok{(motivation)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Kaiser-Meyer-Olkin factor adequacy
+## Call: KMO(r = motivation)
+## Overall MSA =  0.91
+## MSA for each item = 
+## monetary_compensation  excellent_programmer            internship 
+##                  0.94                  0.90                  0.95 
+##       introduce_ideas          get_in_touch      known_creativity 
+##                  0.85                  0.91                  0.88 
+##        improve_skills       test_capability        enjoy_problems 
+##                  0.87                  0.90                  0.95 
+##               keep_up       dissatisfaction               curious 
+##                  0.94                  0.88                  0.93
+\end{verbatim}
+
+\hypertarget{interpretation-1}{%
+\subsubsection{Interpretation:}\label{interpretation-1}}
+
+\begin{quote}
+MSA The overall Measure of Sampling Adequacy
+\end{quote}
+
+\begin{quote}
+MSAi The measure of sampling adequacy for each item item
+\end{quote}
+
+\begin{quote}
+The Kaiser-Meyer-Olkin Measure of Sampling Adequacy is~a statistic that
+indicates the proportion of variance in your variables that might be
+caused by underlying factors. High values (close to 1.0) generally
+indicate that a factor analysis may be useful for the data. If the value
+is less than 0.50, the results of the factor analysis probably won't be
+very useful. Previous studies have suggested that KMO greater than 0.5
+can be used for factor analysis, while KMO greater than 0.8 is very
+suitable for factor analysis.
+\end{quote}
+
+\begin{quote}
+Both the p.value attribute of cortest.bartlett()'s output is very much
+lower than 0.05 and the MSA attribute of KMO()'s output, 0.91, is close
+to 1, which means that they both recommend that EFA.
+\end{quote}
+
+\begin{itemize}
+\item
+  Li, N., Huang, J., \& Feng, Y. (2020). Construction and confirmatory
+  factor analysis of the core cognitive ability index system of ship C2
+  system operators.~PloS one,~15(8), e0237339.
+  \url{https://doi.org/10.1371/journal.pone.0237339}
+\item
+  Kaiser, H. F. (1974). An index of factorial
+  simplicity.~Psychometrika,~39(1), 31-36.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(motivation}\SpecialCharTok{$}\NormalTok{improve\_skills)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EFA-notebook_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{lowerCor}\NormalTok{(motivation)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                       mntr_ excl_ intrn intr_ gt_n_ knwn_ impr_ tst_c enjy_
+## monetary_compensation 1.00                                                 
+## excellent_programmer  0.44  1.00                                           
+## internship            0.32  0.51  1.00                                     
+## introduce_ideas       0.36  0.50  0.43  1.00                               
+## get_in_touch          0.34  0.57  0.54  0.62  1.00                         
+## known_creativity      0.34  0.66  0.49  0.50  0.47  1.00                   
+## improve_skills        0.30  0.44  0.46  0.23  0.47  0.33  1.00             
+## test_capability       0.33  0.53  0.46  0.42  0.62  0.43  0.67  1.00       
+## enjoy_problems        0.32  0.52  0.49  0.48  0.59  0.52  0.53  0.66  1.00 
+## keep_up               0.32  0.49  0.48  0.41  0.49  0.48  0.60  0.63  0.57 
+## dissatisfaction       0.23  0.38  0.30  0.56  0.39  0.33  0.29  0.33  0.40 
+## curious               0.27  0.37  0.48  0.45  0.47  0.50  0.41  0.42  0.52 
+##                       kep_p dssts
+## monetary_compensation            
+## excellent_programmer             
+## internship                       
+## introduce_ideas                  
+## get_in_touch                     
+## known_creativity                 
+## improve_skills                   
+## test_capability                  
+## enjoy_problems                   
+## keep_up               1.00       
+## dissatisfaction       0.38  1.00 
+## curious               0.48  0.33 
+## [1] 1.00
+\end{verbatim}
+
+\hypertarget{interpretation-2}{%
+\subsubsection{Interpretation:}\label{interpretation-2}}
+
+\begin{quote}
+Pearson correlations indicate the items have non-trivial pairwise
+interrelationships. Particularly, none of the item pairs have near-zero
+or very small correlations.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(correlation)}
+
+\NormalTok{correlation}\SpecialCharTok{::}\FunctionTok{correlation}\NormalTok{(motivation,}
+                         \AttributeTok{include\_factors =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{method =} \StringTok{"auto"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # Correlation Matrix (auto-method)
+## 
+## Parameter1            |           Parameter2 |    r |       95% CI | t(161) |         p
+## ---------------------------------------------------------------------------------------
+## monetary_compensation | excellent_programmer | 0.44 | [0.31, 0.56] |   6.22 | < .001***
+## monetary_compensation |           internship | 0.32 | [0.18, 0.46] |   4.36 | < .001***
+## monetary_compensation |      introduce_ideas | 0.36 | [0.22, 0.49] |   4.96 | < .001***
+## monetary_compensation |         get_in_touch | 0.34 | [0.20, 0.47] |   4.62 | < .001***
+## monetary_compensation |     known_creativity | 0.34 | [0.19, 0.47] |   4.56 | < .001***
+## monetary_compensation |       improve_skills | 0.30 | [0.15, 0.43] |   4.01 | < .001***
+## monetary_compensation |      test_capability | 0.33 | [0.18, 0.46] |   4.38 | < .001***
+## monetary_compensation |       enjoy_problems | 0.32 | [0.18, 0.45] |   4.32 | < .001***
+## monetary_compensation |              keep_up | 0.32 | [0.18, 0.45] |   4.33 | < .001***
+## monetary_compensation |      dissatisfaction | 0.23 | [0.08, 0.37] |   2.96 | 0.007**  
+## monetary_compensation |              curious | 0.27 | [0.12, 0.40] |   3.51 | 0.002**  
+## excellent_programmer  |           internship | 0.51 | [0.39, 0.62] |   7.61 | < .001***
+## excellent_programmer  |      introduce_ideas | 0.50 | [0.37, 0.61] |   7.31 | < .001***
+## excellent_programmer  |         get_in_touch | 0.57 | [0.46, 0.67] |   8.81 | < .001***
+## excellent_programmer  |     known_creativity | 0.66 | [0.56, 0.74] |  11.05 | < .001***
+## excellent_programmer  |       improve_skills | 0.44 | [0.31, 0.56] |   6.22 | < .001***
+## excellent_programmer  |      test_capability | 0.53 | [0.41, 0.63] |   7.95 | < .001***
+## excellent_programmer  |       enjoy_problems | 0.52 | [0.40, 0.62] |   7.68 | < .001***
+## excellent_programmer  |              keep_up | 0.49 | [0.36, 0.60] |   7.10 | < .001***
+## excellent_programmer  |      dissatisfaction | 0.38 | [0.24, 0.51] |   5.24 | < .001***
+## excellent_programmer  |              curious | 0.37 | [0.23, 0.50] |   5.11 | < .001***
+## internship            |      introduce_ideas | 0.43 | [0.29, 0.54] |   5.97 | < .001***
+## internship            |         get_in_touch | 0.54 | [0.42, 0.64] |   8.14 | < .001***
+## internship            |     known_creativity | 0.49 | [0.37, 0.60] |   7.18 | < .001***
+## internship            |       improve_skills | 0.46 | [0.33, 0.57] |   6.60 | < .001***
+## internship            |      test_capability | 0.46 | [0.33, 0.57] |   6.52 | < .001***
+## internship            |       enjoy_problems | 0.49 | [0.36, 0.60] |   7.11 | < .001***
+## internship            |              keep_up | 0.48 | [0.35, 0.59] |   6.95 | < .001***
+## internship            |      dissatisfaction | 0.30 | [0.16, 0.44] |   4.02 | < .001***
+## internship            |              curious | 0.48 | [0.35, 0.59] |   6.93 | < .001***
+## introduce_ideas       |         get_in_touch | 0.62 | [0.52, 0.71] |  10.15 | < .001***
+## introduce_ideas       |     known_creativity | 0.50 | [0.38, 0.61] |   7.37 | < .001***
+## introduce_ideas       |       improve_skills | 0.23 | [0.08, 0.37] |   2.96 | 0.007**  
+## introduce_ideas       |      test_capability | 0.42 | [0.29, 0.54] |   5.95 | < .001***
+## introduce_ideas       |       enjoy_problems | 0.48 | [0.36, 0.59] |   7.01 | < .001***
+## introduce_ideas       |              keep_up | 0.41 | [0.28, 0.53] |   5.78 | < .001***
+## introduce_ideas       |      dissatisfaction | 0.56 | [0.45, 0.66] |   8.62 | < .001***
+## introduce_ideas       |              curious | 0.45 | [0.31, 0.56] |   6.32 | < .001***
+## get_in_touch          |     known_creativity | 0.47 | [0.34, 0.58] |   6.82 | < .001***
+## get_in_touch          |       improve_skills | 0.47 | [0.34, 0.58] |   6.72 | < .001***
+## get_in_touch          |      test_capability | 0.62 | [0.52, 0.71] |  10.14 | < .001***
+## get_in_touch          |       enjoy_problems | 0.59 | [0.48, 0.68] |   9.25 | < .001***
+## get_in_touch          |              keep_up | 0.49 | [0.36, 0.60] |   7.10 | < .001***
+## get_in_touch          |      dissatisfaction | 0.39 | [0.26, 0.52] |   5.45 | < .001***
+## get_in_touch          |              curious | 0.47 | [0.35, 0.58] |   6.83 | < .001***
+## known_creativity      |       improve_skills | 0.33 | [0.19, 0.46] |   4.43 | < .001***
+## known_creativity      |      test_capability | 0.43 | [0.30, 0.55] |   6.04 | < .001***
+## known_creativity      |       enjoy_problems | 0.52 | [0.39, 0.62] |   7.63 | < .001***
+## known_creativity      |              keep_up | 0.48 | [0.35, 0.59] |   6.91 | < .001***
+## known_creativity      |      dissatisfaction | 0.33 | [0.19, 0.46] |   4.47 | < .001***
+## known_creativity      |              curious | 0.50 | [0.37, 0.60] |   7.24 | < .001***
+## improve_skills        |      test_capability | 0.67 | [0.57, 0.75] |  11.41 | < .001***
+## improve_skills        |       enjoy_problems | 0.53 | [0.41, 0.63] |   7.85 | < .001***
+## improve_skills        |              keep_up | 0.60 | [0.49, 0.69] |   9.50 | < .001***
+## improve_skills        |      dissatisfaction | 0.29 | [0.14, 0.42] |   3.81 | < .001***
+## improve_skills        |              curious | 0.41 | [0.28, 0.53] |   5.75 | < .001***
+## test_capability       |       enjoy_problems | 0.66 | [0.56, 0.74] |  11.09 | < .001***
+## test_capability       |              keep_up | 0.63 | [0.52, 0.71] |  10.16 | < .001***
+## test_capability       |      dissatisfaction | 0.33 | [0.19, 0.46] |   4.49 | < .001***
+## test_capability       |              curious | 0.42 | [0.29, 0.54] |   5.91 | < .001***
+## enjoy_problems        |              keep_up | 0.57 | [0.46, 0.67] |   8.91 | < .001***
+## enjoy_problems        |      dissatisfaction | 0.40 | [0.26, 0.52] |   5.55 | < .001***
+## enjoy_problems        |              curious | 0.52 | [0.40, 0.62] |   7.69 | < .001***
+## keep_up               |      dissatisfaction | 0.38 | [0.24, 0.50] |   5.17 | < .001***
+## keep_up               |              curious | 0.48 | [0.35, 0.59] |   6.89 | < .001***
+## dissatisfaction       |              curious | 0.33 | [0.19, 0.46] |   4.44 | < .001***
+## 
+## p-value adjustment method: Holm (1979)
+## Observations: 163
+\end{verbatim}
+
+\hypertarget{interpretation-3}{%
+\subsubsection{Interpretation:}\label{interpretation-3}}
+
+\begin{quote}
+All the correlations are significant.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fa.parallel}\NormalTok{(motivation, }\AttributeTok{fm=}\StringTok{\textquotesingle{}ml\textquotesingle{}}\NormalTok{, }\AttributeTok{fa=}\StringTok{\textquotesingle{}fa\textquotesingle{}}\NormalTok{, }\AttributeTok{main=}\StringTok{"Parallel Analysis Scree Plots"}\NormalTok{, }\AttributeTok{n.iter=}\DecValTok{100}\NormalTok{, }\AttributeTok{error.bars=}\NormalTok{T, }\AttributeTok{sim=}\NormalTok{F)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EFA-notebook_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\begin{verbatim}
+## Parallel analysis suggests that the number of factors =  2  and the number of components =  NA
+\end{verbatim}
+
+\hypertarget{interpretation-4}{%
+\subsubsection{Interpretation:}\label{interpretation-4}}
+
+\begin{quote}
+Parallel analysis suggests that the number of factors = 2
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fa}\NormalTok{(}\AttributeTok{r=}\NormalTok{motivation, }\AttributeTok{nfactors=}\DecValTok{2}\NormalTok{, }\AttributeTok{rotate=}\StringTok{\textquotesingle{}promax\textquotesingle{}}\NormalTok{, }\AttributeTok{fm=}\StringTok{\textquotesingle{}ml\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Factor Analysis using method =  ml
+## Call: fa(r = motivation, nfactors = 2, rotate = "promax", fm = "ml")
+## Standardized loadings (pattern matrix) based upon correlation matrix
+##                         ML2   ML1   h2   u2 com
+## monetary_compensation  0.35  0.15 0.22 0.78 1.3
+## excellent_programmer   0.51  0.26 0.52 0.48 1.5
+## internship             0.35  0.35 0.43 0.57 2.0
+## introduce_ideas        1.06 -0.32 0.72 0.28 1.2
+## get_in_touch           0.58  0.25 0.61 0.39 1.4
+## known_creativity       0.59  0.12 0.47 0.53 1.1
+## improve_skills        -0.31  1.03 0.69 0.31 1.2
+## test_capability        0.04  0.80 0.69 0.31 1.0
+## enjoy_problems         0.31  0.51 0.59 0.41 1.6
+## keep_up                0.12  0.66 0.57 0.43 1.1
+## dissatisfaction        0.64 -0.06 0.35 0.65 1.0
+## curious                0.39  0.28 0.39 0.61 1.8
+## 
+##                        ML2  ML1
+## SS loadings           3.24 3.04
+## Proportion Var        0.27 0.25
+## Cumulative Var        0.27 0.52
+## Proportion Explained  0.52 0.48
+## Cumulative Proportion 0.52 1.00
+## 
+##  With factor correlations of 
+##      ML2  ML1
+## ML2 1.00 0.74
+## ML1 0.74 1.00
+## 
+## Mean item complexity =  1.3
+## Test of the hypothesis that 2 factors are sufficient.
+## 
+## The degrees of freedom for the null model are  66  and the objective function was  6.13 with Chi Square of  963.18
+## The degrees of freedom for the model are 43  and the objective function was  0.51 
+## 
+## The root mean square of the residuals (RMSR) is  0.04 
+## The df corrected root mean square of the residuals is  0.05 
+## 
+## The harmonic number of observations is  163 with the empirical chi square  37.63  with prob <  0.7 
+## The total number of observations was  163  with Likelihood Chi Square =  79.17  with prob <  0.00064 
+## 
+## Tucker Lewis Index of factoring reliability =  0.938
+## RMSEA index =  0.072  and the 90 % confidence intervals are  0.046 0.097
+## BIC =  -139.86
+## Fit based upon off diagonal values = 0.99
+## Measures of factor score adequacy             
+##                                                    ML2  ML1
+## Correlation of (regression) scores with factors   0.95 0.95
+## Multiple R square of scores with factors          0.90 0.90
+## Minimum correlation of possible factor scores     0.80 0.80
+\end{verbatim}
+
+\hypertarget{interpretation-5}{%
+\subsubsection{Interpretation:}\label{interpretation-5}}
+
+\begin{quote}
+Items loaded on ML2 - ``excellent\_programmer'', ``introduce\_ideas'',
+``get\_in\_touch'', ``known\_creativity'' and ``dissatisfaction''.
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  ``excellent\_programmer'', ``introduce\_ideas'', ``get\_in\_touch''
+  and ``known\_creativity'' are under ``SHOW IDEAS'' category in Fuller
+  paper. ``dissatisfaction'' is under the category of
+  ``DISSATISFACTION'' in Fuller paper. Both ``SHOW IDEAS'' and
+  ``DISSATISFACTION'' lie on the ``EXTRINSIC'' side of motivations in
+  Fuller paper.
+\end{itemize}
+
+\begin{quote}
+Items loaded on ML1 - ``improve\_skills'', ``test\_capability'',
+``enjoy\_problems'', ``keep\_up''
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  ``improve\_skills'' and ``test\_capability''are under the category of
+  ``GAIN KNOWLEDGE'' in Fuller paper. ``enjoy\_problems'' and
+  ``keep\_up'' are under the category of ``INTRINSIC INNOVATION
+  INTEREST'' in Fuller paper. Both ``GAIN KNOWLEDGE'' and ``INTRINSIC
+  INNOVATION INTEREST'' lie on the ``INTRINSIC'' side of motivations in
+  Fuller paper.
+\end{itemize}
+
+\begin{quote}
+Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that
+models with TLI \textgreater{} .90 fit the data well (Little, 2013,
+Longitudinal structural equation modeling)
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Comment: 0.938 ( Great )
+\end{itemize}
+
+\begin{quote}
+Chi-square test of model fit (below) tests the null hypothesis that
+``The model fits the data.'' Want prob {[}p-value{]} \textgreater{} .05
+to suggest that model fits data well. With ``large'' samples (say,
+greater than 400-500), minor misfit between each person's data and the
+model may accumulate to produce a significant chi-square value.
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Comment: 0.00064 ( Not Pass ) - not a big issue as reason above
+\end{itemize}
+
+\begin{quote}
+Root mean square error of approximation (RMSEA) is another model fit
+statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data
+well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally
+acceptable fit (Little, 2013).
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Comment: 0.072 ( Great )
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fa}\NormalTok{(}\AttributeTok{r=}\NormalTok{motivation, }\AttributeTok{nfactors=}\DecValTok{2}\NormalTok{, }\AttributeTok{rotate=}\StringTok{\textquotesingle{}oblimin\textquotesingle{}}\NormalTok{, }\AttributeTok{fm=}\StringTok{\textquotesingle{}ml\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Factor Analysis using method =  ml
+## Call: fa(r = motivation, nfactors = 2, rotate = "oblimin", fm = "ml")
+## Standardized loadings (pattern matrix) based upon correlation matrix
+##                         ML1   ML2   h2   u2 com
+## monetary_compensation  0.20  0.33 0.22 0.78 1.6
+## excellent_programmer   0.33  0.48 0.52 0.48 1.8
+## internship             0.39  0.36 0.43 0.57 2.0
+## introduce_ideas       -0.12  0.91 0.72 0.28 1.0
+## get_in_touch           0.34  0.54 0.61 0.39 1.7
+## known_creativity       0.21  0.54 0.47 0.53 1.3
+## improve_skills         0.91 -0.16 0.69 0.31 1.1
+## test_capability        0.75  0.13 0.69 0.31 1.1
+## enjoy_problems         0.53  0.33 0.59 0.41 1.7
+## keep_up                0.64  0.18 0.57 0.43 1.2
+## dissatisfaction        0.05  0.56 0.35 0.65 1.0
+## curious                0.33  0.38 0.39 0.61 2.0
+## 
+##                        ML1  ML2
+## SS loadings           3.20 3.08
+## Proportion Var        0.27 0.26
+## Cumulative Var        0.27 0.52
+## Proportion Explained  0.51 0.49
+## Cumulative Proportion 0.51 1.00
+## 
+##  With factor correlations of 
+##      ML1  ML2
+## ML1 1.00 0.56
+## ML2 0.56 1.00
+## 
+## Mean item complexity =  1.4
+## Test of the hypothesis that 2 factors are sufficient.
+## 
+## The degrees of freedom for the null model are  66  and the objective function was  6.13 with Chi Square of  963.18
+## The degrees of freedom for the model are 43  and the objective function was  0.51 
+## 
+## The root mean square of the residuals (RMSR) is  0.04 
+## The df corrected root mean square of the residuals is  0.05 
+## 
+## The harmonic number of observations is  163 with the empirical chi square  37.63  with prob <  0.7 
+## The total number of observations was  163  with Likelihood Chi Square =  79.17  with prob <  0.00064 
+## 
+## Tucker Lewis Index of factoring reliability =  0.938
+## RMSEA index =  0.072  and the 90 % confidence intervals are  0.046 0.097
+## BIC =  -139.86
+## Fit based upon off diagonal values = 0.99
+## Measures of factor score adequacy             
+##                                                    ML1  ML2
+## Correlation of (regression) scores with factors   0.94 0.93
+## Multiple R square of scores with factors          0.88 0.87
+## Minimum correlation of possible factor scores     0.77 0.74
+\end{verbatim}
+
+\hypertarget{interpretation-6}{%
+\subsubsection{Interpretation:}\label{interpretation-6}}
+
+\begin{quote}
+Items loaded on ML2 - ``excellent\_programmer'', ``introduce\_ideas'',
+``get\_in\_touch'', ``known\_creativity'' and ``dissatisfaction''.
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  ``excellent\_programmer'', ``introduce\_ideas'', ``get\_in\_touch''
+  and ``known\_creativity'' are under ``SHOW IDEAS'' category in Fuller
+  paper. ``dissatisfaction'' is under the category of
+  ``DISSATISFACTION'' in Fuller paper. Both ``SHOW IDEAS'' and
+  ``DISSATISFACTION'' lie on the ``EXTRINSIC'' side of motivations in
+  Fuller paper.
+\end{itemize}
+
+\begin{quote}
+Items loaded on ML1 - ``improve\_skills'', ``test\_capability'',
+``enjoy\_problems'', ``keep\_up''
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  ``improve\_skills'' and ``test\_capability''are under the category of
+  ``GAIN KNOWLEDGE'' in Fuller paper. ``enjoy\_problems'' and
+  ``keep\_up'' are under the category of ``INTRINSIC INNOVATION
+  INTEREST'' in Fuller paper. Both ``GAIN KNOWLEDGE'' and ``INTRINSIC
+  INNOVATION INTEREST'' lie on the ``INTRINSIC'' side of motivations in
+  Fuller paper.
+\end{itemize}
+
+\begin{quote}
+Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that
+models with TLI \textgreater{} .90 fit the data well (Little, 2013,
+Longitudinal structural equation modeling)
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Comment: 0.938 ( Great )
+\end{itemize}
+
+\begin{quote}
+Chi-square test of model fit (below) tests the null hypothesis that
+``The model fits the data.'' Want prob {[}p-value{]} \textgreater{} .05
+to suggest that model fits data well. With ``large'' samples (say,
+greater than 400-500), minor misfit between each person's data and the
+model may accumulate to produce a significant chi-square value.
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Comment: 0.00064 ( Not Pass ) - not a big issue as reason above
+\end{itemize}
+
+\begin{quote}
+Root mean square error of approximation (RMSEA) is another model fit
+statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data
+well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally
+acceptable fit (Little, 2013).
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Comment: 0.072 ( Great )
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fa}\NormalTok{(}\AttributeTok{r=}\NormalTok{motivation, }\AttributeTok{nfactors=}\DecValTok{2}\NormalTok{, }\AttributeTok{rotate=}\StringTok{\textquotesingle{}varimax\textquotesingle{}}\NormalTok{, }\AttributeTok{fm=}\StringTok{\textquotesingle{}ml\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Factor Analysis using method =  ml
+## Call: fa(r = motivation, nfactors = 2, rotate = "varimax", fm = "ml")
+## Standardized loadings (pattern matrix) based upon correlation matrix
+##                        ML2  ML1   h2   u2 com
+## monetary_compensation 0.38 0.28 0.22 0.78 1.8
+## excellent_programmer  0.57 0.45 0.52 0.48 1.9
+## internship            0.47 0.47 0.43 0.57 2.0
+## introduce_ideas       0.84 0.14 0.72 0.28 1.1
+## get_in_touch          0.63 0.47 0.61 0.39 1.8
+## known_creativity      0.59 0.35 0.47 0.53 1.6
+## improve_skills        0.14 0.82 0.69 0.31 1.1
+## test_capability       0.36 0.75 0.69 0.31 1.4
+## enjoy_problems        0.49 0.60 0.59 0.41 1.9
+## keep_up               0.38 0.65 0.57 0.43 1.6
+## dissatisfaction       0.55 0.20 0.35 0.65 1.3
+## curious               0.47 0.41 0.39 0.61 2.0
+## 
+##                        ML2  ML1
+## SS loadings           3.20 3.08
+## Proportion Var        0.27 0.26
+## Cumulative Var        0.27 0.52
+## Proportion Explained  0.51 0.49
+## Cumulative Proportion 0.51 1.00
+## 
+## Mean item complexity =  1.6
+## Test of the hypothesis that 2 factors are sufficient.
+## 
+## The degrees of freedom for the null model are  66  and the objective function was  6.13 with Chi Square of  963.18
+## The degrees of freedom for the model are 43  and the objective function was  0.51 
+## 
+## The root mean square of the residuals (RMSR) is  0.04 
+## The df corrected root mean square of the residuals is  0.05 
+## 
+## The harmonic number of observations is  163 with the empirical chi square  37.63  with prob <  0.7 
+## The total number of observations was  163  with Likelihood Chi Square =  79.17  with prob <  0.00064 
+## 
+## Tucker Lewis Index of factoring reliability =  0.938
+## RMSEA index =  0.072  and the 90 % confidence intervals are  0.046 0.097
+## BIC =  -139.86
+## Fit based upon off diagonal values = 0.99
+## Measures of factor score adequacy             
+##                                                    ML2  ML1
+## Correlation of (regression) scores with factors   0.90 0.90
+## Multiple R square of scores with factors          0.81 0.81
+## Minimum correlation of possible factor scores     0.61 0.62
+\end{verbatim}
+
+\hypertarget{interpretation-7}{%
+\subsubsection{Interpretation:}\label{interpretation-7}}
+
+\begin{quote}
+Items loaded on ML1 - ``excellent\_programmer'', ``internship'',
+``get\_in\_touch'', ``improve\_skills'', ``test\_capability'',
+``enjoy\_problems'', ``keep\_up'', ``curious''
+\end{quote}
+
+\begin{quote}
+Items loaded on ML2 - ``known creativity'', ``enjoy\_problems'',
+``keep\_up'', ``introduce\_ideas'', ``internship'',
+``excellent\_programmer'', ``dissatisfaction'', ``curious''
+\end{quote}
+
+\begin{quote}
+Problematic ross loadings is happening with the varimax rotation (
+orthogonal ). The solution here is to use oblique method ( promax,
+oblimin ) as of above since behavior is rarely partitioned into neatly
+packaged units that function independently of one another. ( Costello et
+al., 2005 ) so we cannot say that the survey items are not related with
+each other.
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Costello, AB \& Osborne, Jason. (2005). Best Practices in Exploratory
+  Factor Analysis: Four Recommendations for Getting the Most From Your
+  Analysis. Practical Assessment, Research \& Evaluation. 10. 1-9.
+\end{itemize}
+
+\begin{quote}
+Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that
+models with TLI \textgreater{} .90 fit the data well (Little, 2013,
+Longitudinal structural equation modeling)
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Comment: 0.938 ( Great )
+\end{itemize}
+
+\begin{quote}
+Chi-square test of model fit (below) tests the null hypothesis that
+``The model fits the data.'' Want prob {[}p-value{]} \textgreater{} .05
+to suggest that model fits data well. With ``large'' samples (say,
+greater than 400-500), minor misfit between each person's data and the
+model may accumulate to produce a significant chi-square value.
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Comment: 0.00064 ( Not Pass ) - not a big issue as reason above
+\end{itemize}
+
+\begin{quote}
+Root mean square error of approximation (RMSEA) is another model fit
+statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data
+well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally
+acceptable fit (Little, 2013).
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Comment: 0.072 ( Great )
+\end{itemize}
+
+\hypertarget{efa-with-pass_class-survey-item-removed-and-monetary_compensation-survey-item-removed.}{%
+\subsubsection{（2）EFA with ``pass\_class'' survey item removed and
+``monetary\_compensation'' survey item
+removed.}\label{efa-with-pass_class-survey-item-removed-and-monetary_compensation-survey-item-removed.}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# remove "pass class" survey item 13 and "money" survey item 1}
+\NormalTok{motivation }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\StringTok{"/Users/jialincheoh/Desktop/survey{-}motivation{-}WQ13{-}WQ1.csv"}\NormalTok{, }\AttributeTok{header=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{sep =} \StringTok{","}\NormalTok{)}
+\NormalTok{motivation}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     excellent_programmer internship introduce_ideas get_in_touch
+## 1                      5          5               3            4
+## 2                      5          2               2            3
+## 3                      2          6               2            2
+## 4                      4          3               0            0
+## 5                      5          5               2            2
+## 6                      4          4               2            4
+## 7                      2          3               2            2
+## 8                      5          4               3            4
+## 9                      3          6               3            4
+## 10                     6          6               4            5
+## 11                     4          4               1            4
+## 12                     3          5               1            1
+## 13                     5          3               4            4
+## 14                     3          4               3            0
+## 15                     4          4               4            4
+## 16                     5          4               4            3
+## 17                     5          5               4            5
+## 18                     3          6               4            6
+## 19                     5          3               1            3
+## 20                     4          5               1            4
+## 21                     2          4               3            1
+## 22                     5          6               5            6
+## 23                     4          4               3            4
+## 24                     4          4               4            4
+## 25                     6          6               4            6
+## 26                     5          4               4            2
+## 27                     4          6               1            3
+## 28                     6          4               5            4
+## 29                     4          5               3            5
+## 30                     3          4               3            4
+## 31                     5          6               4            5
+## 32                     4          5               1            4
+## 33                     5          6               4            4
+## 34                     5          5               4            4
+## 35                     0          1               0            0
+## 36                     5          5               3            5
+## 37                     6          3               0            1
+## 38                     6          6               4            6
+## 39                     5          6               6            6
+## 40                     0          0               0            0
+## 41                     4          3               3            4
+## 42                     5          3               4            3
+## 43                     3          5               3            3
+## 44                     5          5               3            4
+## 45                     5          3               5            2
+## 46                     5          2               3            3
+## 47                     5          3               4            4
+## 48                     4          3               4            5
+## 49                     3          3               3            3
+## 50                     4          4               1            3
+## 51                     6          6               6            6
+## 52                     4          5               0            4
+## 53                     2          2               3            5
+## 54                     3          3               3            4
+## 55                     4          0               0            0
+## 56                     3          4               4            2
+## 57                     5          4               4            4
+## 58                     6          4               4            5
+## 59                     6          5               3            5
+## 60                     1          2               0            2
+## 61                     3          1               1            2
+## 62                     6          4               5            5
+## 63                     3          5               3            4
+## 64                     4          5               1            2
+## 65                     4          4               4            4
+## 66                     3          2               0            4
+## 67                     3          4               3            4
+## 68                     3          3               2            2
+## 69                     5          4               3            6
+## 70                     2          1               0            4
+## 71                     5          4               4            4
+## 72                     5          6               3            5
+## 73                     3          4               3            3
+## 74                     5          6               4            6
+## 75                     4          5               1            2
+## 76                     5          6               3            6
+## 77                     6          6               4            6
+## 78                     3          2               2            5
+## 79                     2          6               0            4
+## 80                     1          3               2            5
+## 81                     6          6               5            4
+## 82                     3          3               3            3
+## 83                     3          5               2            2
+## 84                     6          5               4            5
+## 85                     5          4               1            4
+## 86                     4          4               3            4
+## 87                     3          3               0            2
+## 88                     4          5               3            5
+## 89                     5          6               5            5
+## 90                     6          6               3            6
+## 91                     3          5               2            5
+## 92                     6          0               6            6
+## 93                     3          3               0            0
+## 94                     5          5               4            5
+## 95                     4          6               3            5
+## 96                     4          5               5            5
+## 97                     6          6               4            5
+## 98                     3          6               3            4
+## 99                     5          5               4            4
+## 100                    4          4               3            3
+## 101                    6          6               3            4
+## 102                    6          6               3            6
+## 103                    5          6               4            5
+## 104                    5          5               0            3
+## 105                    3          4               3            4
+## 106                    5          4               4            4
+## 107                    5          6               5            5
+## 108                    2          2               2            2
+## 109                    4          2               3            3
+## 110                    2          3               1            1
+## 111                    3          3               3            3
+## 112                    3          3               3            3
+## 113                    3          3               3            3
+## 114                    4          3               3            3
+## 115                    5          6               5            5
+## 116                    6          6               6            6
+## 117                    1          2               3            3
+## 118                    3          3               2            3
+## 119                    5          6               0            5
+## 120                    5          5               5            5
+## 121                    4          4               3            3
+## 122                    4          3               4            4
+## 123                    6          6               6            6
+## 124                    4          6               2            1
+## 125                    3          5               4            4
+## 126                    3          2               4            4
+## 127                    4          3               3            3
+## 128                    6          4               4            5
+## 129                    6          6               3            5
+## 130                    1          4               3            3
+## 131                    4          4               5            3
+## 132                    6          6               2            4
+## 133                    5          6               5            5
+## 134                    0          3               0            0
+## 135                    6          6               6            6
+## 136                    5          5               5            5
+## 137                    0          0               0            0
+## 138                    6          4               3            5
+## 139                    0          0               0            0
+## 140                    5          5               6            6
+## 141                    4          5               3            4
+## 142                    5          4               4            5
+## 143                    6          3               1            6
+## 144                    5          4               3            4
+## 145                    6          4               5            5
+## 146                    4          6               2            2
+## 147                    4          6               5            5
+## 148                    3          5               5            5
+## 149                    4          3               3            3
+## 150                    1          1               1            1
+## 151                    3          3               3            3
+## 152                    5          5               5            4
+## 153                    4          0               1            3
+## 154                    5          5               5            4
+## 155                    4          4               4            4
+## 156                    5          5               4            4
+## 157                    5          6               6            5
+## 158                    3          3               3            5
+## 159                    3          3               3            3
+## 160                    2          2               2            2
+## 161                    4          4               2            2
+## 162                    6          6               2            4
+## 163                    0          5               4            6
+##     known_creativity improve_skills test_capability enjoy_problems keep_up
+## 1                  3              5               5              3       3
+## 2                  3              5               4              3       4
+## 3                  2              6               5              3       6
+## 4                  0              6               6              5       6
+## 5                  3              5               4              3       4
+## 6                  2              5               4              5       5
+## 7                  4              5               5              4       5
+## 8                  5              5               4              4       5
+## 9                  5              6               4              5       5
+## 10                 5              6               6              5       5
+## 11                 4              4               3              3       2
+## 12                 4              6               6              6       6
+## 13                 5              4               4              5       5
+## 14                 5              5               3              3       4
+## 15                 5              4               5              4       4
+## 16                 6              5               5              5       5
+## 17                 5              5               4              5       4
+## 18                 3              6               6              6       6
+## 19                 3              6               6              5       6
+## 20                 4              6               5              2       5
+## 21                 3              5               4              3       3
+## 22                 5              5               6              5       5
+## 23                 5              5               6              4       5
+## 24                 4              4               4              4       4
+## 25                 6              6               6              6       6
+## 26                 5              4               0              2       5
+## 27                 6              5               3              3       6
+## 28                 4              5               5              4       5
+## 29                 4              5               5              5       4
+## 30                 5              5               4              4       3
+## 31                 5              6               5              5       5
+## 32                 3              6               5              3       4
+## 33                 5              6               4              5       5
+## 34                 5              5               5              5       3
+## 35                 0              4               0              0       1
+## 36                 5              6               5              5       5
+## 37                 5              4               2              5       3
+## 38                 5              6               6              6       6
+## 39                 4              5               5              5       6
+## 40                 0              5               2              0       5
+## 41                 4              6               5              5       5
+## 42                 4              5               5              4       4
+## 43                 4              4               4              4       4
+## 44                 5              5               5              5       3
+## 45                 6              6               4              5       6
+## 46                 5              5               4              4       4
+## 47                 4              6               6              5       5
+## 48                 3              5               4              5       4
+## 49                 3              4               3              1       3
+## 50                 4              4               3              2       4
+## 51                 6              5               4              5       6
+## 52                 5              5               5              5       5
+## 53                 3              6               5              4       5
+## 54                 3              6               5              4       4
+## 55                 4              5               4              3       5
+## 56                 3              4               4              4       3
+## 57                 4              5               6              3       5
+## 58                 4              5               5              3       4
+## 59                 6              6               5              5       4
+## 60                 3              6               4              5       4
+## 61                 3              3               2              1       2
+## 62                 5              6               5              5       6
+## 63                 3              5               4              4       6
+## 64                 3              6               3              4       3
+## 65                 4              4               4              4       4
+## 66                 3              6               3              4       5
+## 67                 2              6               5              3       3
+## 68                 3              2               4              2       3
+## 69                 4              6               6              4       3
+## 70                 1              6               5              0       3
+## 71                 5              6               6              5       5
+## 72                 5              6               6              6       6
+## 73                 4              5               5              5       4
+## 74                 4              5               6              6       4
+## 75                 5              6               4              5       3
+## 76                 5              5               5              5       5
+## 77                 6              6               6              6       6
+## 78                 4              6               5              5       4
+## 79                 5              4               5              4       5
+## 80                 5              6               5              4       5
+## 81                 4              6               6              3       6
+## 82                 3              4               4              3       3
+## 83                 3              5               4              1       2
+## 84                 5              6               6              5       5
+## 85                 0              6               5              5       3
+## 86                 4              5               5              4       4
+## 87                 1              3               2              2       4
+## 88                 3              6               4              5       5
+## 89                 5              6               6              4       6
+## 90                 4              6               6              4       5
+## 91                 3              5               4              6       4
+## 92                 6              3               6              6       6
+## 93                 4              4               4              0       4
+## 94                 4              6               5              6       5
+## 95                 3              6               4              5       5
+## 96                 4              5               5              5       5
+## 97                 4              6               5              6       5
+## 98                 3              6               6              6       6
+## 99                 5              5               5              5       5
+## 100                5              4               4              5       6
+## 101                6              6               6              6       6
+## 102                6              5               5              5       5
+## 103                6              6               4              4       6
+## 104                5              6               5              4       5
+## 105                3              4               3              3       4
+## 106                5              5               5              4       5
+## 107                5              6               6              6       6
+## 108                2              3               4              3       2
+## 109                5              5               6              5       5
+## 110                4              1               1              4       0
+## 111                3              3               4              4       5
+## 112                4              6               4              4       5
+## 113                3              3               3              3       3
+## 114                3              5               4              4       3
+## 115                3              6               5              4       4
+## 116                4              6               5              6       5
+## 117                1              2               1              1       2
+## 118                4              6               5              5       3
+## 119                3              6               5              3       5
+## 120                5              5               5              5       6
+## 121                4              5               5              4       5
+## 122                4              5               4              4       5
+## 123                6              6               6              4       6
+## 124                3              4               3              3       5
+## 125                4              5               3              3       5
+## 126                4              3               2              4       4
+## 127                4              5               3              4       4
+## 128                4              6               5              5       5
+## 129                6              6               4              3       6
+## 130                4              5               4              5       4
+## 131                4              5               4              4       5
+## 132                4              5               3              5       3
+## 133                5              1               5              4       5
+## 134                0              2               0              1       4
+## 135                6              6               6              6       6
+## 136                5              5               5              5       5
+## 137                0              0               0              0       0
+## 138                6              5               5              6       6
+## 139                0              0               0              0       0
+## 140                5              6               4              5       5
+## 141                3              5               4              3       5
+## 142                4              5               5              5       5
+## 143                3              6               5              3       5
+## 144                5              6               6              5       5
+## 145                3              5               5              5       5
+## 146                3              5               3              5       5
+## 147                4              6               6              6       5
+## 148                4              4               5              4       4
+## 149                2              6               3              2       3
+## 150                1              1               1              1       1
+## 151                3              3               3              3       3
+## 152                5              6               5              5       6
+## 153                1              4               5              5       5
+## 154                5              4               5              4       5
+## 155                4              4               4              4       4
+## 156                4              5               5              4       5
+## 157                5              6               5              6       5
+## 158                3              6               6              6       6
+## 159                3              3               3              3       3
+## 160                2              2               2              2       2
+## 161                2              5               5              5       4
+## 162                5              4               4              4       5
+## 163                0              6               6              6       6
+##     dissatisfaction curious
+## 1                 3       3
+## 2                 3       4
+## 3                 4       6
+## 4                 0       0
+## 5                 4       4
+## 6                 3       4
+## 7                 1       1
+## 8                 3       4
+## 9                 4       4
+## 10                5       5
+## 11                0       2
+## 12                4       6
+## 13                5       4
+## 14                4       5
+## 15                5       4
+## 16                3       4
+## 17                3       4
+## 18                3       5
+## 19                5       4
+## 20                3       5
+## 21                4       4
+## 22                4       5
+## 23                2       4
+## 24                4       4
+## 25                3       5
+## 26                4       5
+## 27                5       6
+## 28                0       5
+## 29                2       5
+## 30                3       3
+## 31                5       4
+## 32                2       4
+## 33                5       6
+## 34                6       5
+## 35                4       0
+## 36                4       6
+## 37                1       4
+## 38                2       6
+## 39                5       0
+## 40                4       1
+## 41                5       4
+## 42                3       4
+## 43                3       3
+## 44                1       4
+## 45                5       4
+## 46                3       2
+## 47                4       5
+## 48                4       3
+## 49                1       2
+## 50                0       3
+## 51                5       5
+## 52                0       5
+## 53                2       4
+## 54                3       4
+## 55                0       4
+## 56                4       3
+## 57                1       2
+## 58                4       6
+## 59                3       3
+## 60                2       5
+## 61                3       1
+## 62                6       6
+## 63                2       4
+## 64                1       3
+## 65                4       4
+## 66                0       4
+## 67                0       6
+## 68                2       3
+## 69                4       3
+## 70                0       1
+## 71                2       4
+## 72                3       5
+## 73                3       4
+## 74                4       4
+## 75                1       4
+## 76                2       5
+## 77                4       5
+## 78                3       4
+## 79                1       5
+## 80                3       5
+## 81                3       4
+## 82                3       4
+## 83                2       1
+## 84                5       4
+## 85                1       3
+## 86                3       4
+## 87                2       3
+## 88                3       5
+## 89                5       4
+## 90                4       5
+## 91                2       6
+## 92                4       6
+## 93                0       3
+## 94                5       3
+## 95                3       4
+## 96                5       4
+## 97                3       4
+## 98                3       3
+## 99                5       5
+## 100               1       5
+## 101               6       6
+## 102               1       5
+## 103               4       2
+## 104               3       3
+## 105               3       3
+## 106               3       3
+## 107               5       6
+## 108               2       3
+## 109               3       2
+## 110               1       2
+## 111               3       3
+## 112               3       4
+## 113               3       3
+## 114               3       4
+## 115               5       4
+## 116               5       6
+## 117               2       3
+## 118               4       4
+## 119               3       2
+## 120               5       6
+## 121               3       3
+## 122               4       5
+## 123               3       5
+## 124               1       3
+## 125               2       4
+## 126               2       4
+## 127               3       4
+## 128               6       4
+## 129               0       4
+## 130               2       4
+## 131               5       4
+## 132               3       4
+## 133               5       5
+## 134               0       3
+## 135               6       6
+## 136               5       5
+## 137               0       0
+## 138               3       2
+## 139               0       0
+## 140               3       5
+## 141               2       4
+## 142               6       6
+## 143               6       3
+## 144               3       6
+## 145               3       4
+## 146               4       3
+## 147               5       4
+## 148               3       5
+## 149               3       4
+## 150               1       1
+## 151               3       3
+## 152               4       4
+## 153               5       0
+## 154               5       4
+## 155               4       4
+## 156               4       4
+## 157               6       6
+## 158               3       3
+## 159               3       3
+## 160               2       2
+## 161               1       3
+## 162               5       2
+## 163               4       6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{lowerCor}\NormalTok{(motivation)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                      excl_ intrn intr_ gt_n_ knwn_ impr_ tst_c enjy_ kep_p
+## excellent_programmer 1.00                                                 
+## internship           0.51  1.00                                           
+## introduce_ideas      0.50  0.43  1.00                                     
+## get_in_touch         0.57  0.54  0.62  1.00                               
+## known_creativity     0.66  0.49  0.50  0.47  1.00                         
+## improve_skills       0.44  0.46  0.23  0.47  0.33  1.00                   
+## test_capability      0.53  0.46  0.42  0.62  0.43  0.67  1.00             
+## enjoy_problems       0.52  0.49  0.48  0.59  0.52  0.53  0.66  1.00       
+## keep_up              0.49  0.48  0.41  0.49  0.48  0.60  0.63  0.57  1.00 
+## dissatisfaction      0.38  0.30  0.56  0.39  0.33  0.29  0.33  0.40  0.38 
+## curious              0.37  0.48  0.45  0.47  0.50  0.41  0.42  0.52  0.48 
+##                      dssts curis
+## excellent_programmer            
+## internship                      
+## introduce_ideas                 
+## get_in_touch                    
+## known_creativity                
+## improve_skills                  
+## test_capability                 
+## enjoy_problems                  
+## keep_up                         
+## dissatisfaction      1.00       
+## curious              0.33  1.00
+\end{verbatim}
+
+\hypertarget{interpretation-8}{%
+\subsubsection{Interpretation:}\label{interpretation-8}}
+
+\begin{quote}
+Pearson correlations indicate the items have non-trivial pairwise
+interrelationships. Particularly, none of the item pairs have near-zero
+or very small correlations.
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fa.parallel}\NormalTok{(motivation, }\AttributeTok{fm=}\StringTok{\textquotesingle{}ml\textquotesingle{}}\NormalTok{, }\AttributeTok{fa=}\StringTok{\textquotesingle{}fa\textquotesingle{}}\NormalTok{, }\AttributeTok{main=}\StringTok{"Parallel Analysis Scree Plots"}\NormalTok{, }\AttributeTok{n.iter=}\DecValTok{100}\NormalTok{, }\AttributeTok{error.bars=}\NormalTok{T, }\AttributeTok{sim=}\NormalTok{F)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EFA-notebook_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\begin{verbatim}
+## Parallel analysis suggests that the number of factors =  2  and the number of components =  NA
+\end{verbatim}
+
+\hypertarget{interpretation-9}{%
+\subsubsection{Interpretation:}\label{interpretation-9}}
+
+\begin{quote}
+Parallel analysis suggests that the number of factors = 2
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fa}\NormalTok{(}\AttributeTok{r=}\NormalTok{motivation, }\AttributeTok{nfactors=}\DecValTok{2}\NormalTok{, }\AttributeTok{rotate=}\StringTok{\textquotesingle{}promax\textquotesingle{}}\NormalTok{, }\AttributeTok{fm=}\StringTok{\textquotesingle{}ml\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Factor Analysis using method =  ml
+## Call: fa(r = motivation, nfactors = 2, rotate = "promax", fm = "ml")
+## Standardized loadings (pattern matrix) based upon correlation matrix
+##                        ML1   ML2   h2   u2 com
+## excellent_programmer  0.28  0.48 0.51 0.49 1.6
+## internship            0.37  0.34 0.43 0.57 2.0
+## introduce_ideas      -0.30  1.05 0.73 0.27 1.2
+## get_in_touch          0.27  0.57 0.62 0.38 1.4
+## known_creativity      0.14  0.57 0.47 0.53 1.1
+## improve_skills        1.03 -0.31 0.69 0.31 1.2
+## test_capability       0.80  0.04 0.69 0.31 1.0
+## enjoy_problems        0.52  0.30 0.60 0.40 1.6
+## keep_up               0.67  0.11 0.57 0.43 1.1
+## dissatisfaction      -0.05  0.63 0.35 0.65 1.0
+## curious               0.29  0.38 0.39 0.61 1.9
+## 
+##                        ML1  ML2
+## SS loadings           3.05 3.00
+## Proportion Var        0.28 0.27
+## Cumulative Var        0.28 0.55
+## Proportion Explained  0.50 0.50
+## Cumulative Proportion 0.50 1.00
+## 
+##  With factor correlations of 
+##      ML1  ML2
+## ML1 1.00 0.73
+## ML2 0.73 1.00
+## 
+## Mean item complexity =  1.4
+## Test of the hypothesis that 2 factors are sufficient.
+## 
+## The degrees of freedom for the null model are  55  and the objective function was  5.85 with Chi Square of  922.05
+## The degrees of freedom for the model are 34  and the objective function was  0.47 
+## 
+## The root mean square of the residuals (RMSR) is  0.04 
+## The df corrected root mean square of the residuals is  0.05 
+## 
+## The harmonic number of observations is  163 with the empirical chi square  33.11  with prob <  0.51 
+## The total number of observations was  163  with Likelihood Chi Square =  72.65  with prob <  0.00013 
+## 
+## Tucker Lewis Index of factoring reliability =  0.927
+## RMSEA index =  0.083  and the 90 % confidence intervals are  0.057 0.11
+## BIC =  -100.53
+## Fit based upon off diagonal values = 0.99
+## Measures of factor score adequacy             
+##                                                    ML1  ML2
+## Correlation of (regression) scores with factors   0.95 0.95
+## Multiple R square of scores with factors          0.90 0.89
+## Minimum correlation of possible factor scores     0.80 0.79
+\end{verbatim}
+
+\hypertarget{interpretation-10}{%
+\subsubsection{Interpretation:}\label{interpretation-10}}
+
+\begin{quote}
+Items loaded on ML2 - ``excellent\_programmer'', ``introduce\_ideas'',
+``get\_in\_touch'', ``known\_creativity'' and ``dissatisfaction''.
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  ``excellent\_programmer'', ``introduce\_ideas'', ``get\_in\_touch''
+  and ``known\_creativity'' are under ``SHOW IDEAS'' category in Fuller
+  paper. ``dissatisfaction'' is under the category of
+  ``DISSATISFACTION'' in Fuller paper. Both ``SHOW IDEAS'' and
+  ``DISSATISFACTION'' lie on the ``EXTRINSIC'' side of motivations in
+  Fuller paper.
+\end{itemize}
+
+\begin{quote}
+Items loaded on ML1 - ``improve\_skills'', ``test\_capability'',
+``enjoy\_problems'', ``keep\_up''
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  ``improve\_skills'' and ``test\_capability''are under the category of
+  ``GAIN KNOWLEDGE'' in Fuller paper. ``enjoy\_problems'' and
+  ``keep\_up'' are under the category of ``INTRINSIC INNOVATION
+  INTEREST'' in Fuller paper. Both ``GAIN KNOWLEDGE'' and ``INTRINSIC
+  INNOVATION INTEREST'' lie on the ``INTRINSIC'' side of motivations in
+  Fuller paper.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fa}\NormalTok{(}\AttributeTok{r=}\NormalTok{motivation, }\AttributeTok{nfactors=}\DecValTok{2}\NormalTok{, }\AttributeTok{rotate=}\StringTok{\textquotesingle{}oblimin\textquotesingle{}}\NormalTok{, }\AttributeTok{fm=}\StringTok{\textquotesingle{}ml\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Factor Analysis using method =  ml
+## Call: fa(r = motivation, nfactors = 2, rotate = "oblimin", fm = "ml")
+## Standardized loadings (pattern matrix) based upon correlation matrix
+##                        ML1   ML2   h2   u2 com
+## excellent_programmer  0.35  0.46 0.51 0.49 1.9
+## internship            0.40  0.34 0.43 0.57 1.9
+## introduce_ideas      -0.10  0.91 0.73 0.27 1.0
+## get_in_touch          0.35  0.53 0.62 0.38 1.7
+## known_creativity      0.23  0.53 0.47 0.53 1.4
+## improve_skills        0.91 -0.17 0.69 0.31 1.1
+## test_capability       0.76  0.12 0.69 0.31 1.0
+## enjoy_problems        0.55  0.32 0.60 0.40 1.6
+## keep_up               0.65  0.17 0.57 0.43 1.1
+## dissatisfaction       0.06  0.56 0.35 0.65 1.0
+## curious               0.34  0.37 0.39 0.61 2.0
+## 
+##                        ML1  ML2
+## SS loadings           3.21 2.84
+## Proportion Var        0.29 0.26
+## Cumulative Var        0.29 0.55
+## Proportion Explained  0.53 0.47
+## Cumulative Proportion 0.53 1.00
+## 
+##  With factor correlations of 
+##      ML1  ML2
+## ML1 1.00 0.56
+## ML2 0.56 1.00
+## 
+## Mean item complexity =  1.4
+## Test of the hypothesis that 2 factors are sufficient.
+## 
+## The degrees of freedom for the null model are  55  and the objective function was  5.85 with Chi Square of  922.05
+## The degrees of freedom for the model are 34  and the objective function was  0.47 
+## 
+## The root mean square of the residuals (RMSR) is  0.04 
+## The df corrected root mean square of the residuals is  0.05 
+## 
+## The harmonic number of observations is  163 with the empirical chi square  33.11  with prob <  0.51 
+## The total number of observations was  163  with Likelihood Chi Square =  72.65  with prob <  0.00013 
+## 
+## Tucker Lewis Index of factoring reliability =  0.927
+## RMSEA index =  0.083  and the 90 % confidence intervals are  0.057 0.11
+## BIC =  -100.53
+## Fit based upon off diagonal values = 0.99
+## Measures of factor score adequacy             
+##                                                    ML1  ML2
+## Correlation of (regression) scores with factors   0.94 0.93
+## Multiple R square of scores with factors          0.89 0.87
+## Minimum correlation of possible factor scores     0.77 0.73
+\end{verbatim}
+
+\hypertarget{interpretation-11}{%
+\subsubsection{Interpretation:}\label{interpretation-11}}
+
+\begin{quote}
+Items loaded on ML2 - ``excellent\_programmer'', ``introduce\_ideas'',
+``get\_in\_touch'', ``known\_creativity'' and ``dissatisfaction''.
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  ``excellent\_programmer'', ``introduce\_ideas'', ``get\_in\_touch''
+  and ``known\_creativity'' are under ``SHOW IDEAS'' category in Fuller
+  paper. ``dissatisfaction'' is under the category of
+  ``DISSATISFACTION'' in Fuller paper. Both ``SHOW IDEAS'' and
+  ``DISSATISFACTION'' lie on the ``EXTRINSIC'' side of motivations in
+  Fuller paper.
+\end{itemize}
+
+\begin{quote}
+Items loaded on ML1 - ``improve\_skills'', ``test\_capability'',
+``enjoy\_problems'', ``keep\_up''
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  ``improve\_skills'' and ``test\_capability''are under the category of
+  ``GAIN KNOWLEDGE'' in Fuller paper. ``enjoy\_problems'' and
+  ``keep\_up'' are under the category of ``INTRINSIC INNOVATION
+  INTEREST'' in Fuller paper. Both ``GAIN KNOWLEDGE'' and ``INTRINSIC
+  INNOVATION INTEREST'' lie on the ``INTRINSIC'' side of motivations in
+  Fuller paper.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{fa}\NormalTok{(}\AttributeTok{r=}\NormalTok{motivation, }\AttributeTok{nfactors=}\DecValTok{2}\NormalTok{, }\AttributeTok{rotate=}\StringTok{\textquotesingle{}varimax\textquotesingle{}}\NormalTok{, }\AttributeTok{fm=}\StringTok{\textquotesingle{}ml\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Factor Analysis using method =  ml
+## Call: fa(r = motivation, nfactors = 2, rotate = "varimax", fm = "ml")
+## Standardized loadings (pattern matrix) based upon correlation matrix
+##                       ML1  ML2   h2   u2 com
+## excellent_programmer 0.45 0.56 0.51 0.49 1.9
+## internship           0.47 0.46 0.43 0.57 2.0
+## introduce_ideas      0.14 0.84 0.73 0.27 1.1
+## get_in_touch         0.47 0.63 0.62 0.38 1.9
+## known_creativity     0.36 0.58 0.47 0.53 1.7
+## improve_skills       0.82 0.13 0.69 0.31 1.1
+## test_capability      0.75 0.36 0.69 0.31 1.4
+## enjoy_problems       0.60 0.49 0.60 0.40 1.9
+## keep_up              0.66 0.37 0.57 0.43 1.6
+## dissatisfaction      0.20 0.56 0.35 0.65 1.3
+## curious              0.42 0.47 0.39 0.61 2.0
+## 
+##                        ML1  ML2
+## SS loadings           3.04 3.01
+## Proportion Var        0.28 0.27
+## Cumulative Var        0.28 0.55
+## Proportion Explained  0.50 0.50
+## Cumulative Proportion 0.50 1.00
+## 
+## Mean item complexity =  1.6
+## Test of the hypothesis that 2 factors are sufficient.
+## 
+## The degrees of freedom for the null model are  55  and the objective function was  5.85 with Chi Square of  922.05
+## The degrees of freedom for the model are 34  and the objective function was  0.47 
+## 
+## The root mean square of the residuals (RMSR) is  0.04 
+## The df corrected root mean square of the residuals is  0.05 
+## 
+## The harmonic number of observations is  163 with the empirical chi square  33.11  with prob <  0.51 
+## The total number of observations was  163  with Likelihood Chi Square =  72.65  with prob <  0.00013 
+## 
+## Tucker Lewis Index of factoring reliability =  0.927
+## RMSEA index =  0.083  and the 90 % confidence intervals are  0.057 0.11
+## BIC =  -100.53
+## Fit based upon off diagonal values = 0.99
+## Measures of factor score adequacy             
+##                                                    ML1  ML2
+## Correlation of (regression) scores with factors   0.90 0.90
+## Multiple R square of scores with factors          0.81 0.80
+## Minimum correlation of possible factor scores     0.63 0.61
+\end{verbatim}
+
+\hypertarget{interpretation-12}{%
+\subsubsection{Interpretation:}\label{interpretation-12}}
+
+\begin{quote}
+Items loaded on ML1 - ``excellent\_programmer'', ``internship'',
+``get\_in\_touch'', ``improve\_skills'', ``test\_capability'',
+``enjoy\_problems'', ``keep\_up'', ``curious''
+\end{quote}
+
+\begin{quote}
+Items loaded on ML2 - ``known creativity'', ``enjoy\_problems'',
+``keep\_up'', ``introduce\_ideas'', ``internship'',
+``excellent\_programmer'', ``dissatisfaction'', ``curious''
+\end{quote}
+
+\begin{quote}
+Problematic ross loadings is happening with the varimax rotation (
+orthogonal ). The solution here is to use oblique method ( promax,
+oblimin ) as of above since behavior is rarely partitioned into neatly
+packaged units that function independently of one another. ( Costello et
+al., 2005 ) so we cannot say that the survey items are not related with
+each other.
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Costello, AB \& Osborne, Jason. (2005). Best Practices in Exploratory
+  Factor Analysis: Four Recommendations for Getting the Most From Your
+  Analysis. Practical Assessment, Research \& Evaluation. 10. 1-9.
+\end{itemize}
+
+\end{document}
