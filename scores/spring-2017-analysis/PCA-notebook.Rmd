@@ -15,10 +15,14 @@ motivation
 ```{r}
 # Do the PCA 
 
-my.prc = prcomp(motivation[-1], center=TRUE, scale=TRUE)
+my.prc = prcomp(motivation, center=TRUE, scale=TRUE)
 screeplot(my.prc, main="Scree Plot", xlab="Components")
 screeplot(my.prc, main="Scree Plot", type="line" )
 ```
+```{r}
+my.prc
+```
+
 ```{r}
 # Kaiser criterion to determine the number of principle components to keep 
 my.prc$sdev ^ 2
@@ -53,8 +57,21 @@ biplot(my.prc, cex=c(1, 0.7))
 ```
 ```{r}
 # Apply the Varimax Rotation
-my.var <- varimax(my.prc$rotation)
+my.var <- varimax(my.prc$rotation[, 1:6])
 
 my.var
 ```
+## Interpretation: 
+
+> Assume threshold 0.5 
+
+> PC1 - Gain Knowledge and Intrinsic Innovation Interest 
+> PC2 - Dissatisfaction 
+> PC3 - Monetary rewards 
+> PC4 - Curious 
+> PC5 - Get known for excellent programmer / excellent creativity 
+> PC6 - Show Ideas
+
+
+
 

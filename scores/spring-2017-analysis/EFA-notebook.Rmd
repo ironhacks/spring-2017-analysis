@@ -368,3 +368,216 @@ fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
 
 * Comment: 0.096 ( only a marginally acceptable fit ) - but slightly worst than only when one survey item was removed. Moved down from great fit to marginally acceptable fit. 
 
+## Confirmatory Factor Analysis 
+
+```{r}
+library(lavaan)
+```
+```{r}
+
+# Then we define the model by specifying the relationship between items and factors:
+
+path <-
+'f1 =~ excellent_programmer + introduce_ideas + get_in_touch + known_creativity + dissatisfaction
+f2 =~ improve_skills + test_capability + enjoy_problems + keep_up'
+
+```
+
+```{r}
+# remove "pass class" survey item 13 and "money" survey item 1
+motivation <- read.table("/Users/jialincheoh/Desktop/survey-motivation-WQ13.csv", header=TRUE, sep = ",")
+motivation
+```
+
+
+```{r}
+model <- cfa(path, data= motivation)
+summary(model, fit.measures=TRUE)
+```
+## Interpretation: 
+
+> Regarding the CFA we used goodness of fit indices to evaluate the model, CFI and TLI cut-off scores should be above 0.9
+
+* Comment - Our CFI is 0.918 ( good ) and TLI 0.887 ( bordeline )
+
+> RMSEA and SRMR cut-off score 0.05 
+
+* Comment - SRMR is 0.059 ( slightly above cut-off score ) and RMSEA 0.119.
+
+> All of the estimated coefficent loadings are significant. 
+
+> All variances have positive sign which is good since all items are positively coded as according to Kline (2005), negative variance estimates or loadings are unacceptable.
+
+
+* Goldberg, L. R. (1992). The development of markers for the Big-Five factor structure. Psychological Assessment, 4(1), 26–42. https://doi.org/10.1037/1040-3590.4.1.26
+
+* Kline, R. B. (2005). Principles and practice of structural equation modeling (2nd ed). Guilford Press.
+
+## Validation
+
+> Subsample for Bogota 0
+
+```{r}
+
+motivation <- read.table("/Users/jialincheoh/Desktop/bogota_0_motivation.csv", header=TRUE, sep = ",")
+motivation
+
+```
+```{r}
+describe(motivation)
+```
+
+```{r}
+KMO(motivation)
+```
+
+```{r}
+lowerCor(motivation)
+```
+```{r}
+fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+```
+ 
+```{r}
+fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
+```
+
+## Interpretation: 
+
+> Cumulative variance now at 55%. "keep_up" moved to "extrinsic" category. 
+
+> Items loaded on ML1 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity", "keep_up", and "dissatisfaction". 
+
+> Items loaded on ML2 - "improve_skills", "test_capability", "enjoy_problems"
+
+
+```{r}
+motivation <- read.table("/Users/jialincheoh/Desktop/bogota_1_motivation.csv", header=TRUE, sep = ",")
+motivation
+```
+```{r}
+describe(motivation)
+```
+
+```{r}
+KMO(motivation)
+```
+```{r}
+lowerCor(motivation)
+```
+```{r}
+fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+```
+
+```{r}
+fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
+```
+
+> Cumulative variance now at 55%. enjoy_problems" moved to "extrinsic" category. 
+
+> Items loaded on ML1 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity",  "dissatisfaction", "enjoy_problems"
+
+> Items loaded on ML2 - "improve_skills", "keep_up", "test_capability"
+
+```{r}
+motivation <- read.table("/Users/jialincheoh/Desktop/bogota_2_motivation.csv", header=TRUE, sep = ",")
+motivation
+```
+```{r}
+describe(motivation)
+```
+
+```{r}
+KMO(motivation)
+```
+
+```{r}
+lowerCor(motivation)
+```
+```{r}
+fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+```
+
+```{r}
+fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
+```
+> Cumulative variance now at 56%. "excellent_programmer moved to "intrinsic" category. 
+
+> Items loaded on ML1 - "introduce_ideas", "get_in_touch", "known_creativity",  "dissatisfaction"
+
+> Items loaded on ML2 - "improve_skills", "keep_up", "test_capability", "enjoy_problems", "excellent_programmer"
+
+```{r}
+motivation <- read.table("/Users/jialincheoh/Desktop/bogota_3_motivation.csv", header=TRUE, sep = ",")
+motivation
+```
+```{r}
+describe(motivation)
+```
+
+```{r}
+KMO(motivation)
+```
+
+```{r}
+fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+```
+
+```{r}
+fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
+```
+
+### Interpretations: 
+
+> Only one item loads on the second factor, best to retain only one factor. 
+
+## Confirmatory Factor Analaysis for Subsample
+
+```{r}
+motivation <- read.table("/Users/jialincheoh/Desktop/bogota_0_motivation.csv", header=TRUE, sep = ",")
+motivation
+```
+```{r}
+# Then we define the model by specifying the relationship between items and factors:
+
+path <-
+'f1 =~ excellent_programmer + introduce_ideas + get_in_touch + known_creativity + dissatisfaction
+f2 =~ improve_skills + test_capability + enjoy_problems + keep_up'
+```
+
+```{r}
+library(lavaan)
+model <- cfa(path, data= motivation)
+summary(model, fit.measures=TRUE)
+```
+```{r}
+motivation <- read.table("/Users/jialincheoh/Desktop/bogota_1_motivation.csv", header=TRUE, sep = ",")
+motivation
+```
+
+```{r}
+library(lavaan)
+model <- cfa(path, data= motivation)
+summary(model, fit.measures=TRUE)
+```
+```{r}
+motivation <- read.table("/Users/jialincheoh/Desktop/bogota_2_motivation.csv", header=TRUE, sep = ",")
+motivation
+```
+
+```{r}
+library(lavaan)
+model <- cfa(path, data= motivation)
+summary(model, fit.measures=TRUE)
+```
+```{r}
+motivation <- read.table("/Users/jialincheoh/Desktop/bogota_3_motivation.csv", header=TRUE, sep = ",")
+motivation
+```
+
+```{r}
+library(lavaan)
+model <- cfa(path, data= motivation)
+summary(model, fit.measures=TRUE)
+```
+
