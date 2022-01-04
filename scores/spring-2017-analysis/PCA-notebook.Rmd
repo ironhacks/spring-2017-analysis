@@ -6,14 +6,30 @@ output: html_notebook
 # Principle Component Analysis in R 
 
 ```{r}
+# Loading required package: psych
+require(psych)
+
+# Loading required package: GPArotation
+require(GPArotation)
+
 library(lattice)
 url <- "/Users/jialincheoh/Desktop/survey-motivation-WQ13.csv"
 motivation <- read.csv(url, header=TRUE)
 motivation
 ```
+```{r}
+lowerCor(motivation)
+```
+```{r}
+library(correlation)
+
+correlation::correlation(motivation,
+                         include_factors = TRUE, method = "auto"
+)
+```
 
 ```{r}
-# Do the PCA 
+# Do the PCA with singular value decomposition of the (centered and possibly scaled) data matrix
 
 my.prc = prcomp(motivation, center=TRUE, scale=TRUE)
 screeplot(my.prc, main="Scree Plot", xlab="Components")
@@ -65,7 +81,7 @@ my.var
 
 > Assume threshold 0.5 
 
-> PC1 - Gain Knowledge and Intrinsic Innovation Interest 
+> PC1 - Gain Knowledge and Intrinsic Innovation Interest ( only missed enjoy_problems )
 > PC2 - Dissatisfaction 
 > PC3 - Monetary rewards 
 > PC4 - Curious 
@@ -73,5 +89,18 @@ my.var
 > PC6 - Show Ideas
 
 
+```{r}
+# Apply the Varimax Rotation
+my.var <- varimax(my.prc$rotation[, 1:2])
+
+my.var
+```
+
+```{r}
+# Apply the Varimax Rotation
+my.var <- varimax(my.prc$rotation[, 1:3])
+
+my.var
+```
 
 

@@ -38,18 +38,29 @@ require(GPArotation)
 
 ```
 
+```{r}
+# Read in all survey items from raw Qualtrics data
+survey <- read.table("/Users/jialincheoh/Desktop/survey_final_read.csv", header=TRUE, sep = ",")
+survey
+```
 
 
 ```{r}
-# remove "pass class" survey item 13
-motivation <- read.table("/Users/jialincheoh/Desktop/survey-motivation-WQ13.csv", header=TRUE, sep = ",")
-motivation
+# Rename all columns for motivation construct 
+names(survey)[1:13] <- c("monetary_compensation", "excellent_programmer", "internship", 
+                         "introduce_ideas", "get_in_touch", "known_creativity", "improve_skills", 
+                         "test_capability", "enjoy_problems", "keep_up", "dissatisfaction", "curious", "pass_class")
+survey
+
+```
+```{r}
+# Extract all 13 survey items with motivation construct
+motivation <- survey[c(1:13)]
 ```
 
 ### Summary of Data
 
 ```{r}
-
 describe(motivation)
 ```
 
@@ -59,13 +70,34 @@ describe(motivation)
 
 > Looking forward, we might expect some bias (inaccuracy) in the factor loading estimates for the "improve_skills" item, particularly, but the maximum likelihood estimation that will be used for FA has some robustness to non-normality.
 
+```{r}
+correl = cor(motivation, use = 'pairwise.complete.obs')
+symnum(correl)
+correl
+```
+
+## Interpretation: 
+
+> We want to make sure nothing on the off-diagonal is 1. 
+
+```{r}
+# Conducting Bartlett test
+cortest.bartlett(correl, n=nrow(motivation))
+```
+
+## Interpretation: 
+
+> Based on the p-value, it's a significant effect, which means the correlations are large enough for us to continue. 
 
 
 ```{r}
-KMO(motivation)
+# KMO test
+KMO(correl)
 ```
 
 ### Interpretation: 
+
+> Comment: KMO low for "pass_class" survey item
   
 > MSA The overall Measure of Sampling Adequacy
 
@@ -91,7 +123,7 @@ lowerCor(motivation)
 
 ### Interpretation: 
 
-> Pearson correlations indicate the items have non-trivial pairwise interrelationships. Particularly, none of the item pairs have near-zero or very small correlations. 
+> Pearson correlations indicate the items have non-trivial pairwise interrelationships. Particularly, none of the item pairs have near-zero or very small correlations, except for the "pass_class" item. 
 
 ```{r}
 library(correlation)
@@ -106,217 +138,70 @@ correlation::correlation(motivation,
 
 > All the correlations are significant. 
 
-```{r}
-fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
-```
-### Interpretation: 
-
-> Parallel analysis suggests that the number of factors = 2
 
 ```{r}
-fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
+all_motivation <- fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+all_motivation
+
 ```
 
-### Interpretation: 
+## Interpretation: 
 
-> Items loaded on ML2 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
-
-* "excellent_programmer", "introduce_ideas", "get_in_touch" and "known_creativity" are under "SHOW IDEAS" category in Fuller paper. "dissatisfaction" is under the category of "DISSATISFACTION" in Fuller paper. Both "SHOW IDEAS" and "DISSATISFACTION" lie on the "EXTRINSIC" side of motivations in Fuller paper. 
-
-> Items loaded on ML1 - "improve_skills", "test_capability", "enjoy_problems", "keep_up"
-
-* "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
-
-> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
-
-* Comment: 0.938 ( Great )
-
-> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
-
-* Comment: 0.00064 ( Not Pass ) - not a big issue as reason above
-
-> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
-
-* Comment: 0.072 ( Great )
-
+> Parallel analysis suggests that the number of factors =  3
 
 ```{r}
-fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
-```
-
-### Interpretation: 
-
-> Items loaded on ML2 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
-
-* "excellent_programmer", "introduce_ideas", "get_in_touch" and "known_creativity" are under "SHOW IDEAS" category in Fuller paper. "dissatisfaction" is under the category of "DISSATISFACTION" in Fuller paper. Both "SHOW IDEAS" and "DISSATISFACTION" lie on the "EXTRINSIC" side of motivations in Fuller paper. 
-
-> Items loaded on ML1 - "improve_skills", "test_capability", "enjoy_problems", "keep_up"
-
-* "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
-
-
-> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
-
-* Comment: 0.938 ( Great )
-
-> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
-
-* Comment: 0.00064 ( Not Pass ) - not a big issue as reason above
-
-> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
-
-* Comment: 0.072 ( Great )
-
-
-```{r}
-fa(r=motivation, nfactors=2, rotate='varimax', fm='ml')
-```
-### Interpretation: 
-
-> Items loaded on ML1 - "excellent_programmer", "internship", "get_in_touch", "improve_skills", "test_capability", "enjoy_problems", "keep_up", "curious"
-
-> Items loaded on ML2 - "known creativity", "enjoy_problems", "keep_up", "introduce_ideas", "internship", "excellent_programmer", "dissatisfaction", "curious"
-
-> Problematic ross loadings is happening with the varimax rotation ( orthogonal ). The solution here is to use oblique method ( promax, oblimin ) as of above since behavior is rarely partitioned into neatly packaged units that function independently of one another. ( Costello et al., 2005 ) so we cannot say that the survey items are not related with each other. 
-
-* Costello, AB & Osborne, Jason. (2005). Best Practices in Exploratory Factor Analysis: Four Recommendations for Getting the Most From Your Analysis. Practical Assessment, Research & Evaluation. 10. 1-9. 
-
-
-> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
-
-* Comment: 0.938 ( Great )
-
-> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
-
-* Comment: 0.00064 ( Not Pass ) - not a big issue as reason above
-
-> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
-
-* Comment: 0.072 ( Great )
-
-### （2）EFA with "pass_class" survey item removed and "monetary_compensation" survey item removed. 
-
-```{r}
-# remove "pass class" survey item 13 and "money" survey item 1
-motivation <- read.table("/Users/jialincheoh/Desktop/survey-motivation-WQ13-WQ1.csv", header=TRUE, sep = ",")
-motivation
-```
-
-```{r}
-lowerCor(motivation)
-```
-
-### Interpretation: 
-
-> Pearson correlations indicate the items have non-trivial pairwise interrelationships. Particularly, none of the item pairs have near-zero or very small correlations. 
-
-```{r}
-fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
-```
-### Interpretation: 
-
-> Parallel analysis suggests that the number of factors = 2
-
-
-```{r}
-fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
-```
-
-### Interpretation: 
-
-> Items loaded on ML2 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
-
-* "excellent_programmer", "introduce_ideas", "get_in_touch" and "known_creativity" are under "SHOW IDEAS" category in Fuller paper. "dissatisfaction" is under the category of "DISSATISFACTION" in Fuller paper. Both "SHOW IDEAS" and "DISSATISFACTION" lie on the "EXTRINSIC" side of motivations in Fuller paper. 
-
-> Items loaded on ML1 - "improve_skills", "test_capability", "enjoy_problems", "keep_up"
-
-* "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
-
-
-> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
-
-* Comment: 0.927 ( Great ) - slightly lower than when one survey item was removed, but still in the "great" range. 
-
-> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
-
-* Comment: 0.00013 ( Not Pass ) - not a big issue as reason above, but worst than when only one survey item was removed. 
-
-> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
-
-* Comment: 0.083 ( acceptable ) - but slightly worst than only when one survey item was removed. Moved down from great fit to acceptable fit. 
-
-```{r}
-fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
-```
-
-### Interpretation: 
-
-> Items loaded on ML2 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
-
-* "excellent_programmer", "introduce_ideas", "get_in_touch" and "known_creativity" are under "SHOW IDEAS" category in Fuller paper. "dissatisfaction" is under the category of "DISSATISFACTION" in Fuller paper. Both "SHOW IDEAS" and "DISSATISFACTION" lie on the "EXTRINSIC" side of motivations in Fuller paper. 
-
-> Items loaded on ML1 - "improve_skills", "test_capability", "enjoy_problems", "keep_up"
-
-* "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
-
-> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
-
-* Comment: 0.927 ( Great ) - slightly lower than when one survey item was removed, but still in the "great" range. 
-
-> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
-
-* Comment: 0.00013 ( Not Pass ) - not a big issue as reason above, but worst than when only one survey item was removed. 
-
-> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
-
-* Comment: 0.083 ( acceptable ) - but slightly worst than only when one survey item was removed. Moved down from great fit to acceptable fit. 
-
-```{r}
-fa(r=motivation, nfactors=2, rotate='varimax', fm='ml')
-```
-
-### Interpretation: 
-
-> Items loaded on ML1 - "excellent_programmer", "internship", "get_in_touch", "improve_skills", "test_capability", "enjoy_problems", "keep_up", "curious"
-
-> Items loaded on ML2 - "known creativity", "enjoy_problems", "keep_up", "introduce_ideas", "internship", "excellent_programmer", "dissatisfaction", "curious"
-
-> Problematic ross loadings is happening with the varimax rotation ( orthogonal ). The solution here is to use oblique method ( promax, oblimin ) as of above since behavior is rarely partitioned into neatly packaged units that function independently of one another. ( Costello et al., 2005 ) so we cannot say that the survey items are not related with each other. 
-
-* Costello, AB & Osborne, Jason. (2005). Best Practices in Exploratory Factor Analysis: Four Recommendations for Getting the Most From Your Analysis. Practical Assessment, Research & Evaluation. 10. 1-9. 
-
-> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
-
-* Comment: 0.927 ( Great ) - slightly lower than when one survey item was removed, but still in the "great" range. 
-
-> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
-
-* Comment: 0.00013 ( Not Pass ) - not a big issue as reason above, but worst than when only one survey item was removed. 
-
-> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
-
-* Comment: 0.083 ( acceptable ) - but slightly worst than only when one survey item was removed. Moved down from great fit to acceptable fit. 
-
-```{r}
-# remove "pass class" survey item 13 and "money" survey item 1
-motivation <- read.table("/Users/jialincheoh/Desktop/survey-motivation-WQ13-WQ1-WQ3-W12.csv", header=TRUE, sep = ",")
-motivation
-```
-```{r}
-KMO(motivation)
-```
-```{r}
-lowerCor(motivation)
-```
-```{r}
-fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
-```
-```{r}
-fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
+all_motivation <- fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
+all_motivation
 ```
 ## Interpretation: 
 
-> Cumulative variance now at 58%, but model fit is lower than previous. 
+> ML1 - "improve_skills", "test_capability", "enjoy_problems", "keep_up" [ intrinsic ]
+
+> ML2 = "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity", "dissatisfaction" [ extrinsic ]
+
+
+
+```{r}
+all_motivation <- fa(r=motivation, nfactors=3, rotate='promax', fm='ml')
+all_motivation
+```
+
+## Interpretation: 
+
+> ML3 - "improve_skills", "test_capability", "enjoy_problems", "keep_up" [ intrinsic motivation ]
+
+> ML1 - "known_creativity", "excellent_programmer" [ recognition ]
+
+> ML2 - "introduce_ideas", "dissatisfaction" [ misc extrinc motivation ]
+
+
+```{r}
+motivation_9_items <- fa.parallel(motivation[ , -c(1,3, 12, 13)], fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+motivation_9_items
+```
+
+## Interpretation: 
+
+> Parallel analysis suggests that the number of factors =  2 
+
+```{r}
+motivation_9_items = fa(r=motivation[ , -c(1,3,12,13)], nfactors=2, rotate='promax', fm='ml')
+motivation_9_items
+```
+
+
+
+### Interpretation: 
+
+> Parallel analysis suggests that the number of factors = 2
+
+```{r}
+# remove survey item 1, 3, 12, 13
+# remove "monetary_compensation", "internship", "curious" and "pass_class" 
+
+fa(r=motivation[ , -c(1,3,12,13)], nfactors=2, rotate='promax', fm='ml')
+```
+### Interpretation: 
 
 > Items loaded on ML1 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
 
@@ -326,92 +211,51 @@ fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
 
 * "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
 
-> Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
-
-* Comment: 0.924 ( Great ) - slightly lower than when one survey item was removed, but still in the "great" range. 
-
-> Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
-
-* Comment:3e-04 ( Not Pass ) - Worst than when only one survey item was removed. 
-
-> Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
-
-* Comment: 0.096 ( only a marginally acceptable fit ) - but slightly worst than only when one survey item was removed. Moved down from great fit to marginally acceptable fit. 
-
-```{r}
-fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
-```
-## Interpretation: 
-
-### Note: Things start to change here - "excellent programmer" went into the intrinsic group ( lower model fit ). 
-
-> Cumulative variance now at 58%. 
-
-> Items loaded on ML1 -  "introduce_ideas", "get_in_touch", "known_creativity" and "dissatisfaction". 
-
-* "excellent_programmer", "introduce_ideas", "get_in_touch" and "known_creativity" are under "SHOW IDEAS" category in Fuller paper. "dissatisfaction" is under the category of "DISSATISFACTION" in Fuller paper. Both "SHOW IDEAS" and "DISSATISFACTION" lie on the "EXTRINSIC" side of motivations in Fuller paper. 
-
-> Items loaded on ML2 - "improve_skills", "test_capability", "enjoy_problems", "keep_up", "excellent_programmer",
-
-* "improve_skills" and "test_capability"are under the category of "GAIN KNOWLEDGE" in Fuller paper. "enjoy_problems" and "keep_up" are under the category of "INTRINSIC INNOVATION INTEREST" in Fuller paper. Both "GAIN KNOWLEDGE" and "INTRINSIC INNOVATION INTEREST" lie on the "INTRINSIC" side of motivations in Fuller paper. 
-
 
 > Tucker Lewis Index is a model fit statistic. Rule-of-thumb is that models with TLI > .90 fit the data well (Little, 2013, Longitudinal structural equation modeling)
 
-* Comment: 0.924 ( Great ) - slightly lower than when one survey item was removed, but still in the "great" range. 
+* Comment: 0.924 ( Great )
 
 > Chi-square test of model fit (below) tests the null hypothesis that “The model fits the data.” Want prob [p-value] > .05 to suggest that model fits data well. With “large” samples (say, greater than 400-500), minor misfit between each person’s data and the model may accumulate to produce a significant chi-square value. 
 
-* Comment:3e-04 ( Not Pass ) - Worst than when only one survey item was removed. 
+* Comment: 3e-04 ( Not Pass ) - not a big issue as reason above
 
 > Root mean square error of approximation (RMSEA) is another model fit statistic. Rule-of-thumb is that models with RMSEA ≤ .05 fit the data well, ≤ .08 fit the data acceptably, and .08 - .10 is marginally acceptable fit (Little, 2013).
 
-* Comment: 0.096 ( only a marginally acceptable fit ) - but slightly worst than only when one survey item was removed. Moved down from great fit to marginally acceptable fit. 
+* Comment: 0.096 ( marginally acceptable fit )
 
-## Confirmatory Factor Analysis 
-
-```{r}
-library(lavaan)
-```
-```{r}
-
-# Then we define the model by specifying the relationship between items and factors:
-
-path <-
-'f1 =~ excellent_programmer + introduce_ideas + get_in_touch + known_creativity + dissatisfaction
-f2 =~ improve_skills + test_capability + enjoy_problems + keep_up'
-
-```
-
-```{r}
-# remove "pass class" survey item 13 and "money" survey item 1
-motivation <- read.table("/Users/jialincheoh/Desktop/survey-motivation-WQ13.csv", header=TRUE, sep = ",")
-motivation
-```
 
 
 ```{r}
-model <- cfa(path, data= motivation)
-summary(model, fit.measures=TRUE)
+## get cfi of the 9 loaded survey items
+
+finalmodel = fa(r=motivation[ , -c(1,3,12,13)], nfactors=2, rotate='promax', fm='ml')
+1 - ((finalmodel$STATISTIC-finalmodel$dof)/
+       (finalmodel$null.chisq-finalmodel$null.dof))
 ```
-## Interpretation: 
 
-> Regarding the CFA we used goodness of fit indices to evaluate the model, CFI and TLI cut-off scores should be above 0.9
+# Interpretation: 
 
-* Comment - Our CFI is 0.918 ( good ) and TLI 0.887 ( bordeline )
-
-> RMSEA and SRMR cut-off score 0.05 
-
-* Comment - SRMR is 0.059 ( slightly above cut-off score ) and RMSEA 0.119.
-
-> All of the estimated coefficent loadings are significant. 
-
-> All variances have positive sign which is good since all items are positively coded as according to Kline (2005), negative variance estimates or loadings are unacceptable.
+> Very high CFI value of 0.96, larger than threhold of 0.95 
 
 
-* Goldberg, L. R. (1992). The development of markers for the Big-Five factor structure. Psychological Assessment, 4(1), 26–42. https://doi.org/10.1037/1040-3590.4.1.26
+```{r}
+## reliability for the 9 survey items. 
 
-* Kline, R. B. (2005). Principles and practice of structural equation modeling (2nd ed). Guilford Press.
+factor1 = c(7, 8, 9, 10)
+factor2 = c(2, 4, 5, 6, 10)
+
+psych::alpha(motivation[ , factor1])
+psych::alpha(motivation[ , factor2])
+
+```
+
+# Interpretation: 
+
+> raw_alpha for factor 1 is 0.86 which is good 
+
+> raw_alpha for factor 2 is 0.84 which is good
+
 
 ## Validation
 
@@ -419,58 +263,76 @@ summary(model, fit.measures=TRUE)
 
 ```{r}
 
-motivation <- read.table("/Users/jialincheoh/Desktop/bogota_0_motivation.csv", header=TRUE, sep = ",")
-motivation
-
-```
-```{r}
-describe(motivation)
+# subset of bogota 0
+survey_bogota_0 <- subset(survey, hack_id == 0)
+survey_bogota_0
 ```
 
 ```{r}
-KMO(motivation)
+# bogota 0 all 13 motivation constructs
+
+motivation_bogota_0 <- survey_bogota_0[c(1:13)]
+motivation_bogota_0
+```
+
+
+
+```{r}
+describe(motivation_bogota_0)
 ```
 
 ```{r}
-lowerCor(motivation)
+KMO(motivation_bogota_0)
+```
+
+```{r}
+lowerCor(motivation_bogota_0)
 ```
 ```{r}
-fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+fa.parallel(motivation_bogota_0[ , -c(1,3,12,13)], fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
 ```
  
 ```{r}
-fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
+fa(r=motivation_bogota_0[ , -c(1,3,12,13)], nfactors=2, rotate='promax', fm='ml')
 ```
 
 ## Interpretation: 
 
-> Cumulative variance now at 55%. "keep_up" moved to "extrinsic" category. 
+> Cumulative variance now at 55%. "get_in_touch" moved to intrinsic category
 
-> Items loaded on ML1 - "excellent_programmer", "introduce_ideas", "get_in_touch", "known_creativity", "keep_up", and "dissatisfaction". 
+> Items loaded on ML1 - "excellent_programmer", "introduce_ideas", "known_creativity", and "dissatisfaction". 
 
-> Items loaded on ML2 - "improve_skills", "test_capability", "enjoy_problems"
+> Items loaded on ML2 - "improve_skills", "test_capability", "enjoy_problems", "get_in_touch"
 
 
 ```{r}
-motivation <- read.table("/Users/jialincheoh/Desktop/bogota_1_motivation.csv", header=TRUE, sep = ",")
-motivation
-```
-```{r}
-describe(motivation)
+# subset of bogota 0
+survey_bogota_1 <- subset(survey, hack_id == 1)
+survey_bogota_1
 ```
 
+
 ```{r}
-KMO(motivation)
-```
-```{r}
-lowerCor(motivation)
-```
-```{r}
-fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+motivation_bogota_1 <- survey_bogota_1[c(1:13)]
+motivation_bogota_1
 ```
 
 ```{r}
-fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
+KMO(motivation_bogota_1)
+```
+
+
+```{r}
+lowerCor(motivation_bogota_1)
+```
+
+
+```{r}
+fa.parallel(motivation_bogota_1[ , -c(1,3,12,13)], fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+```
+
+```{r}
+fa(r=motivation_bogota_1[ , -c(1,3,12,13)], nfactors=2, rotate='oblimin', fm='ml')
 ```
 
 > Cumulative variance now at 55%. enjoy_problems" moved to "extrinsic" category. 
@@ -479,27 +341,35 @@ fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
 
 > Items loaded on ML2 - "improve_skills", "keep_up", "test_capability"
 
+
 ```{r}
-motivation <- read.table("/Users/jialincheoh/Desktop/bogota_2_motivation.csv", header=TRUE, sep = ",")
-motivation
-```
-```{r}
-describe(motivation)
+# subset of bogota 2
+survey_bogota_2 <- subset(survey, hack_id == 2)
+survey_bogota_2
 ```
 
 ```{r}
-KMO(motivation)
+motivation_bogota_2 <- survey_bogota_2[c(1:13)]
+motivation_bogota_2
 ```
 
 ```{r}
-lowerCor(motivation)
-```
-```{r}
-fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+describe(motivation_bogota_2)
 ```
 
 ```{r}
-fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
+KMO(motivation_bogota_2)
+```
+
+```{r}
+lowerCor(motivation_bogota_2)
+```
+```{r}
+fa.parallel(motivation_bogota_2[ , -c(1,3,12,13)], fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+```
+
+```{r}
+fa(r=motivation_bogota_2[ , -c(1,3,12,13)], nfactors=2, rotate='oblimin', fm='ml')
 ```
 > Cumulative variance now at 56%. "excellent_programmer moved to "intrinsic" category. 
 
@@ -508,23 +378,31 @@ fa(r=motivation, nfactors=2, rotate='oblimin', fm='ml')
 > Items loaded on ML2 - "improve_skills", "keep_up", "test_capability", "enjoy_problems", "excellent_programmer"
 
 ```{r}
-motivation <- read.table("/Users/jialincheoh/Desktop/bogota_3_motivation.csv", header=TRUE, sep = ",")
-motivation
-```
-```{r}
-describe(motivation)
+# subset of bogota 3
+survey_bogota_3 <- subset(survey, hack_id == 3)
+survey_bogota_3
 ```
 
 ```{r}
-KMO(motivation)
+motivation_bogota_3 <- survey_bogota_3[c(1:13)]
+motivation_bogota_3
+```
+
+
+```{r}
+describe(motivation_bogota_3)
 ```
 
 ```{r}
-fa.parallel(motivation, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+KMO(motivation_bogota_3)
 ```
 
 ```{r}
-fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
+fa.parallel(motivation_bogota_3[ , -c(1,3,12,13)], fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+```
+
+```{r}
+fa(r=motivation_bogota_3[ , -c(1,3,12,13)], nfactors=2, rotate='promax', fm='ml')
 ```
 
 ### Interpretations: 
@@ -533,10 +411,7 @@ fa(r=motivation, nfactors=2, rotate='promax', fm='ml')
 
 ## Confirmatory Factor Analaysis for Subsample
 
-```{r}
-motivation <- read.table("/Users/jialincheoh/Desktop/bogota_0_motivation.csv", header=TRUE, sep = ",")
-motivation
-```
+
 ```{r}
 # Then we define the model by specifying the relationship between items and factors:
 
@@ -547,37 +422,59 @@ f2 =~ improve_skills + test_capability + enjoy_problems + keep_up'
 
 ```{r}
 library(lavaan)
-model <- cfa(path, data= motivation)
+model <- cfa(path, data= motivation_bogota_0)
 summary(model, fit.measures=TRUE)
-```
-```{r}
-motivation <- read.table("/Users/jialincheoh/Desktop/bogota_1_motivation.csv", header=TRUE, sep = ",")
-motivation
 ```
 
 ```{r}
 library(lavaan)
-model <- cfa(path, data= motivation)
+model <- cfa(path, data= motivation_bogota_1)
 summary(model, fit.measures=TRUE)
 ```
+
+
 ```{r}
-motivation <- read.table("/Users/jialincheoh/Desktop/bogota_2_motivation.csv", header=TRUE, sep = ",")
-motivation
+library(lavaan)
+model <- cfa(path, data= motivation_bogota_2)
+summary(model, fit.measures=TRUE)
 ```
 
 ```{r}
 library(lavaan)
-model <- cfa(path, data= motivation)
+model <- cfa(path, data= motivation_bogota_3)
 summary(model, fit.measures=TRUE)
 ```
+
+
 ```{r}
-motivation <- read.table("/Users/jialincheoh/Desktop/bogota_3_motivation.csv", header=TRUE, sep = ",")
-motivation
+
+## create average factor scores for each person
+
+motivation$f1 = apply(motivation[ , factor1], 1, mean)
+motivation$f2 = apply(motivation[ , factor2], 1, mean)
+summary(motivation)
+
+
 ```
 
 ```{r}
-library(lavaan)
-model <- cfa(path, data= motivation)
-summary(model, fit.measures=TRUE)
+sd(motivation$f1)
+sd(motivation$f2)
+```
+
+
+```{r}
+## create average factor scores for each person
+
+motivation$f1 = apply(motivation[ , factor1], 1, sum)
+motivation$f2 = apply(motivation[ , factor2], 1, sum)
+summary(motivation)
+
+```
+
+```{r}
+sd(motivation$f1)
+sd(motivation$f2)
+
 ```
 
