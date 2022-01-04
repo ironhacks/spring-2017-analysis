@@ -477,4 +477,41 @@ sd(motivation$f1)
 sd(motivation$f2)
 
 ```
+```{r}
+allData <- cbind(motivation, id = survey$hack_id)
+allData
+```
+
+
+```{r}
+# subset of dataframe for anova factor 1
+anova_1 <- allData[c(14, 16)]
+anova_1
+```
+
+
+```{r}
+
+# Performing anova on factor 1
+ANOVA_RESULTS_1 <- aov(f1 ~ id, data=anova_1)
+summary(ANOVA_RESULTS_1)
+```
+
+```{r}
+# subset of dataframe for anova factor 2
+anova_2 <- allData[c(15, 16)]
+anova_2
+```
+
+```{r}
+
+# Performing anova on factor 2
+ANOVA_RESULTS_2 <- aov(f2 ~ id, data=anova_2)
+summary(ANOVA_RESULTS_2)
+
+```
+
+## Interpretation: 
+
+> Factor 1 and Factor 2 are both not significant across the groups. 
 
