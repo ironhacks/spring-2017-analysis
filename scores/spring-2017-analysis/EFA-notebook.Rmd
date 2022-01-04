@@ -174,32 +174,28 @@ all_motivation
 
 > ML2 - "introduce_ideas", "dissatisfaction" [ misc extrinc motivation ]
 
+```{r}
+motivation_9_items <- motivation[ , -c(1,3, 12, 13)]
+motivation_9_items
+```
+
+
 
 ```{r}
-motivation_9_items <- fa.parallel(motivation[ , -c(1,3, 12, 13)], fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
-motivation_9_items
+fa.parallel(motivation_9_items, fm='ml', fa='fa', main="Parallel Analysis Scree Plots", n.iter=100, error.bars=T, sim=F)
+
 ```
 
 ## Interpretation: 
 
 > Parallel analysis suggests that the number of factors =  2 
 
-```{r}
-motivation_9_items = fa(r=motivation[ , -c(1,3,12,13)], nfactors=2, rotate='promax', fm='ml')
-motivation_9_items
-```
-
-
-
-### Interpretation: 
-
-> Parallel analysis suggests that the number of factors = 2
 
 ```{r}
 # remove survey item 1, 3, 12, 13
 # remove "monetary_compensation", "internship", "curious" and "pass_class" 
 
-fa(r=motivation[ , -c(1,3,12,13)], nfactors=2, rotate='promax', fm='ml')
+fa(r=motivation_9_items, nfactors=2, rotate='promax', fm='ml')
 ```
 ### Interpretation: 
 
@@ -243,7 +239,7 @@ finalmodel = fa(r=motivation[ , -c(1,3,12,13)], nfactors=2, rotate='promax', fm=
 ## reliability for the 9 survey items. 
 
 factor1 = c(7, 8, 9, 10)
-factor2 = c(2, 4, 5, 6, 10)
+factor2 = c(2, 4, 5, 6, 11)
 
 psych::alpha(motivation[ , factor1])
 psych::alpha(motivation[ , factor2])
@@ -256,6 +252,18 @@ psych::alpha(motivation[ , factor2])
 
 > raw_alpha for factor 2 is 0.84 which is good
 
+
+```{r}
+## create average factor scores for each person
+
+motivation$f1 = apply(motivation[ , factor1], 1, sum)
+motivation$f2 = apply(motivation[ , factor2], 1, sum)
+summary(motivation)
+```
+
+```{r}
+View(motivation)
+```
 
 ## Validation
 
@@ -409,6 +417,7 @@ fa(r=motivation_bogota_3[ , -c(1,3,12,13)], nfactors=2, rotate='promax', fm='ml'
 
 > Only one item loads on the second factor, best to retain only one factor. 
 
+
 ## Confirmatory Factor Analaysis for Subsample
 
 
@@ -446,37 +455,6 @@ summary(model, fit.measures=TRUE)
 ```
 
 
-```{r}
-
-## create average factor scores for each person
-
-motivation$f1 = apply(motivation[ , factor1], 1, mean)
-motivation$f2 = apply(motivation[ , factor2], 1, mean)
-summary(motivation)
-
-
-```
-
-```{r}
-sd(motivation$f1)
-sd(motivation$f2)
-```
-
-
-```{r}
-## create average factor scores for each person
-
-motivation$f1 = apply(motivation[ , factor1], 1, sum)
-motivation$f2 = apply(motivation[ , factor2], 1, sum)
-summary(motivation)
-
-```
-
-```{r}
-sd(motivation$f1)
-sd(motivation$f2)
-
-```
 ```{r}
 allData <- cbind(motivation, id = survey$hack_id)
 allData
