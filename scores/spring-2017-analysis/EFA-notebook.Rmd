@@ -179,6 +179,26 @@ motivation_9_items <- motivation[ , -c(1,3, 12, 13)]
 motivation_9_items
 ```
 
+```{r}
+correl = cor(motivation_9_items, use = 'pairwise.complete.obs')
+symnum(correl)
+correl
+```
+
+```{r}
+# Conducting Bartlett test
+cortest.bartlett(correl, n=nrow(motivation_9_items))
+```
+
+## Interpretation: 
+
+> p-value is significant which means that the correlation is large enough for us to continue. 
+
+
+```{r}
+KMO(motivation_9_items)
+```
+
 
 
 ```{r}
