@@ -531,12 +531,12 @@ rotated_abs
 ```
 
 ```{r}
-unrotated_abs$solution <- ifelse(rotated_abs$id==1, 0,
+rotated_abs$solution <- ifelse(rotated_abs$id==1, 0,
         ifelse(rotated_abs$id==2, 1,
         ifelse(rotated_abs$id==0, 0,
         ifelse(rotated_abs$id==3, 1, NA))))
 
-unrotated_abs
+rotated_abs
 ```
 
 
@@ -598,6 +598,66 @@ res
 
 > Difference is NOT significant 
 
+
+## Unpaired t-test can be performed as follow on Unrotated PCs Solution Groups:
+
+```{r}
+res<-t.test(unrotated_abs$solution, unrotated_abs$Comp.1 )
+res
+```
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(unrotated_abs$solution, unrotated_abs$Comp.2 )
+res
+```
+## Interpretation: 
+
+> Difference is  significant 
+
+```{r}
+res<-t.test(unrotated_abs$solution, unrotated_abs$Comp.3 )
+res
+```
+
+## Interpretation: 
+
+> Difference is  significant 
+
+```{r}
+res<-t.test(unrotated_abs$solution, unrotated_abs$Comp.4 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(unrotated_abs$solution, unrotated_abs$Comp.5 )
+res
+```
+
+
+## Interpretation: 
+
+> Difference is significant 
+
+
+
+```{r}
+res<-t.test(unrotated_abs$solution, unrotated_abs$Comp.6 )
+res
+```
+
+
+## Interpretation: 
+
+> Difference is NOT significant 
+
+
 ## Unpaired t-test can be performed as follow on Rotated PCs Performance Groups:
 
 ```{r}
@@ -650,6 +710,73 @@ res
 res<-t.test(rotated_abs$performance, rotated_abs$RC6 )
 res
 ```
+
+## Interpretation: 
+
+> Difference is significant 
+
+## Unpaired t-test can be performed as follow on Rotated PCs Solution Groups:
+
+```{r}
+
+res<-t.test(rotated_abs$solution, rotated_abs$RC1 )
+res
+
+```
+
+
+## Interpretation: 
+
+> Difference is significant 
+
+
+```{r}
+res<-t.test(rotated_abs$solution, rotated_abs$RC2 )
+res
+```
+
+
+## Interpretation: 
+
+> Difference is significant 
+
+
+```{r}
+res<-t.test(rotated_abs$solution, rotated_abs$RC3 )
+res
+```
+
+
+## Interpretation: 
+
+> Difference is significant 
+
+
+```{r}
+res<-t.test(rotated_abs$solution, rotated_abs$RC4 )
+res
+```
+
+
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(rotated_abs$solution, rotated_abs$RC5 )
+res
+```
+
+
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(rotated_abs$solution, rotated_abs$RC6 )
+res
+```
+
 
 ## Interpretation: 
 
