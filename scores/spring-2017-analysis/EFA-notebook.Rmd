@@ -513,3 +513,124 @@ summary(ANOVA_RESULTS_2)
 
 > Factor 1 and Factor 2 are both not significant across the groups. 
 
+```{r}
+# Maximum Likelihood Factor Analysis
+# entering raw data and extracting 3 factors,
+# with varimax rotation
+fit <- factanal(motivation, 2, rotation="varimax", scores="Bartlett")
+print(fit, digits=2, cutoff=.3, sort=TRUE)
+# plot factor 1 by factor 2
+load <- fit$loadings[,1:2]
+plot(load,type="n") # set up plot
+text(load,labels=names(motivation),cex=.7) # add variable names
+```
+
+```{r}
+fit_matrix <- fit$scores
+fit_matrix
+```
+
+## PCs as Data Frame from Matrix 
+
+```{r}
+fit_df <- as.data.frame(fit_matrix)
+fit_df
+```
+
+## Combine hack_id with Factor Scores 
+
+```{r}
+overall_fit <- cbind(fit_df, id = survey$hack_id)
+overall_fit
+```
+
+## Combine Performance anmd Solution Groupings. 
+
+```{r}
+overall_fit$performance <- ifelse(overall_fit$id==1, 1,
+        ifelse(overall_fit$id==2, 0,
+        ifelse(overall_fit$id==0, 0,
+        ifelse(overall_fit$id==3, 1, NA))))
+
+overall_fit
+```
+
+```{r}
+overall_fit$solution <- ifelse(overall_fit$id==1, 0,
+        ifelse(overall_fit$id==2, 1,
+        ifelse(overall_fit$id==0, 0,
+        ifelse(overall_fit$id==3, 1, NA))))
+
+overall_fit
+```
+
+
+```{r}
+overall_fit_abs <- abs(overall_fit)
+overall_fit_abs
+```
+
+## ANOVA across all 4 groups for Factor 1
+
+```{r}
+anova_1 <- aov(Factor1 ~ id, data=overall_fit_abs)
+summary(anova_1)
+```
+
+## Interpretation: 
+
+> No significance across all the 4 groups. 
+
+## ANOVA across all 4 groups for Factor 2
+
+```{r}
+anova_2 <- aov(Factor2 ~ id, data=overall_fit_abs)
+summary(anova_2)
+```
+
+## Interpretation: 
+
+> No significance across all the 4 groups. 
+
+
+## Unpaired t-test for Factor 1 [ 2 groups ]
+
+```{r}
+res<-t.test(overall_fit_abs$performance, overall_fit_abs$Factor1 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(overall_fit_abs$solution, overall_fit_abs$Factor1 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
+## Unpaired t-test for Factor 2 [ 2 groups ]
+
+```{r}
+res<-t.test(overall_fit_abs$performance, overall_fit_abs$Factor2 )
+res
+
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(overall_fit_abs$solution, overall_fit_abs$Factor2 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
