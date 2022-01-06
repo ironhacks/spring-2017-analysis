@@ -497,7 +497,161 @@ summary(rotated_6)
 
 > No significance for the rotated PCA across all the 4 groups. 
 
+## Bind recoded performance and solution groups to unrotated PCA results
+
+```{r}
+unrotated_abs$performance <- ifelse(unrotated_abs$id==1, 1,
+        ifelse(unrotated_abs$id==2, 0,
+        ifelse(unrotated_abs$id==0, 0,
+        ifelse(unrotated_abs$id==3, 1, NA))))
+
+unrotated_abs
+```
+
+```{r}
+unrotated_abs$solution <- ifelse(unrotated_abs$id==1, 0,
+        ifelse(unrotated_abs$id==2, 1,
+        ifelse(unrotated_abs$id==0, 0,
+        ifelse(unrotated_abs$id==3, 1, NA))))
+
+unrotated_abs
+```
+
+## Bind recoded performance and solution groups to rotated PCA results
+
+```{r}
 
 
+rotated_abs$performance <- ifelse(rotated_abs$id==1, 1,
+        ifelse(rotated_abs$id==2, 0,
+        ifelse(rotated_abs$id==0, 0,
+        ifelse(rotated_abs$id==3, 1, NA))))
 
+rotated_abs
+```
+
+```{r}
+unrotated_abs$solution <- ifelse(rotated_abs$id==1, 0,
+        ifelse(rotated_abs$id==2, 1,
+        ifelse(rotated_abs$id==0, 0,
+        ifelse(rotated_abs$id==3, 1, NA))))
+
+unrotated_abs
+```
+
+
+## Unpaired t-test can be performed as follow on Unrotated PCs Performance Groups:
+
+> An unpaired t-test (also known as an independent t-test) is a statistical procedure that compares the averages/means of two independent or unrelated groups to determine if there is a significant difference between the two.
+
+```{r}
+res<-t.test(unrotated_abs$performance, unrotated_abs$Comp.1 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(unrotated_abs$performance, unrotated_abs$Comp.2 )
+res
+```
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+## Interpretation: 
+
+res<-t.test(unrotated_abs$performance, unrotated_abs$Comp.3 )
+res
+```
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(unrotated_abs$performance, unrotated_abs$Comp.4 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(unrotated_abs$performance, unrotated_abs$Comp.5 )
+res
+```
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+## Interpretation: 
+
+res<-t.test(unrotated_abs$performance, unrotated_abs$Comp.6 )
+res
+```
+## Interpretation: 
+
+> Difference is NOT significant 
+
+## Unpaired t-test can be performed as follow on Rotated PCs Performance Groups:
+
+```{r}
+res<-t.test(rotated_abs$performance, rotated_abs$RC1 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(rotated_abs$performance, rotated_abs$RC2 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(rotated_abs$performance, rotated_abs$RC3 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(rotated_abs$performance, rotated_abs$RC4 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
+```{r}
+res<-t.test(rotated_abs$performance, rotated_abs$RC5 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
+
+
+```{r}
+res<-t.test(rotated_abs$performance, rotated_abs$RC6 )
+res
+```
+
+## Interpretation: 
+
+> Difference is significant 
 
