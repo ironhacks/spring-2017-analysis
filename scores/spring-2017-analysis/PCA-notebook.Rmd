@@ -136,16 +136,11 @@ head(my.prc$x)
 summary(my.prc)
 ```
 
+## Get the PCA scores for 163 participants 
+
 ```{r}
 pca <- predict(my.prc, newdata=motivation)
 pca
-```
-```{r}
-dim(motivation)
-```
-
-```{r}
-View(motivation)
 ```
 
 ```{r}
@@ -155,9 +150,6 @@ print(my.prc)
 summary(motivation)
 ```
 
-```{r}
-predict(motivation, newdata=tail(motivation, 2))
-```
 
 
 ```{r}
@@ -174,11 +166,11 @@ allData <- cbind(pca_frame[1], id = survey$hack_id)
 allData
 ```
 ```{r}
-allData_abs <- abs(allData)
-allData_abs
+allData_abs_PC1 <- abs(allData)
+allData_abs_PC1
 ```
 ```{r}
-anova_1 <- as.data.frame(allData_abs)
+anova_1 <- as.data.frame(allData_abs_PC1)
 anova_1
 ```
 
@@ -186,6 +178,49 @@ anova_1
 ANOVA_RESULTS_1 <- aov(PC1 ~ id, data=anova_1)
 summary(ANOVA_RESULTS_1)
 ```
+
+## Interpretation
+
+> No difference between all 4 groups for PC1 
+
+
+```{r}
+allData_abs_PC1$performance <- ifelse(allData_abs_PC1$id==1, 1,
+        ifelse(allData_abs_PC1$id==2, 0,
+        ifelse(allData_abs_PC1$id==0, 0,
+        ifelse(allData_abs_PC1$id==3, 1, NA))))
+
+allData_abs_PC1
+```
+
+
+```{r}
+allData_abs_PC1$solution <- ifelse(allData_abs_PC1$id==1, 0,
+        ifelse(allData_abs_PC1$id==2, 1,
+        ifelse(allData_abs_PC1$id==0, 0,
+        ifelse(allData_abs_PC1$id==3, 1, NA))))
+
+allData_abs_PC1
+```
+.
+
+```{r}
+res <- t.test(PC1 ~ performance, data = allData_abs_PC1, var.equal = TRUE)
+res
+```
+## Interpretation: 
+
+> No difference between the two performance groups for PC1
+
+
+```{r}
+res <- t.test(PC1 ~ solution, data = allData_abs_PC1, var.equal = TRUE)
+res
+```
+
+## Interpretation: 
+
+> No difference between the two solution groups for PC1
 
 ```{r}
 allData_PC2 <- cbind(pca_frame[2], id = survey$hack_id)
@@ -206,5 +241,69 @@ anova_2
 ANOVA_RESULTS_2 <- aov(PC2 ~ id, data=anova_2)
 summary(ANOVA_RESULTS_2)
 ```
+
+## Interpretation: 
+
+> No difference between the 4 groups for PC2 
+
+```{r}
+allData_abs_PC2$performance <- ifelse(allData_abs_PC2$id==1, 1,
+        ifelse(allData_abs_PC2$id==2, 0,
+        ifelse(allData_abs_PC2$id==0, 0,
+        ifelse(allData_abs_PC2$id==3, 1, NA))))
+
+allData_abs_PC2
+```
+
  
+```{r}
+allData_abs_PC2$solution <- ifelse(allData_abs_PC2$id==1, 0,
+        ifelse(allData_abs_PC2$id==2, 1,
+        ifelse(allData_abs_PC2$id==0, 0,
+        ifelse(allData_abs_PC2$id==3, 1, NA))))
+
+allData_abs_PC2
+```
+ 
+
+
+## We’ll use F-test to test for homogeneity in variances
+ 
+```{r}
+res.ftest <- var.test(PC2 ~ performance, data = allData_abs_PC2)
+res.ftest
+```
+
+## Interpretation: 
+
+> The p-value of F-test is p = 0.3605. It’s greater than the significance level alpha = 0.05. In conclusion, there is no significant difference between the variances of the two sets of data. Therefore, we can use the classic t-test witch assume equality of the two variances.
+
+```{r}
+res <- t.test(PC2 ~ performance, data = allData_abs_PC2, var.equal = TRUE)
+res
+```
+ 
+## Interpretation: 
+ 
+ > The p-value of the test is 0.476, which is more than the significance level alpha = 0.05. We can conclude that the types of performance groups are NOT significantly different from each other. 
+ 
+## We’ll use F-test to test for homogeneity in variances. 
+ 
+```{r}
+res.ftest <- var.test(PC2 ~ solution, data = allData_abs_PC2)
+res.ftest
+```
+ 
+## Interpretation:
+
+> The p-value of F-test is p = 0.4073. It’s greater than the significance level alpha = 0.05. In conclusion, there is no significant difference between the variances of the two sets of data. Therefore, we can use the classic t-test witch assume equality of the two variances.
+
+```{r}
+res <- t.test(PC2 ~ solution, data = allData_abs_PC2, var.equal = TRUE)
+res
+```
+ 
+## Interpretation: 
+
+> The p-value of the test is 0.8846, which is greater than the significance level alpha = 0.05. We can conclude that the types of solution groups are NOT significantly different from each other. 
  
