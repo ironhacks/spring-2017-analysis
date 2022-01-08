@@ -63,10 +63,7 @@ my.prc
 my.prc$sdev ^ 2
 ```
 
-```{r}
 
-screeplot(my.prc, main="Scree Plot", xlab="Components")
-```
 ```{r}
 # DotPlot PC1
 
@@ -166,6 +163,8 @@ head(my.prc$x)
 pca_frame <- as.data.frame(pca)
 pca_frame
 ```
+
+
 
 ```{r}
 allData <- cbind(pca_frame[1], id = survey$hack_id)
@@ -342,7 +341,7 @@ summary(princomp_output)
 plot(princomp_output,type="lines")
 ```
 
-# Unrotated components with 2 factors
+# Unrotated components with 6 factors
 
 ```{r}
 princomp_output$loadings[, 1:6]
@@ -776,9 +775,112 @@ res
 res<-t.test(rotated_abs$solution, rotated_abs$RC6 )
 res
 ```
-
-
 ## Interpretation: 
 
 > Difference is significant 
+
+```{r}
+## Validation on each bogota group
+motivation_hackid <- cbind(motivation, id = survey$hack_id)
+motivation_hackid
+```
+```{r}
+survey_bogota_0 <- subset(motivation_hackid, id == 0)
+survey_bogota_0
+```
+
+```{r}
+princomp_bogota_0 <- princomp(survey_bogota_0[1:13], scores=TRUE, cor=TRUE)
+summary(princomp_output)
+
+```
+```{r}
+# Unrotated components with 6 factors
+princomp_bogota_0$loadings[, 1:6]
+
+```
+
+```{r}
+biplot(princomp_bogota_0)
+
+```
+```{r}
+survey_bogota_1 <- subset(motivation_hackid, id == 1)
+survey_bogota_1
+```
+```{r}
+princomp_bogota_1 <- princomp(survey_bogota_1[1:13], scores=TRUE, cor=TRUE)
+summary(princomp_bogota_1)
+```
+```{r}
+# Unrotated components with 6 factors
+princomp_bogota_1$loadings[, 1:6]
+```
+```{r}
+biplot(princomp_bogota_1)
+```
+
+```{r}
+survey_bogota_2 <- subset(motivation_hackid, id == 2)
+survey_bogota_2
+```
+
+```{r}
+princomp_bogota_2 <- princomp(survey_bogota_2[1:13], scores=TRUE, cor=TRUE)
+summary(princomp_bogota_2)
+```
+```{r}
+# Unrotated components with 6 factors
+princomp_bogota_2$loadings[, 1:6]
+```
+```{r}
+biplot(princomp_bogota_2)
+```
+
+```{r}
+survey_bogota_3 <- subset(motivation_hackid, id == 3)
+survey_bogota_3
+```
+```{r}
+princomp_bogota_3 <- princomp(survey_bogota_3[1:13], scores=TRUE, cor=TRUE)
+summary(princomp_bogota_3)
+```
+
+```{r}
+# Unrotated components with 6 factors
+princomp_bogota_3$loadings[, 1:6]
+```
+```{r}
+biplot(princomp_bogota_3)
+```
+
+```{r}
+survey_bogota_0[1:13]
+```
+
+```{r}
+# Varimax Rotated Principal Components
+# retaining 6 components
+library(psych)
+fit <- principal(survey_bogota_0[1:13], nfactors=6, rotate="varimax")
+fit # print results
+```
+
+```{r}
+library(psych)
+fit <- principal(survey_bogota_1[1:13], nfactors=6, rotate="varimax")
+fit # print results
+```
+
+```{r}
+library(psych)
+fit <- principal(survey_bogota_2[1:13], nfactors=6, rotate="varimax")
+fit # print results
+```
+
+```{r}
+library(psych)
+fit <- principal(survey_bogota_3[1:13], nfactors=6, rotate="varimax")
+fit # print results
+```
 
