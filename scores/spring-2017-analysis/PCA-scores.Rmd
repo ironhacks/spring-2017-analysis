@@ -1,0 +1,190 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+# Loading required package: psych
+require(psych)
+
+# Loading required package: GPArotation
+require(GPArotation)
+
+library(lattice)
+url <- "/Users/jialincheoh/Desktop/overall_scores.csv"
+scores <- read.csv(url, header=TRUE)
+scores
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r}
+scores_df <- scores[c('improve.vis.15', 'improve.ur.15', 'improve.tech.15', 'improve.novel.15')]
+scores_df
+```
+```{r}
+lowerCor(scores_df)
+```
+
+
+```{r}
+princomp_output <- princomp(scores_df, scores=TRUE, cor=TRUE)
+summary(princomp_output)
+```
+
+```{r}
+plot(princomp_output)
+```
+
+```{r}
+biplot(princomp_output)
+```
+
+```{r}
+princomp_output$loadings[, 1:2]
+```
+
+# Interpretation: 
+
+> improve-vis-15 and improve-ur-15 heavily loaded on component 1 
+
+> improve-tech-15 heavily loaded on component 2
+
+```{r}
+## Print the scores (projections)
+## rotated or transformed dataset
+fit_unrotated_matrix <- princomp_output$scores[, 1:2]
+fit_unrotated_matrix
+```
+
+```{r}
+prcomp_output <- prcomp(scores_df, center = TRUE, scale = TRUE)
+prcomp_output
+```
+
+```{r}
+scores.pca<-cbind(scores_df,prcomp_output$x[,1:2])
+scores.pca
+```
+```{r}
+prcomp_output$rotation[, 1:2]
+```
+
+```{r}
+scores.pca<-cbind(scores.pca,survey[c('Group')])
+scores.pca
+```
+```{r}
+unrotated_1 <- aov(PC1 ~ Group, data=scores.pca)
+summary(unrotated_1)
+```
+
+
+```{r}
+unrotated_2 <- aov(PC2 ~ Group, data=scores.pca)
+summary(unrotated_2)
+```
+
+```{r}
+scores.raw<-cbind(scores_df,survey[c('Group')])
+scores.raw
+```
+```{r}
+unrotated_1 <- aov(improve.vis.15 ~ Group, data=scores.raw)
+summary(unrotated_1)
+```
+
+```{r}
+unrotated_1 <- aov(improve.tech.15 ~ Group, data=scores.raw)
+summary(unrotated_1)
+```
+
+```{r}
+unrotated_1 <- aov(improve.ur.15 ~ Group, data=scores.raw)
+summary(unrotated_1)
+```
+
+```{r}
+unrotated_1 <- aov(improve.novel.15 ~ Group, data=scores.raw)
+summary(unrotated_1)
+```
+
+```{r}
+scores_bogota_0 <- subset(scores.raw, Group == 0)
+scores_bogota_0
+```
+```{r}
+scores_bogota_1 <- subset(scores.raw, Group == 1)
+scores_bogota_1
+```
+
+```{r}
+scores_bogota_2 <- subset(scores.raw, Group == 2)
+scores_bogota_2
+```
+
+```{r}
+scores_bogota_3 <- subset(scores.raw, Group == 3)
+scores_bogota_3
+```
+```{r}
+scores_df_0 <- scores_bogota_0[c('improve.vis.15', 'improve.ur.15', 'improve.tech.15', 'improve.novel.15')]
+scores_df_0
+```
+```{r}
+scores_df_1 <- scores_bogota_1[c('improve.vis.15', 'improve.ur.15', 'improve.tech.15', 'improve.novel.15')]
+scores_df_1
+```
+```{r}
+scores_df_2 <- scores_bogota_2[c('improve.vis.15', 'improve.ur.15', 'improve.tech.15', 'improve.novel.15')]
+scores_df_2
+```
+```{r}
+scores_df_3 <- scores_bogota_3[c('improve.vis.15', 'improve.ur.15', 'improve.tech.15', 'improve.novel.15')]
+scores_df_3
+```
+```{r}
+princomp_output_0 <- princomp(scores_df_0, scores=TRUE, cor=TRUE)
+summary(princomp_output_0)
+```
+
+```{r}
+princomp_output_0$loadings[, 1:2]
+```
+
+```{r}
+princomp_output_1 <- princomp(scores_df_1, scores=TRUE, cor=TRUE)
+summary(princomp_output_1)
+```
+
+```{r}
+princomp_output_1$loadings[, 1:2]
+```
+
+```{r}
+princomp_output_2 <- princomp(scores_df_2, scores=TRUE, cor=TRUE)
+summary(princomp_output_2)
+```
+
+```{r}
+princomp_output_2$loadings[, 1:2]
+```
+
+```{r}
+princomp_output_3 <- princomp(scores_df_3, scores=TRUE, cor=TRUE)
+summary(princomp_output_3)
+```
+
+```{r}
+princomp_output_3$loadings[, 1:2]
+```
+
