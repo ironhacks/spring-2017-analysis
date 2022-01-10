@@ -80,7 +80,15 @@ prcomp_output$rotation[, 1:2]
 ```
 
 ```{r}
-scores.pca<-cbind(scores.pca,survey[c('Group')])
+scores.pca
+```
+
+```{r}
+survey
+```
+
+```{r}
+scores.pca<-cbind(scores.pca,scores[c('Group')])
 scores.pca
 ```
 ```{r}
@@ -95,7 +103,7 @@ summary(unrotated_2)
 ```
 
 ```{r}
-scores.raw<-cbind(scores_df,survey[c('Group')])
+scores.raw<-cbind(scores_df,scores[c('Group')])
 scores.raw
 ```
 ```{r}
@@ -106,6 +114,18 @@ summary(unrotated_1)
 ```{r}
 unrotated_1 <- aov(improve.tech.15 ~ Group, data=scores.raw)
 summary(unrotated_1)
+```
+
+```{r}
+library(psych)
+describeBy(scores.raw$improve.tech.15, scores.raw$Group)
+```
+
+```{r}
+library(ggplot2)
+ggplot(scores.raw,aes(y=improve.tech.15, x=Group, fill=Group))+
+  stat_summary(fun.y="mean", geom="bar",position="dodge")+
+  stat_summary(fun.data = mean_se, geom = "errorbar", position="dodge",width=.8)
 ```
 
 ```{r}

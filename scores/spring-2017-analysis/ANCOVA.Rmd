@@ -1,0 +1,71 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+survey <- read.table("/Users/jialincheoh/Desktop/survey_final_read.csv", header=TRUE, sep = ",", stringsAsFactors=T)
+names(survey)[35] <- "aspiration"
+survey
+```
+
+
+```{r}
+scores
+```
+
+
+```{r}
+ancova_df <- cbind(scores[, c(3, 52)], aspiration = survey$aspiration)
+ancova_df
+```
+```{r}
+library(car)
+aov1 = aov(improve.tech.15 ~ Group + aspiration, ancova_df)
+Anova(aov1 ,type="III")
+```
+
+
+```{r}
+as.factor(ancova_df)
+```
+
+```{r}
+colnames(ancova_df) <- c("Group", "improve.tech.15", "aspiration")
+
+ancova_df$Group <- as.factor(ancova_df$Group)
+ancova_df
+```
+ 
+```{r}
+levels(ancova_df$Group)
+```
+ 
+
+```{r}
+contrast1 = c(-1,-1,1,1)
+contrast2 = c(0, 0,-1,1)
+```
+
+```{r}
+contrasts(ancova_df$Group) = cbind(contrast1, contrast2)
+```
+
+```{r}
+contrasts(ancova_df$Group)
+```
+
+```{r}
+aov1 = aov(improve.tech.15 ~ Group + aspiration, ancova_df)
+```
+
+```{r}
+summary.lm(aov1)
+```
+## Interpretation
+
+> An ANOVA revealed that there was a significant effect of treatment on improve-tech-15 (F(1, 163) = 4.4915, p < 0.03561) while controlling for aspiration. Further investigation of the impact of professors’ ranks on their salaries using planned contrasts revealed that having any sort of solution transparency (solution transparency or full transparency) was associated with a significant increase in improve-tech-15 compared to having no transparency at all or having just performance transparency, t(163) = 2.391, p < 0.018 (two-tailed), but there is no significant difference between solution transparency and full transparency on improve-tech-15. 
