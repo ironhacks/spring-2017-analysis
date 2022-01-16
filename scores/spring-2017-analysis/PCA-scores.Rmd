@@ -21,6 +21,14 @@ scores
 
 ```
 
+
+```{r}
+mean(scores$improve.tech.15)
+```
+
+
+
+
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
 
 When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
@@ -207,4 +215,291 @@ summary(princomp_output_3)
 ```{r}
 princomp_output_3$loadings[, 1:2]
 ```
+
+```{r}
+mean(scores_bogota_0$improve.novel.15)
+```
+
+```{r}
+mean(scores_bogota_1$improve.novel.15)
+```
+
+```{r}
+mean(scores_bogota_2$improve.novel.15)
+```
+
+```{r}
+mean(scores_bogota_3$improve.novel.15)
+```
+
+```{r}
+mean(scores_bogota_0$improve.vis.15)
+```
+
+```{r}
+mean(scores_bogota_1$improve.vis.15)
+```
+
+```{r}
+mean(scores_bogota_2$improve.vis.15)
+```
+
+```{r}
+mean(scores_bogota_3$improve.vis.15)
+```
+
+```{r}
+mean(scores_bogota_0$improve.ur.15)
+```
+
+```{r}
+mean(scores_bogota_1$improve.ur.15)
+```
+
+```{r}
+mean(scores_bogota_2$improve.ur.15)
+```
+
+```{r}
+mean(scores_bogota_3$improve.ur.15)
+```
+
+
+# MANOVA 
+
+```{r}
+scores
+```
+
+```{r}
+scores$performance <- ifelse(scores$Group==1, "Yes",
+        ifelse(scores$Group==2, "No",
+        ifelse(scores$Group==0, "No",
+        ifelse(scores$Group==3, "Yes", NA))))
+
+scores
+```
+
+```{r}
+scores$solution <- ifelse(scores$Group==1, "No",
+        ifelse(scores$Group==2, "Yes",
+        ifelse(scores$Group==0, "No",
+        ifelse(scores$Group==3, "Yes", NA))))
+
+scores
+```
+
+```{r}
+scores_manova <- scores[, c('performance', 'solution', 'improve.tech.15', 'improve.vis.15', 'improve.novel.15', 'improve.ur.15')]
+scores_manova
+```
+
+```{r}
+summary(scores_manova)
+```
+
+## outliers 
+
+```{r}
+cutoff = qchisq(1-.001, ncol(scores_manova[ , c(3: 6)]))
+
+mahal = mahalanobis(scores_manova[, c(3: 6)], colMeans(scores_manova[ , c(3:6 )]), cov(scores_manova[ , c(3:6)]))
+cutoff
+ncol(scores_manova[, c(3: 6)])
+summary(mahal < cutoff)
+```
+
+```{r}
+# exclude outliers
+nout = subset(scores_manova, mahal < cutoff)
+nout
+```
+```{r}
+scores_manova
+```
+```{r}
+## additivity 
+correl = cor(nout[ , c(3:6)], use = "pairwise.complete.obs")
+symnum(correl)
+correl
+```
+```{r}
+# assumption set up 
+
+random = rchisq(nrow(scores_manova), 7)
+fake = lm(random~., data = scores_manova )
+standardized = rstudent(fake)
+fitted = scale(fake$fitted.values)
+
+```
+
+```{r}
+## normality 
+hist(standardized)
+```
+
+```{r}
+## linearity 
+qqnorm(standardized)
+abline(0, 1)
+```
+
+```{r}
+##homogeneity
+
+plot(fitted, standardized)
+abline(0, 0)
+abline(v = 0)
+```
+
+```{r}
+## levens's test 
+library(car)
+leveneTest(improve.tech.15 ~ performance*solution, 
+           data = scores_manova, center = mean)
+```
+```{r}
+leveneTest(improve.vis.15 ~ performance*solution, 
+           data = scores_manova, center = mean)
+```
+
+
+```{r}
+leveneTest(improve.novel.15 ~ performance*solution, 
+           data = scores_manova, center = mean)
+```
+
+
+
+```{r}
+leveneTest(improve.ur.15 ~ performance*solution, 
+           data = scores_manova, center = mean)
+```
+
+```{r}
+## run the manova 
+DV = cbind(scores_manova$improve.tech.15, scores_manova$improve.ur.15, scores_manova$improve.vis.15, scores_manova$improve.novel.15)
+View(DV)
+output = lm(DV ~ performance*solution, data = scores_manova, contrasts = list(performance=contr.sum, solution=contr.sum))
+manova_out = Manova(output, type='III')
+summary(manova_out, multivariate = T)
+```
+## Interpretation: 
+
+> Performance: F(4, 156) = 0.66, p = 0.62, eta squared = 0.017 
+
+> Solution: F(4, 156) = 2.66, p = 0.035, eta squared = 0.064
+
+> Interaction: F(4, 156) = 1.61, eta squared = 0.04 
+
+
+```{r}
+scores_manova$consecutive_numbers<-1:nrow(scores_manova)
+scores_manova
+```
+
+```{r}
+##run the anovas look at the significant effects only
+library(ez)
+ezANOVA(data = scores_manova,
+        dv = improve.tech.15,
+        wid = consecutive_numbers,
+        between = .(performance, solution), 
+        type = 3)
+
+```
+
+```{r}
+library(ez)
+ezANOVA(data = scores_manova,
+        dv = improve.vis.15,
+        wid = consecutive_numbers,
+        between = .(performance, solution), 
+        type = 3)
+```
+
+```{r}
+library(ez)
+ezANOVA(data = scores_manova,
+        dv = improve.novel.15,
+        wid = consecutive_numbers,
+        between = .(performance, solution), 
+        type = 3)
+```
+
+```{r}
+library(ez)
+ezANOVA(data = scores_manova,
+        dv = improve.ur.15,
+        wid = consecutive_numbers,
+        between = .(performance, solution), 
+        type = 3)
+```
+
+# Interpretation: 
+
+> improve-tech-15 
+1. Performance: F(1, 159) = 0.00014, p = 0.97, partial eta squared = 8.909e-06
+2. Solution: F(1,159) = 5.296, p = 0.0227, partial eta squared = 3.223e-02
+
+> improve-vis-15 
+1. Performance: F(1, 159) = 1.162, p = 0.283, partial eta squared = 0.00725
+2. Solution: F(1, 159) = 0.004, p = 0.948, partial eta squared = 0.0000264
+
+> improve-novel-15 
+1. Performance: F(1, 159) = 0.0553, p = 0.814, partial eta squared = 3.476e-04
+2. Solution: F(1, 159) = 0.014, p = 0.905, partial eta squared = 8.993892e-05
+
+```{r}
+tapply(scores_manova$improve.tech.15, list(scores_manova$performance), mean)
+
+```
+
+```{r}
+library(gridExtra)
+p1 <- ggplot(scores_manova, aes(x = plant_var, y = height, fill = plant_var)) + geom_boxplot(outlier.shape = NA) + geom_jitter(width = 0.2) + theme(legend.position="top")
+p2 <- ggplot(df, aes(x = plant_var, y = canopy_vol, fill = plant_var)) + geom_boxplot(outlier.shape = NA) + geom_jitter(width = 0.2) + theme(legend.position="top")
+grid.arrange(p1, p2, ncol=2)
+```
+
+```{r}
+scores_manova
+```
+
+
+```{r}
+dep_vars <- cbind(scores$improve.tech.15, scores$improve.ur.15, scores$improve.novel.15, scores$improve.vis.15)
+fit <- manova(dep_vars ~ Group, data = scores)
+summary(fit)
+                                          
+
+```
+
+```{r}
+library(effectsize)
+effectsize::eta_squared(fit)
+```
+```{r}
+library(MASS)
+post_hoc <- lda(scores$Group ~ dep_vars, CV=F)
+post_hoc
+
+
+```
+```{r}
+scores[, "Group"]
+```
+
+
+```{r}
+plot_lda <- data.frame(scores[, "Group"], lda = predict(post_hoc)$x)
+ggplot(plot_lda) + geom_point(aes(x = lda.LD1, y = lda.LD2, colour = scores$Group), size = 4)
+```
+
+
+
+
+
+
+
 

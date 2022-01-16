@@ -574,6 +574,44 @@ overall_fit_abs <- abs(overall_fit)
 overall_fit_abs
 ```
 
+
+```{r}
+allData <- cbind(survey, overall_fit_abs)
+allData
+```
+
+
+```{r}
+survey_bogota_0 <- subset(allData, hack_id == 0)
+survey_bogota_0
+```
+
+```{r}
+describe(survey_bogota_0$Factor1)
+```
+
+```{r}
+plot(survey_bogota_0$Factor1)
+```
+
+
+## Descriptive Analysis for both factor 1 and factor 2
+
+```{r}
+describe(overall_fit_abs$Factor1)
+```
+
+```{r}
+plot(overall_fit_abs$Factor1)
+```
+```{r}
+describe(overall_fit_abs$Factor2)
+```
+
+```{r}
+plot(overall_fit_abs$Factor2)
+```
+
 ## ANOVA across all 4 groups for Factor 1
 
 ```{r}
@@ -637,4 +675,20 @@ res
 ## Interpretation: 
 
 > Difference is significant 
+
+```{r}
+fa.res<-factanal(x=motivation[1:12], factors=3, rotation='promax')
+print(fa.res, cut=0.5)
+```
+## Interpretation: 
+
+The p-value for the chi-square test is 0.191 which is larger than .05. Therefore,we fail to reject the null hypothesis that the factor model have a good fit to the data.
+
+```{r}
+fa.res<-factanal(x=motivation[1:12], factors=3, rotation='promax', scores='Bartlett')
+head(fa.res$scores)
+```
+```{r}
+summary(lm(Factor2 ~ Factor1, data=as.data.frame(fa.res$scores)))
+```
 
