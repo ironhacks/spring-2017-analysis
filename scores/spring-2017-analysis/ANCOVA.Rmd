@@ -364,8 +364,36 @@ summary(lm(scores_loc$add.loc.sum~scores_loc$Group))
 bogota_3 <- subset(scores_loc, Group == 3)
 bogota_3
 ```
+```{r}
+bogota_2 <- subset(scores_loc, Group == 2)
+bogota_2
+```
 
 ```{r}
-summary(lm(bogota_3$user.requirement.phase5~bogota_3$phase4.clicks.count))
+bogota_1 <- subset(scores_loc, Group == 1)
+bogota_1
+```
+
+
+```{r}
+summary(lm(bogota_3$user.requirement.phase5~bogota_3$sum.clicks.count))
+```
+
+```{r}
+summary(lm(bogota_3$novelty.phase5~bogota_3$sum.clicks.count))
+```
+```{r}
+summary(lm(bogota_2$user.requirement.phase5~bogota_2$sum.clicks.count))
+```
+
+```{r}
+summary(lm(bogota_2$novelty.phase5~bogota_2$sum.clicks.count))
+```
+```{r}
+summary(lm(bogota_1$novelty.phase5~bogota_1$sum.clicks.count))
+```
+
+```{r}
+summary(lm(bogota_2$user.requirement.phase5~bogota_2$sum.clicks.count))
 ```
 
