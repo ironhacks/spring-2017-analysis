@@ -77,6 +77,20 @@ summary(lm(bogota_3$user.requirement.phase5~bogota_3$score.clicks.count))
 > Significant ( 0.0125 *   ) which means a linear relationship exists between the score clicks count in bogota 3 and the user requirement score in phase 5 for bogota 3
 > 0.1655 ( large effect ) based on Cohen (1988)
 
+
+
+```{r}
+summary(lm(bogota_3$novelty.phase5~bogota_3$score.clicks.count))
+```
+# Significant with large effect size 
+
+
+```{r}
+summary(lm(bogota_3$novelty.phase5~bogota_3$project.clicks.count))
+```
+# Not significant 
+
+
 # Bogota 2
 
 
@@ -115,6 +129,40 @@ summary(lm(bogota_1$user.requirement.phase5~bogota_1$sum.clicks.count))
 > 0.3501 ( large effect ) based on Cohen (1988)
 
 
+## Visualization for Significant Scenarios
 
+```{r}
+scatter.smooth(bogota_3$sum.clicks.count, bogota_3$user.requirement.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(bogota_3$user.requirement.phase5~bogota_3$sum.clicks.count), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
 
+```{r}
+scatter.smooth(bogota_3$sum.clicks.count, bogota_3$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(bogota_3$novelty.phase5~bogota_3$sum.clicks.count), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+
+```{r}
+scatter.smooth(bogota_3$score.clicks.count, bogota_3$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(bogota_3$novelty.phase5~bogota_3$score.clicks.count), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+
+```{r}
+scatter.smooth(bogota_1$sum.clicks.count, bogota_1$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(bogota_1$novelty.phase5~bogota_1$sum.clicks.count), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+
+```{r}
+scatter.smooth(bogota_1$sum.clicks.count, bogota_1$user.requirement.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(bogota_1$user.requirement.phase5~bogota_1$sum.clicks.count), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
 

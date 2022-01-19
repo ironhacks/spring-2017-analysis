@@ -138,5 +138,51 @@ summary(lm(bogota_3$user.requirement.phase5~bogota_3$sum.add.loc))
 > Not significant (0.82)
 
 
+## Visualization for Significant Effect for Bogota 1 and Bogota 2 [ Novelty Score ]
+
+```{r}
+scatter.smooth(bogota_2$sum.add.loc, bogota_2$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(bogota_2$novelty.phase5~bogota_2$sum.add.loc), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+
+```{r}
+scatter.smooth(bogota_1$sum.add.loc, bogota_1$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(bogota_1$novelty.phase5~bogota_1$sum.add.loc), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+## Overall Significance between Novelty / User Requirement Score Phase 5 and Total Lines of Codes Added
+
+
+```{r}
+summary(lm(scores_loc$user.requirement.phase5~scores_loc$sum.add.loc))
+```
+## Interpretation: 
+
+> Significant with medium effect size [ user requirement score ]
+
+
+```{r}
+summary(lm(scores_loc$novelty.phase5~scores_loc$sum.add.loc))
+```
+## Interpretation: 
+
+> Significant with large effect size [ Novelty score ]
+
+
+```{r}
+scatter.smooth(scores_loc$sum.add.loc, scores_loc$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(scores_loc$novelty.phase5~scores_loc$sum.add.loc), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+```{r}
+scatter.smooth(scores_loc$sum.add.loc, scores_loc$user.requirement.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(scores_loc$user.requirement.phase5~scores_loc$sum.add.loc), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
 
 

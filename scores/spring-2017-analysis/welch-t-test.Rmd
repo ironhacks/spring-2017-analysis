@@ -94,6 +94,8 @@ may or may not be equal).
 Welch’s t test. Note that alternative = "greater" sets the alternative hypothesis. The
 other options include two.sided and less.
 
+>> Comment - more reliable when the two samples have unequal variances and/or unequal sample sizes
+
 
 ```{r}
 var(scores_loc$novelty.phase5[scores_loc$Group==0])
@@ -115,7 +117,7 @@ t.test(training, control, alternative = 'less')
 ```
 ## Interpretation: 
 
-> Not significant but less than 0.1 
+> Significant for Group 0 and Group 3 ( < 0.05 ), novelty score phase 5
 
 
 ```{r}
@@ -126,7 +128,7 @@ t.test(training, control, alternative = 'less')
 ```
 ## Interpretation: 
 
-> Significant for Group 0 and Group 3, user requirement score phase 5
+> Significant for Group 0 and Group 3 ( < 0.05 ), user requirement score phase 5
 
 ## Independent two-sample t-test on total lines of codes added BETWEEN phase 1 and phase 5 
 
@@ -138,4 +140,4 @@ t.test(training, control, alternative = 'less')
 ```
 ## Interpretation: 
 
-> Significant for Group 2 and Group 3, total lines of codes added BETWEEN phase 1 and phase 5
+> Significant for Group 2 and Group 3 ( < 0.045 ), total lines of codes added BETWEEN phase 1 and phase 5
