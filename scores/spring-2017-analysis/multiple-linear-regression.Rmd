@@ -1,0 +1,91 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+scores_loc <- read.table("/Users/jialincheoh/Downloads/overall_score_click_result.csv", header=TRUE, sep = ",")
+scores_loc
+```
+
+```{r}
+bogota_0 <- subset(scores_loc, Group == 0)
+bogota_0
+```
+```{r}
+bogota_1 <- subset(scores_loc, Group == 1)
+bogota_1
+```
+```{r}
+bogota_2 <- subset(scores_loc, Group == 2)
+bogota_2
+```
+```{r}
+bogota_3 <- subset(scores_loc, Group == 3)
+bogota_3
+```
+> Note: Our choice of using the "user requirement score" and "novelty score" was a wise one. They not only comply with Amabile theory of "novel and useful", but they also the top 2 most important metrics when we run the multiple linear regression. We used the lmg method developed by Lindemann, Merenda and Gold (lmg; 1980). The R package that I used is relaimpo developed by Groemping (2007) that includes the method lmg to calculate the relative importance of predictor. The proportion of variance explained by both "user requirement score" and "novelty score" were rather high. 
+
+> There are different ways to estimate the relative importance of predictors,
+among which the method developed by Lindemann, Merenda and Gold (lmg; 1980) is often
+recommended. lmg calculates the relative contribution of each predictor to the R square with
+the consideration of the sequence of predictors appearing in the model.
+
+> Basic idea of lmg 
+R2 represents the proportion of variance explained by a set of predictors. If one can estimate
+the proportion of the R2 contributed by each individual predictor, the one with larger R2
+would be more important to explain the outcome variable. However, the difficulty lies in how
+to get the R2 for each predictor.The most intuitive way to decompose the total R2
+is to add the predictors to the regression model sequentially. Then, the increased R2
+can be considered as the contribution by the predictor just added. However, this method depends on the sequence the predictors are added if the predictors are correlated.The lmg approach is based on sequential R2 but takes care of the dependence on orderings by averaging over orderings. For example, for a model with 4 predictors, there are a total of 24 orderings. For each ordering, the contributed R2 can be calculated. lmg is the average of the R2 across the 24 orderings
+
+## Overall Multiple Linear Regression 
+
+```{r}
+library('relaimpo')
+gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=scores_loc)
+calc.relimp(gpa.model, rela=TRUE)
+```
+
+## Multiple Linear Regression on Bogota 3
+
+```{r}
+library('relaimpo')
+gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=bogota_3)
+calc.relimp(gpa.model, rela=TRUE)
+```
+## Multiple Linear Regression on Bogota 2
+
+```{r}
+library('relaimpo')
+gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=bogota_2)
+calc.relimp(gpa.model, rela=TRUE)
+```
+## Multiple Linear Regression on Bogota 1
+
+```{r}
+library('relaimpo')
+gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=bogota_1)
+calc.relimp(gpa.model, rela=TRUE)
+```
+
+## Multiple Linear Regression on Bogota 0
+
+```{r}
+library('relaimpo')
+gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=bogota_0)
+calc.relimp(gpa.model, rela=TRUE)
+```
+
+```{r}
+library('relaimpo')
+gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=bogota_3)
+bootresults<-boot.relimp(gpa.model, b=1000)
+ci<-booteval.relimp(bootresults, norank=T)
+ci
+```
+
