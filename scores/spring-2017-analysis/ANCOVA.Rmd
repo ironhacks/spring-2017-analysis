@@ -199,7 +199,7 @@ summary.lm(aov1)
 # MANOVA 
 
 ```{r}
-scores_loc <- read.table("/Users/jialincheoh/Downloads/overall_phase4.csv", header=TRUE, sep = ",")
+scores_loc <- read.table("/Users/jialincheoh/Downloads/overall_score_click_result.csv", header=TRUE, sep = ",")
 scores_loc
 ```
 
@@ -373,6 +373,18 @@ bogota_2
 bogota_1 <- subset(scores_loc, Group == 1)
 bogota_1
 ```
+```{r}
+summary(lm(bogota_3$user.requirement.phase5~bogota_3$score.clicks.count))
+```
+```{r}
+summary(lm(bogota_3$user.requirement.phase5~bogota_3$project.clicks.count))
+```
+```{r}
+summary(lm(bogota_3$novelty.phase5~bogota_3$project.clicks.count))
+```
+```{r}
+summary(lm(bogota_3$novelty.phase5~bogota_3$score.clicks.count))
+```
 
 
 ```{r}
@@ -394,6 +406,6 @@ summary(lm(bogota_1$novelty.phase5~bogota_1$sum.clicks.count))
 ```
 
 ```{r}
-summary(lm(bogota_2$user.requirement.phase5~bogota_2$sum.clicks.count))
+summary(lm(bogota_1$user.requirement.phase5~bogota_1$sum.clicks.count))
 ```
 
