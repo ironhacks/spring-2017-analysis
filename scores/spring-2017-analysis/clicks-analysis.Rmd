@@ -63,15 +63,6 @@ summary(lm(bogota_3$novelty.phase5~bogota_3$sum.clicks.count))
 
 
 ```{r}
-summary(lm(bogota_3$user.requirement.phase5~bogota_3$sum.clicks.count))
-```
-
-## Interpretation: 
-
-> Significant ( 0.00478 **   ) which means a linear relationship exists between the total clicks count in bogota 3 and the user requirement score in phase 5 for bogota 3
-> 0.1868 ( large effect ) based on Cohen (1988)
-
-```{r}
 summary(lm(bogota_3$user.requirement.phase5~bogota_3$project.clicks.count))
 ```
 ## Interpretation: 
@@ -122,6 +113,7 @@ summary(lm(bogota_1$user.requirement.phase5~bogota_1$sum.clicks.count))
 
 > Significant (5.79e-05 *** ) which means a linear relationship exists between the total clicks count in bogota 1 and the user requirment score in phase 5 for bogota 1
 > 0.3501 ( large effect ) based on Cohen (1988)
+
 
 
 

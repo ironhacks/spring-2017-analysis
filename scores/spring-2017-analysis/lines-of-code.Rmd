@@ -139,3 +139,4 @@ summary(lm(bogota_3$user.requirement.phase5~bogota_3$sum.add.loc))
 
 
 
+
