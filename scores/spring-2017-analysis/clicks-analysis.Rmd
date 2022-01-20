@@ -128,8 +128,31 @@ summary(lm(bogota_1$user.requirement.phase5~bogota_1$sum.clicks.count))
 > Significant (5.79e-05 *** ) which means a linear relationship exists between the total clicks count in bogota 1 and the user requirment score in phase 5 for bogota 1
 > 0.3501 ( large effect ) based on Cohen (1988)
 
+## Overall Group Click Analysis on User Requirement Score Phase 5
 
-## Visualization for Significant Scenarios
+```{r}
+summary(lm(scores_loc$user.requirement.phase5~scores_loc$sum.clicks.count))
+```
+```{r}
+summary(lm(scores_loc$user.requirement.phase5~scores_loc$project.clicks.count))
+```
+```{r}
+summary(lm(scores_loc$user.requirement.phase5~scores_loc$score.clicks.count))
+```
+
+## Overall Group Click Analysis on Novelty Score Phase 5
+
+```{r}
+summary(lm(scores_loc$novelty.phase5~scores_loc$sum.clicks.count))
+```
+```{r}
+summary(lm(scores_loc$novelty.phase5~scores_loc$project.clicks.count))
+```
+```{r}
+summary(lm(scores_loc$novelty.phase5~scores_loc$score.clicks.count))
+```
+
+## Visualization for Significant Scenarios in Subgroups
 
 ```{r}
 scatter.smooth(bogota_3$sum.clicks.count, bogota_3$user.requirement.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
@@ -162,6 +185,49 @@ lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
 ```{r}
 scatter.smooth(bogota_1$sum.clicks.count, bogota_1$user.requirement.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
 abline(lm(bogota_1$user.requirement.phase5~bogota_1$sum.clicks.count), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+
+## Visualization for Significant Scenarios in Overall Groups 
+
+
+```{r}
+scatter.smooth(scores_loc$sum.clicks.count, scores_loc$user.requirement.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(scores_loc$user.requirement.phase5~scores_loc$sum.clicks.count), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+
+```{r}
+scatter.smooth(scores_loc$project.clicks.count, scores_loc$user.requirement.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(scores_loc$user.requirement.phase5~scores_loc$project.clicks.count), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+
+```{r}
+scatter.smooth(scores_loc$score.clicks.count, scores_loc$user.requirement.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(scores_loc$user.requirement.phase5~scores_loc$score.clicks.count), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+```{r}
+scatter.smooth(scores_loc$sum.clicks.count, scores_loc$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(scores_loc$novelty.phase5~scores_loc$sum.clicks.count), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+
+```{r}
+scatter.smooth(scores_loc$project.clicks.count, scores_loc$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(scores_loc$novelty.phase5~scores_loc$project.clicks.count), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+```{r}
+scatter.smooth(scores_loc$score.clicks.count, scores_loc$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(scores_loc$novelty.phase5~scores_loc$score.clicks.count), col='red',lwd=3)
 legend('topright', c('Linear','Smoothing'),
 lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
 ```

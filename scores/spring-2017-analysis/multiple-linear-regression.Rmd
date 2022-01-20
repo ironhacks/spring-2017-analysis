@@ -47,7 +47,7 @@ can be considered as the contribution by the predictor just added. However, this
 
 ```{r}
 library('relaimpo')
-gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=scores_loc)
+gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + infovis.phase5, data=scores_loc)
 calc.relimp(gpa.model, rela=TRUE)
 ```
 
@@ -55,21 +55,21 @@ calc.relimp(gpa.model, rela=TRUE)
 
 ```{r}
 library('relaimpo')
-gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=bogota_3)
+gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + infovis.phase5, data=bogota_3)
 calc.relimp(gpa.model, rela=TRUE)
 ```
 ## Multiple Linear Regression on Bogota 2
 
 ```{r}
 library('relaimpo')
-gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=bogota_2)
+gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + infovis.phase5, data=bogota_2)
 calc.relimp(gpa.model, rela=TRUE)
 ```
 ## Multiple Linear Regression on Bogota 1
 
 ```{r}
 library('relaimpo')
-gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=bogota_1)
+gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + infovis.phase5, data=bogota_1)
 calc.relimp(gpa.model, rela=TRUE)
 ```
 
@@ -77,15 +77,8 @@ calc.relimp(gpa.model, rela=TRUE)
 
 ```{r}
 library('relaimpo')
-gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=bogota_0)
+gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + infovis.phase5, data=bogota_0)
 calc.relimp(gpa.model, rela=TRUE)
 ```
 
-```{r}
-library('relaimpo')
-gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + tech.phase5 + infovis.phase5, data=bogota_3)
-bootresults<-boot.relimp(gpa.model, b=1000)
-ci<-booteval.relimp(bootresults, norank=T)
-ci
-```
 
