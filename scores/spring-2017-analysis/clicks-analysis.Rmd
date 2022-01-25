@@ -9,7 +9,7 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) for the clicks analysis of
 
 > Significant tests show if a linear relationship exists but not the strength of the relationship. The coefficient of determination, R2, is a descriptive measure of the strength of the
 regression relationship, a measure on how well the regression line fits the data. In general the
-higher the value of R2, the better the model fits the data.
+higher the value of R2, the better the model fits the data.b
 • R2 = 1: Perfect match between the line and the data points.
 • R2 = 0: There are no linear relationship between x and y.
 R2
@@ -231,4 +231,41 @@ abline(lm(scores_loc$novelty.phase5~scores_loc$score.clicks.count), col='red',lw
 legend('topright', c('Linear','Smoothing'),
 lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
 ```
+## Descriptive Statistics for Clicks 
+
+```{r}
+library(Rmisc)
+library(ggplot2)
+summary(bogota_1['score.clicks.count'])
+```
+```{r}
+library(Rmisc)
+library(ggplot2)
+summary(bogota_2['project.clicks.count'])
+```
+```{r}
+library(Rmisc)
+library(ggplot2)
+summary(bogota_3['project.clicks.count'])
+```
+```{r}
+library(Rmisc)
+library(ggplot2)
+summary(bogota_3['score.clicks.count'])
+```
+```{r}
+training<-bogota_3$project.clicks.count
+control<-bogota_2$project.clicks.count
+mean(training, na.rm=T)-mean(control, na.rm=T)
+t.test(training, control, alternative = 'greater')
+```
+
+```{r}
+training<-bogota_3$project.clicks.hacker
+control<-bogota_2$project.clicks.hacker
+mean(training, na.rm=T)-mean(control, na.rm=T)
+t.test(training, control, alternative = 'greater')
+```
+
+
 

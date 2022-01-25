@@ -48,8 +48,14 @@ can be considered as the contribution by the predictor just added. However, this
 ```{r}
 library('relaimpo')
 gpa.model<-lm(total.phase5~tech.phase5 + novelty.phase5 + user.requirement.phase5 + infovis.phase5, data=scores_loc)
+summary(gpa.model)
+```
+
+```{r}
 calc.relimp(gpa.model, rela=TRUE)
 ```
+
+
 
 ## Multiple Linear Regression on Bogota 3
 

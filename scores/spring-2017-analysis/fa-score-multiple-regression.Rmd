@@ -86,11 +86,11 @@ gpa.model<-lm(novelty.phase5~intrinsic.motivation + extrinsic.motivation, data=r
 calc.relimp(gpa.model, rela=TRUE)
 ```
 ```{r}
-regdata <- cbind(scores_loc[, c(3,4,86,87,88,89)], fa1$scores)
+regdata <- cbind(scores_loc[, c(3,4,6,86,87,88,89)], fa1$scores)
 
 #Labeling the data
 
-names(regdata) <- c("Group", "user.requirement.phase5", "sum.clicks.count", "sum.add.loc", "project.clicks.count", "score.clicks.count", "intrinsic.motivation", "extrinsic.motivation")
+names(regdata) <- c("Group", "user.requirement.phase5", "novelty.phase5", "sum.clicks.count", "sum.add.loc", "project.clicks.count", "score.clicks.count", "intrinsic.motivation", "extrinsic.motivation")
 head(regdata)
 ```
 
@@ -99,5 +99,13 @@ library('relaimpo')
 gpa.model<-lm(user.requirement.phase5~intrinsic.motivation + extrinsic.motivation + sum.add.loc + Group + sum.clicks.count + project.clicks.count + score.clicks.count, data=regdata)
 calc.relimp(gpa.model, rela=TRUE)
 ```
+```{r}
+library('relaimpo')
+gpa.model<-lm(novelty.phase5~ Group, data=regdata)
+summary(gpa.model)
+```
 
+```{r}
+calc.relimp(gpa.model, rela=TRUE)
+```
 
