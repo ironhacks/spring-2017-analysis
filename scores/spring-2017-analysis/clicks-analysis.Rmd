@@ -267,5 +267,11 @@ mean(training, na.rm=T)-mean(control, na.rm=T)
 t.test(training, control, alternative = 'greater')
 ```
 
+```{r}
+training<-bogota_3$unique_apps
+control<-bogota_2$unique_apps
+mean(training, na.rm=T)-mean(control, na.rm=T)
+t.test(training, control, alternative = 'greater')
+```
 
 
