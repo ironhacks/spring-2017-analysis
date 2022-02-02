@@ -141,3 +141,38 @@ t.test(training, control, alternative = 'less')
 ## Interpretation: 
 
 > Significant for Group 2 and Group 3 ( < 0.045 ), total lines of codes added BETWEEN phase 1 and phase 5
+
+```{r}
+scores_loc
+```
+```{r}
+#perform Bartlett's test
+bartlett.test(novelty.phase5 ~ Group, data = scores_loc)
+```
+
+```{r}
+#perform Welch's ANOVA
+oneway.test(novelty.phase5 ~ Group, data = scores_loc, var.equal = FALSE)
+```
+
+```{r}
+#perform Welch's ANOVA
+oneway.test(total.phase5 ~ Group, data = scores_loc, var.equal = FALSE)
+```
+
+```{r}
+#perform Welch's ANOVA
+oneway.test(user.requirement.phase5 ~ Group, data = scores_loc, var.equal = FALSE)
+```
+
+ˆ
+```{r}
+#perform Welch's ANOVA
+oneway.test(tech.phase5 ~ Group, data = scores_loc, var.equal = FALSE)
+```
+
+```{r}
+#perform Welch's ANOVA
+oneway.test(infovis.phase5 ~ Group, data = scores_loc, var.equal = FALSE)
+```
+
