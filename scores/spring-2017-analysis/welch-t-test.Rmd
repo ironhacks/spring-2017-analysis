@@ -8,7 +8,8 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-
+scores_loc <- read.table("/Users/jialincheoh/Downloads/overall_score_click_result.csv", header=TRUE, sep = ",")
+scores_loc
 ```
 ## Effects of training and gender on the memory test performance
 
@@ -132,14 +133,14 @@ t.test(training, control, alternative = 'less')
 ## Independent two-sample t-test on total lines of codes added BETWEEN phase 1 and phase 5 
 
 ```{r}
-training<-scores_loc$sum.add.loc[scores_loc$Group==2]
-control<-scores_loc$sum.add.loc[scores_loc$Group==3]
+training<-scores_loc$sum.add.loc[scores_loc$Group==3]
+control<-scores_loc$sum.add.loc[scores_loc$Group==2]
 mean(training, na.rm=T)-mean(control, na.rm=T)
-t.test(training, control, alternative = 'less')
+t.test(training, control, alternative = 'greater')
 ```
 ## Interpretation: 
 
-> Significant for Group 2 and Group 3 ( < 0.045 ), total lines of codes added BETWEEN phase 1 and phase 5
+> Significant for Group 2 and Group 3 ( < 0.05 ), total lines of codes added BETWEEN phase 1 and phase 5
 
 ```{r}
 scores_loc
