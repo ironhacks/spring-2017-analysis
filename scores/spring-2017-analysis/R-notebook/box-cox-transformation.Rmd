@@ -1,0 +1,306 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+scores_loc <- read.table("/Users/jialincheoh/Downloads/overall_score_click_result.csv", header=TRUE, sep = ",")
+scores_loc
+```
+```{r}
+scores_novelty <- scores_loc[, c('Group', 'novelty.phase5')]
+scores_novelty                         
+```
+```{r}
+library(onewaytests)
+charac <- as.character(scores_novelty$Group)
+bf.test(novelty.phase5 ~ charac, scores_novelty)
+```
+
+
+```{r}
+lmnovelty <- lm(novelty.phase5 ~ Group, scores_novelty)
+plot(lmnovelty)
+```
+```{r}
+lmtest::bptest(lmnovelty)  
+```
+
+```{r}
+car::ncvTest(lmnovelty)  
+```
+
+```{r}
+# Not normal which is a BIG problem
+shapiro.test(residuals(lmnovelty))
+```
+
+## Assumptions. Student's t-test assumes that the population parameter being compared for two populations is normally distributed, and that the populations have equal variances. Welch's t-test is designed for unequal population variances, but the assumption of normality is maintained.
+
+```{r}
+scores_novelty$novelty.phase5[scores_novelty$novelty.phase5==0] <- 0.00000000001
+```
+
+
+```{r}
+library(MASS)
+bcmle <- boxcox(lm(novelty.phase5~Group, data=scores_novelty), lambda=seq(-3, 3, by=0.1))
+lambda<-bcmle$x[which.max(bcmle$y)]
+lambda
+
+```
+```{r}
+scores_novelty$novelty.phase5
+```
+
+
+```{r}
+fullmodel.inv = lm((novelty.phase5)^0.1010101 ~ Group, data=scores_novelty )
+plot(fullmodel.inv)
+
+```
+
+```{r}
+shapiro.test(residuals(fullmodel.inv))
+```
+
+```{r}
+summary(lmnovelty)
+```
+
+```{r}
+lmtotal <- lm(total.phase5 ~ Group, scores_loc)
+summary(lmtotal)
+```
+
+```{r}
+lmtotal <- lm(total.phase5 ~ Group, scores_loc)
+summary(lmtotal)
+plot(lmtotal)
+```
+
+```{r}
+shapiro.test(residuals(lmtotal))
+```
+
+```{r}
+ wilcox.test(scores_loc$total.phase5, scores_loc$Group, data=bogota_23) 
+```
+
+```{r}
+ wilcox.test(scores_loc$Group, scores_loc$novelty.phase5) 
+```
+
+```{r}
+ wilcox.test(scores_loc$Group, scores_loc$user.requirement.phase5) 
+```
+
+```{r}
+ wilcox.test(scores_loc$Group, scores_loc$tech.phase5) 
+```
+
+```{r}
+pairwise.wilcox.test(scores_loc$total.phase5, scores_loc$Group,
+                 p.adjust.method = "BH")
+```
+
+
+```{r}
+kruskal.test(total.phase5 ~ Group, data = scores_loc)
+```
+
+```{r}
+bogota_23 <- scores_loc[ which( scores_loc$Group == 2 | scores_loc$Group == 3) , ]
+bogota_23
+```
+
+```{r}
+kruskal.test(novelty.phase5 ~ Group, data = bogota_23)
+```
+
+```{r}
+ wilcox.test(bogota_23$Group, bogota_23$total.phase5) 
+```
+
+```{r}
+library(AID)
+library(onewaytests)
+nor.test(novelty.phase5 ~ charac, data = scores_loc) 
+
+```
+```{r}
+homog.test(total.phase5 ~ charac, data = scores_loc, method = "Fligner")
+```
+
+
+```{r}
+scores_loc$total.phase5[scores_loc$total.phase5==0] <- 0.00000000001
+```
+
+
+```{r}
+out <- boxcoxfr(scores_loc$novelty.phase5, scores_loc$Group) 
+```
+
+```{r}
+zero <- scores_loc[scores_loc$total.phase5 != 0.00000000001, ]
+zero
+```
+```{r}
+lmtotal_revise <- lm(total.phase5 ~ Group, data=zero)
+plot(lmtotal_revise)
+```
+
+
+
+
+```{r}
+library(AID)
+library(onewaytests)
+nor.test(total.phase5 ~ as.character(Group), data = zero) 
+```
+```{r}
+homog.test(total.phase5 ~ as.character(Group), data = zero, method = "Fligner")
+```
+
+```{r}
+out <- boxcoxfr(zero$total.phase5, zero$Group) 
+```
+```{r}
+result<-aov.test(total.phase5 ~ as.character(Group), data = zero) 
+```
+
+```{r}
+pairwise.wilcox.test(zero$total.phase5, zero$Group,
+                 p.adjust.method = "BH")
+```
+
+```{r}
+kruskal.test(total.phase5 ~ Group, data = zero)
+```
+
+```{r}
+wilcox.test(bogota_23$total.phase5, bogota_23$Group)$p.value
+```
+
+```{r}
+wilcox.test(bogota_23$novelty.phase5, bogota_23$Group)$p.value
+```
+
+```{r}
+wilcox.test(bogota_23$user.requirement.phase5, bogota_23$Group)$p.value
+```
+
+```{r}
+wilcox.test(bogota_23$infovis.phase5, bogota_23$Group)$p.value
+```
+
+
+
+```{r}
+# Plot weight by group and color by group
+library("ggpubr")
+ggboxplot(bogota_23, x = "Group", y = "total.phase5", 
+          color = "Group",
+          ylab = "total.phase5", xlab = "Group")
+```
+
+```{r}
+# Plot weight by group and color by group
+library("ggpubr")
+ggboxplot(bogota_23, x = "Group", y = "total.phase5", 
+          color = "Group",
+          ylab = "total.phase5", xlab = "Group")
+```
+
+```{r}
+# Plot weight by group and color by group
+library("ggpubr")
+ggboxplot(bogota_23, x = "Group", y = "novelty.phase5", 
+          color = "Group",
+          ylab = "novelty.phase5", xlab = "Group")
+```
+
+```{r}
+# Plot weight by group and color by group
+library("ggpubr")
+ggboxplot(bogota_23, x = "Group", y = "user.requirement.phase5", 
+          color = "Group",
+          ylab = "user.requirement.phase5", xlab = "Group")
+```
+
+```{r}
+# Plot weight by group and color by group
+library("ggpubr")
+ggboxplot(bogota_23, x = "Group", y = "tech.phase5", 
+          color = "Group",
+          ylab = "tech.phase5", xlab = "Group")
+```
+```{r}
+# Plot weight by group and color by group
+library("ggpubr")
+ggboxplot(bogota_23, x = "Group", y = "infovis.phase5",
+          color = "Group",
+          ylab = "infovis.phase5", xlab = "Group")
+```
+```{r}
+kruskal.test( novelty.phase5 ~ Group, data = bogota_23)
+```
+
+```{r}
+kruskal.test( total.phase5 ~ Group, data = bogota_23)
+```
+
+
+```{r}
+bogota_23
+```
+```{r}
+bogota_23$novelty.phase5[bogota_23$novelty.phase5==0] <- 0.00000000001
+```
+
+
+
+```{r}
+library(MASS)
+bcmle <- boxcox(lm(novelty.phase5~Group, data=bogota_23), lambda=seq(-3, 3, by=0.1))
+lambda<-bcmle$x[which.max(bcmle$y)]
+lambda
+
+```
+```{r}
+fullmodel.inv = lm((novelty.phase5)^0.1515 ~ Group, data=bogota_23 )
+plot(fullmodel.inv)
+```
+```{r}
+shapiro.test(residuals(fullmodel.inv))
+```
+
+```{r}
+shapiro.test(residuals(lm(novelty.phase5 ~ Group, data=bogota_23)))
+```
+
+```{r}
+shapiro.test(residuals(lm(total.phase5 ~ Group, data=bogota_23)))
+```
+
+```{r}
+# Plot weight by group and color by group
+library("ggpubr")
+ggboxplot(bogota_23, x = "Group", y = "tech.phase5", 
+          color = "Group",
+          ylab = "tech.phase5", xlab = "Group")
+```
+
+```{r}
+bogota_23$infovis.phase5
+```
+
+```{r}
+kruskal.test( novelty.phase5 ~ Group, data = bogota_23)
+```
+

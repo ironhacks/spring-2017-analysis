@@ -1,0 +1,113 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+# Read in all survey items from raw Qualtrics data
+survey <- read.table("/Users/jialincheoh/Desktop/survey_final_read.csv", header=TRUE, sep = ",")
+survey
+```
+
+```{r}
+# Rename all columns for motivation construct 
+names(survey)[1:13] <- c("monetary_compensation", "excellent_programmer", "internship", 
+                         "introduce_ideas", "get_in_touch", "known_creativity", "improve_skills", 
+                         "test_capability", "enjoy_problems", "keep_up", "dissatisfaction", "curious", "pass_class")
+survey
+```
+
+```{r}
+library('psych')
+#Rotated:
+fa1<- fa(r=survey[1:13], nfactors = 2, rotate="promax",fm="ml")
+print(fa1)
+```
+
+```{r}
+fa1$loadings
+```
+
+```{r}
+#Print the factors diagram
+fa.diagram(fa1, cut=0.4)
+```
+
+```{r}
+fa1$scores
+```
+
+```{r}
+scores_loc <- read.table("/Users/jialincheoh/Downloads/overall_score_click_result.csv", header=TRUE, sep = ",")
+scores_loc
+```
+
+
+
+```{r}
+
+regdata <- cbind(scores_loc[6], fa1$scores)
+
+#Labeling the data
+
+names(regdata) <- c("novelty.phase5","intrinsic.motivation", "extrinsic.motivation")
+head(regdata)
+```
+
+```{r}
+#Regression Model using train data
+model1 = lm(novelty.phase5~. , train)
+summary(model1)
+```
+> The factor intrinsic motivation is highly significant and extrinsic motivation is not significant in the model.
+
+```{r}
+library(car)
+vif(model1)
+
+```
+
+
+> multicollinearity is high so not suitable for regression
+
+```{r}
+summary(lm(regdata$extrinsic.motivation~regdata$intrinsic.motivation))
+```
+
+> significantly related with large effect size
+
+```{r}
+library('relaimpo')
+gpa.model<-lm(novelty.phase5~intrinsic.motivation + extrinsic.motivation, data=regdata)
+calc.relimp(gpa.model, rela=TRUE)
+```
+```{r}
+regdata <- cbind(scores_loc[, c(3,4,6,86,87,88,89)], fa1$scores)
+
+#Labeling the data
+
+names(regdata) <- c("Group", "user.requirement.phase5", "novelty.phase5", "sum.clicks.count", "sum.add.loc", "project.clicks.count", "score.clicks.count", "intrinsic.motivation", "extrinsic.motivation")
+head(regdata)
+```
+
+```{r}
+library('relaimpo')
+gpa.model<-lm(user.requirement.phase5~intrinsic.motivation + extrinsic.motivation + sum.add.loc + Group + sum.clicks.count + project.clicks.count + score.clicks.count, data=regdata)
+calc.relimp(gpa.model, rela=TRUE)
+```
+```{r}
+library('relaimpo')
+gpa.model<-lm(novelty.phase5~ Group, data=regdata)
+summary(gpa.model)
+```
+
+```{r}
+calc.relimp(gpa.model, rela=TRUE)
+```
+
+
+
