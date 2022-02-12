@@ -8,7 +8,7 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-scores_loc <- read.table("/Users/jialincheoh/Downloads/overall_score_click_result.csv", header=TRUE, sep = ",")
+scores_loc <- read.table("/Users/jialincheoh/analysis-2017/scores/spring-2017-analysis/data/overall_score_click_result.csv", header=TRUE, sep = ",")
 scores_loc
 ```
 ```{r}
@@ -21,21 +21,24 @@ charac <- as.character(scores_novelty$Group)
 bf.test(novelty.phase5 ~ charac, scores_novelty)
 ```
 
+# Variance is constant. One of ANOVA conditions fulfilled. 
 
 ```{r}
 lmnovelty <- lm(novelty.phase5 ~ Group, scores_novelty)
 plot(lmnovelty)
 ```
 ```{r}
+# constant variance
 lmtest::bptest(lmnovelty)  
 ```
 
 ```{r}
+# constant variance
 car::ncvTest(lmnovelty)  
 ```
 
 ```{r}
-# Not normal which is a BIG problem
+# Normality violated
 shapiro.test(residuals(lmnovelty))
 ```
 
@@ -65,14 +68,28 @@ plot(fullmodel.inv)
 ```
 
 ```{r}
+# Normality still violated after Box-Cox transformations
 shapiro.test(residuals(fullmodel.inv))
 ```
+
+```{r}
+anova(lmnovelty)
+```
+
+
+```{r}
+noveltyF.mod <- lm(novelty.phase5 ~ as.factor(Group), scores_loc)
+anova(lmnovelty, noveltyF.mod)
+
+```
+
 
 ```{r}
 summary(lmnovelty)
 ```
 
 ```{r}
+# There is a linear impact of total.phase5 on Group
 lmtotal <- lm(total.phase5 ~ Group, scores_loc)
 summary(lmtotal)
 ```
@@ -82,6 +99,14 @@ lmtotal <- lm(total.phase5 ~ Group, scores_loc)
 summary(lmtotal)
 plot(lmtotal)
 ```
+```{r}
+totalF.mod <- lm(total.phase5 ~ as.factor(Group), scores_loc)
+anova(lmtotal, totalF.mod)
+
+```
+
+
+
 
 ```{r}
 shapiro.test(residuals(lmtotal))
