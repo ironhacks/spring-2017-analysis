@@ -1,0 +1,188 @@
+---
+title: "Lines of Code Analysis"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) for Lines of Code Analysis Spring 2017. We fit a regression model between the predictor which is the lines of codes added and the novelty score / user requirement score at phase 5 as the outcome variable. 
+
+## Notes 
+
+> Significant tests show if a linear relationship exists but not the strength of the relationship. The coefficient of determination, R2, is a descriptive measure of the strength of the
+regression relationship, a measure on how well the regression line fits the data. In general the
+higher the value of R2, the better the model fits the data.
+• R2 = 1: Perfect match between the line and the data points.
+• R2 = 0: There are no linear relationship between x and y.
+R2
+is an effect size measure. Cohen (1988) defined some standards for interpreting R2
+.
+• R2 = .01: Small effect
+• R2 = .06: Medium effect
+• R2 = .15: Large effect.
+
+```{r}
+scores_loc <- read.table("/Users/jialincheoh/Downloads/overall_score_click_result.csv", header=TRUE, sep = ",")
+scores_loc
+```
+## Overall without Subset 
+
+```{r}
+summary(lm(scores_loc$novelty.phase5~scores_loc$sum.add.loc))
+```
+## Interpretation: 
+
+> Significant ( 1.02e-05 *** ) which means a linear relationship exists between the lines of codes added and the novelty score in phase 5 
+> 0.1142 ( large effect ) based on Cohen (1988)
+
+
+```{r}
+summary(lm(scores_loc$user.requirement.phase5~scores_loc$sum.add.loc))
+```
+## Interpretation
+
+> Significant ( 0.00543 **  ) which means a linear relationship exists between the lines of codes added and the user requirement score in phase 5 
+>  0.04703 ( medium effect ) based on Cohen (1988)
+
+##Subset Bogota 3, Bogota 2, Bogota 1
+
+```{r}
+bogota_3 <- subset(scores_loc, Group == 3)
+bogota_3
+```
+
+
+```{r}
+bogota_2 <- subset(scores_loc, Group == 2)
+bogota_2
+```
+
+```{r}
+bogota_1 <- subset(scores_loc, Group == 1)
+bogota_1
+```
+```{r}
+bogota_0 <- subset(scores_loc, Group == 0)
+bogota_0
+```
+## Bogota 0 
+
+```{r}
+summary(lm(bogota_0$user.requirement.phase5~bogota_0$sum.add.loc))
+```
+## Interpretation: 
+
+> Significant (  0.015262 *  ) which means a linear relationship exists between the lines of codes added and the user requirement score in phase 5 
+> 0.1452 ( large effect ) based on Cohen (1988)
+
+
+
+```{r}
+summary(lm(bogota_0$novelty.phase5~bogota_0$sum.add.loc))
+```
+## Interpretation: 
+
+> Significant (  0.0097 ** ) which means a linear relationship exists between the lines of codes added and the novelty score in phase 5 
+> 0.1633 ( large effect ) based on Cohen (1988)
+
+
+## Bogota 1
+
+```{r}
+summary(lm(bogota_1$novelty.phase5~bogota_1$sum.add.loc))
+```
+## Interpretation: 
+
+> Significant (   0.0141 * ) which means a linear relationship exists between the lines of codes added and the novelty score in phase 5 
+> 0.1484 ( large effect ) based on Cohen (1988)
+
+
+```{r}
+summary(lm(bogota_1$user.requirement.phase5~bogota_1$sum.add.loc))
+```
+## Interpretation: 
+
+> Not significant (0.0949)
+
+
+## Bogota 2
+
+```{r}
+summary(lm(bogota_2$novelty.phase5~bogota_2$sum.add.loc))
+```
+## Interpretation: 
+
+> Significant (  0.0313 * ) which means a linear relationship exists between the lines of codes added and the novelty score in phase 5 
+> 0.1107 ( large effect ) based on Cohen (1988)
+
+
+```{r}
+summary(lm(bogota_2$user.requirement.phase5~bogota_2$sum.add.loc))
+```
+## Interpretation: 
+
+> Not significant (0.0617 )
+
+## Bogota 3
+
+```{r}
+summary(lm(bogota_3$novelty.phase5~bogota_3$sum.add.loc))
+```
+## Interpretation: 
+
+> Not significant (0.0753)
+
+```{r}
+summary(lm(bogota_3$user.requirement.phase5~bogota_3$sum.add.loc))
+```
+## Interpretation: 
+
+> Not significant (0.82)
+
+
+## Visualization for Significant Effect for Bogota 1 and Bogota 2 [ Novelty Score ]
+
+```{r}
+scatter.smooth(bogota_2$sum.add.loc, bogota_2$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(bogota_2$novelty.phase5~bogota_2$sum.add.loc), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+
+```{r}
+scatter.smooth(bogota_1$sum.add.loc, bogota_1$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(bogota_1$novelty.phase5~bogota_1$sum.add.loc), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+## Overall Significance between Novelty / User Requirement Score Phase 5 and Total Lines of Codes Added
+
+
+```{r}
+summary(lm(scores_loc$user.requirement.phase5~scores_loc$sum.add.loc))
+```
+## Interpretation: 
+
+> Significant with medium effect size [ user requirement score ]
+
+
+```{r}
+summary(lm(scores_loc$novelty.phase5~scores_loc$sum.add.loc))
+```
+## Interpretation: 
+
+> Significant with large effect size [ Novelty score ]
+
+
+```{r}
+scatter.smooth(scores_loc$sum.add.loc, scores_loc$novelty.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(scores_loc$novelty.phase5~scores_loc$sum.add.loc), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+```{r}
+scatter.smooth(scores_loc$sum.add.loc, scores_loc$user.requirement.phase5, lpars = list(col = "blue", lwd = 3, lty = 3))
+abline(lm(scores_loc$user.requirement.phase5~scores_loc$sum.add.loc), col='red',lwd=3)
+legend('topright', c('Linear','Smoothing'),
+lty=c(1,2), lwd=c(3,3), col=c('red','blue'))
+```
+
+
