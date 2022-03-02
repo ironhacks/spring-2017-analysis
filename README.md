@@ -1,9 +1,6 @@
 ## Analysis 2017
 
 **Structure**
-
-```
-
 .
 ├── README.md
 ├── fall-2017
@@ -16,8 +13,3 @@
 │   ├── Fall 2017 Improvement.ipynb
 │   ├── Fall-2017-Anova-Test.ipynb
 │   ├── Fall-2017-Final.ipynb
-
-
-
-
-```
