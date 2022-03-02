@@ -1,6 +1,0 @@
-## Upcoming Meeting Agenda 
-
-- discuss about the theoretical foundation of PCA and FA 
-- Go through results of PCA and FA 
-- decide if the results are agreeable 
-- proceed with literature review to validate results 
