@@ -37,3 +37,15 @@
 
 5 directories, 25 files
 ```
+
+## Data Storage 
+
+All data are stored in Box 
+
+Path to Raw Data 
+
+/Users/USERNAME/Box/NSF IronHacks App 2016 - 2019/05 Experiments 2017/01 Hack Spring 2017/01 Summary Spring 2017/02 Data/raw-data
+
+Path to Processed Data 
+
+/Users/USERNAME/Box/NSF IronHacks App 2016 - 2019/05 Experiments 2017/01 Hack Spring 2017/01 Summary Spring 2017/02 Data/processed-data
