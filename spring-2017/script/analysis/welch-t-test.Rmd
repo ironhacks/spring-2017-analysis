@@ -160,6 +160,39 @@ t.test(training, control, alternative = 'less')
 
 > Significant for Group 0 and Group 3 ( < 0.05 ), user requirement score phase 5
 
+
+```{r}
+training<-scores_loc$tech.phase5[scores_loc$Group==0]
+control<-scores_loc$tech.phase5[scores_loc$Group==2]
+mean(training, na.rm=T)-mean(control, na.rm=T)
+t.test(training, control, alternative = 'less')
+```
+
+
+```{r}
+training<-scores_loc$novelty.phase5[scores_loc$Group==0]
+control<-scores_loc$novelty.phase5[scores_loc$Group==2]
+mean(training, na.rm=T)-mean(control, na.rm=T)
+t.test(training, control, alternative = 'less')
+```
+
+
+```{r}
+training<-scores_loc$infovis.phase5[scores_loc$Group==0]
+control<-scores_loc$infovis.phase5[scores_loc$Group==2]
+mean(training, na.rm=T)-mean(control, na.rm=T)
+t.test(training, control, alternative = 'less')
+```
+
+
+
+```{r}
+training<-scores_loc$user.requirement.phase5[scores_loc$Group==0]
+control<-scores_loc$user.requirement.phase5[scores_loc$Group==2]
+mean(training, na.rm=T)-mean(control, na.rm=T)
+t.test(training, control, alternative = 'less')
+```
+
 ## Independent two-sample t-test on total lines of codes added BETWEEN phase 1 and phase 5 
 
 ```{r}
