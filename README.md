@@ -55,10 +55,10 @@ All data are stored in Box
 
 **Lines of Codes**
 
-Analysis - 
+Analysis - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/welch-t-test.Rmd
 
-Data Prep - 
+Data Prep - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/pre-processing/Spring-2017-Lines-Of-Code-Cleaning.ipynb
 
 **Clicks Analysis**
 
-Analysis -  
+Analysis - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/clicks-analysis.Rmd
