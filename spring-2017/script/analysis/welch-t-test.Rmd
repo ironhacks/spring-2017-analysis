@@ -8,9 +8,22 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-scores_loc <- read.table("/Users/jialincheoh/Desktop/overall_score_click_result.csv", header=TRUE, sep = ",")
+scores_loc <- read.table("/Users/jialincheoh/Box/NSF IronHacks App 2016 - 2019/05 Experiments 2017/01 Hack Spring 2017/01 Summary Spring 2017/02 Data/processed-data/overall_score_click_result.csv", header=TRUE, sep = ",")
 scores_loc
 ```
+```{r}
+lmLength <- residuals(lm(improve.sum.novel ~ Group, data=scores_loc))
+shapiro.test(lmLength)
+qqnorm(lmLength)
+qqline(lmLength)
+```
+```{r}
+lmLength <- lm(total.phase5 ~ novelty.phase5, data=scores_loc)
+summary(lmLength)
+```
+
+
+
 ## Effects of training and gender on the memory test performance
 
 > We want to answer the following questions:
@@ -160,6 +173,19 @@ t.test(training, control, alternative = 'less')
 
 > Significant for Group 0 and Group 3 ( < 0.05 ), user requirement score phase 5
 
+```{r}
+training<-scores_loc$improve.sum.novel[scores_loc$Group==2]
+control<-scores_loc$improve.sum.novel[scores_loc$Group==3]
+mean(training, na.rm=T)-mean(control, na.rm=T)
+t.test(training, control, alternative = 'less')
+```
+```{r}
+interaction <- lm(improve.sum.novel ~ Group, data = scores_loc)
+
+summary(interaction)
+```
+
+
 
 ```{r}
 training<-scores_loc$tech.phase5[scores_loc$Group==0]
@@ -237,5 +263,16 @@ oneway.test(tech.phase5 ~ Group, data = scores_loc, var.equal = FALSE)
 ```{r}
 #perform Welch's ANOVA
 oneway.test(infovis.phase5 ~ Group, data = scores_loc, var.equal = FALSE)
+```
+
+```{r}
+oneway.test(improve.sum.novel ~ Group, data = scores_loc, var.equal = FALSE)
+```
+```{r}
+lmLength <- residuals(lm(improve.sum.novel ~ Group) , scores_loc)
+shapiro.test(lmLength)
+qqnorm(lmLength)
+qqline(lmLength)
+
 ```
 

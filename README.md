@@ -62,3 +62,13 @@ Data Prep - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/scr
 **Clicks Analysis**
 
 Analysis - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/clicks-analysis.Rmd
+
+**Data Frames**
+
+Scores, LOC, D3, Survey - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Data-Frame-Spring-2017(Scores%2CLOC%2CSurvey%2CD3).ipynb
+
+**Descriptive Analysis**
+
+Scores, LOC, D3, Survey - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Descriptive-Analysis-Spring-2017(Scores%2CLOC%2CSurvey%2CD3).ipynb
+
+
