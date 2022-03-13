@@ -53,6 +53,10 @@ All data are stored in Box
 
 ## Data Descriptives 
 
+**Graphs of Mean LOC and Mean Scores for Each Phase Over Time**
+
+https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Descriptive-Analysis-Spring-2017(Scores%2CLOC%2CSurvey%2CD3).ipynb
+
 **Lines of Codes**
 
 Analysis - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/welch-t-test.Rmd
