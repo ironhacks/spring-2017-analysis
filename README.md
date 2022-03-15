@@ -53,26 +53,12 @@ All data are stored in Box
 
 ## Data Descriptives 
 
-**Graphs of Mean LOC and Mean Scores for Each Phase Over Time**
+**Data-Frame-Spring-2017(Scores,LOC,Survey,D3)**
 
-https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Descriptive-Analysis-Spring-2017(Scores%2CLOC%2CSurvey%2CD3).ipynb
+Description: Data Frames for Scores, LOC, Surveys and D3 Components. The global variable for the data frame is stored in this notebook. 
 
-**Lines of Codes**
+Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Data-Frame-Spring-2017(Scores%2CLOC%2CSurvey%2CD3).ipynb
 
-Analysis - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/welch-t-test.Rmd
 
-Data Prep - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/pre-processing/Spring-2017-Lines-Of-Code-Cleaning.ipynb
-
-**Clicks Analysis**
-
-Analysis - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/clicks-analysis.Rmd
-
-**Data Frames**
-
-Scores, LOC, D3, Survey - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Data-Frame-Spring-2017(Scores%2CLOC%2CSurvey%2CD3).ipynb
-
-**Descriptive Analysis**
-
-Scores, LOC, D3, Survey - https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Descriptive-Analysis-Spring-2017(Scores%2CLOC%2CSurvey%2CD3).ipynb
 
 
