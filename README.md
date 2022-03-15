@@ -53,32 +53,32 @@ All data are stored in Box
 
 ## Data Descriptives 
 
-### /analysis/Data-Frame-Spring-2017(Scores,LOC,Survey,D3).ipynb
+### Data-Frame-Spring-2017(Scores,LOC,Survey,D3).ipynb
 
 Description: Data Frames for Scores, LOC, Surveys and D3 Components. The global variable for the data frame is stored in this notebook. 
 
 Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Data-Frame-Spring-2017(Scores%2CLOC%2CSurvey%2CD3).ipynb
 
 
-### /analysis/Correlations-Charts(Scores,LOC,D3, Surveys).ipynb
+### Correlations-Charts(Scores,LOC,D3, Surveys).ipynb
 
 Description: This notebook contains the correlation charts for the scores, LOC, D3 and surveys. 
 
 Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Correlations-Charts(Scores%2CLOC%2CD3%2C%20Surveys).ipynb
 
-### /analysis/BoxPlots-LineCharts-BarCharts(Scores,LOC,D3,Survey).ipynb
+### BoxPlots-LineCharts-BarCharts(Scores,LOC,D3,Survey).ipynb
 
 Description: This notebook contains all the box plots, line charts and bar charts for scores, LOC, D3 and survey. 
 
 Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/BoxPlots-LineCharts-BarCharts(Scores%2CLOC%2CD3%2CSurvey).ipynb
 
-### /analysis/Clicks-Analysis(Graphs,Descriptive-Analysis).ipynb
+### Clicks-Analysis(Graphs,Descriptive-Analysis).ipynb
 
 Description: This notebook contains the click analysis in the form of graphs such as time line plot and exporatory descriptive analysis. 
 
 Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Clicks-Analysis(Graphs%2CDescriptive-Analysis).ipynb
 
-### /analysis/ANOVA-FA-PCA(Scores).ipynb
+### ANOVA-FA-PCA(Scores).ipynb
 
 Description: This notebook contains the ANOVA for all the score variables, the preliminary PCA and FA results in Python version. 
 
