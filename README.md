@@ -60,7 +60,7 @@ Description: Data Frames for Scores, LOC, Surveys and D3 Components. The global 
 Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Data-Frame-Spring-2017(Scores%2CLOC%2CSurvey%2CD3).ipynb
 
 
-### Correlations-Charts(Scores,LOC,D3, Surveys)**
+### Correlations-Charts(Scores,LOC,D3, Surveys)
 
 Description: This notebook contains the correlation charts for the scores, LOC, D3 and surveys. 
 
@@ -71,3 +71,12 @@ Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-20
 Description: This notebook contains all the box plots, line charts and bar charts for scores, LOC, D3 and survey. 
 
 Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/BoxPlots-LineCharts-BarCharts(Scores%2CLOC%2CD3%2CSurvey).ipynb
+
+### Clicks-Analysis(Graphs,Descriptive-Analysis)
+
+Description: This notebook contains the click analysis in the form of graphs such as time line plot and exporatory descriptive analysis. 
+
+Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Clicks-Analysis(Graphs%2CDescriptive-Analysis).ipynb
+
+
+
