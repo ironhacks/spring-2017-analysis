@@ -78,5 +78,9 @@ Description: This notebook contains the click analysis in the form of graphs suc
 
 Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Clicks-Analysis(Graphs%2CDescriptive-Analysis).ipynb
 
+### ANOVA-FA-PCA(Scores)
 
+Description: This notebook contains the ANOVA for all the score variables, the preliminary PCA and FA results in Python version. 
+
+Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/ANOVA-FA-PCA(Scores).ipynb
 
