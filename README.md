@@ -84,3 +84,8 @@ Description: This notebook contains the ANOVA for all the score variables, the p
 
 Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/ANOVA-FA-PCA(Scores).ipynb
 
+### Functional-Similarity.ipynb
+
+Description: This notebook contains the functional similarity with Jaccard metrics. 
+
+Link to Notebook: https://github.com/ironhacks/analysis-2017/blob/main/spring-2017/script/analysis/Functional-Similarity.ipynb
