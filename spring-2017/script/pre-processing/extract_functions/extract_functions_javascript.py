@@ -15,7 +15,7 @@ class extract_functions_javascript(object):
 		self.name_list = list()
 		# blck list for library
 		self.library_black_list = list()
-		# create black list
+		# create black list so that we don't want the functions from these libraries to appear in the output. 
 		with open('library_list.csv') as libraryblacklist:
 			library_blacklist_reader = csv.reader(libraryblacklist)
 			for row in library_blacklist_reader:
