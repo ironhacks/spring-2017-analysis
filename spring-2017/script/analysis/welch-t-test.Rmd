@@ -8,7 +8,7 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-scores_loc <- read.table("/Users/jialincheoh/Box/NSF IronHacks App 2016 - 2019/05 Experiments 2017/01 Hack Spring 2017/01 Summary Spring 2017/02 Data/processed-data/overall_score_click_result.csv", header=TRUE, sep = ",")
+scores_loc <- read.table("/Users/jialincheoh/Library/CloudStorage/Box-Box/NSF IronHacks App 2016 - 2019/05 Experiments 2017/01 Hack Spring 2017/01 Summary Spring 2017/02 Data/processed-data/overall_score_click_result.csv", header=TRUE, sep = ",")
 scores_loc
 ```
 ```{r}

@@ -20,7 +20,7 @@ is an effect size measure. Cohen (1988) defined some standards for interpreting 
 • R2 = .15: Large effect.
 
 ```{r}
-scores_loc <- read.table("/Users/jialincheoh/Downloads/overall_score_click_result.csv", header=TRUE, sep = ",")
+scores_loc <- read.table("/Users/jialincheoh/Library/CloudStorage/Box-Box/NSF IronHacks App 2016 - 2019/05 Experiments 2017/01 Hack Spring 2017/01 Summary Spring 2017/02 Data/processed-data/overall_score_click_result.csv", header=TRUE, sep = ",")
 scores_loc
 ```
 
