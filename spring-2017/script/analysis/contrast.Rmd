@@ -8,12 +8,12 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-scores <- read.table("/Users/jialincheoh/Downloads/overall_score_click_result.csv", header=TRUE, sep = ",")
+scores <- read.table("/Users/jialincheoh/Library/CloudStorage/Box-Box/NSF IronHacks App 2016 - 2019/05 Experiments 2017/01 Hack Spring 2017/01 Summary Spring 2017/02 Data/processed-data/overall_score_click_result.csv", header=TRUE, sep = ",")
 scores
 ```
 
 ```{r}
-survey <- read.table("/Users/jialincheoh/Desktop/survey_final_read.csv", header=TRUE, sep = ",", stringsAsFactors=T)
+survey <- read.table("/Users/jialincheoh/Library/CloudStorage/Box-Box/NSF IronHacks App 2016 - 2019/05 Experiments 2017/01 Hack Spring 2017/01 Summary Spring 2017/02 Data/processed-data/survey_final_read.csv", header=TRUE, sep = ",", stringsAsFactors=T)
 names(survey)[35] <- "aspiration"
 survey
 ```
@@ -105,6 +105,37 @@ summary.lm(aov1)
 ```
 
 
+```{r}
+r <- lm(novelty.phase5 ~ factor(Group) + sum.add.loc, data=scores, psi=psi.bisquare) 
+summary(r)
+```
+
+
+```{r}
+library(MASS)
+
+
+
+r <- rlm(novelty.phase5 ~ factor(Group) + sum.add.loc, data=scores, psi=psi.bisquare) 
+summary(r)
+```
+```{r}
+library(boot)
+boot.huber <- function(data, indices, maxit=100){
+  data <- data[indices,]
+  mod <- rlm(novelty.phase5 ~ factor(Group) + sum.add.loc, data=data, maxit=maxit)
+  coefficients(mod)
+}
+robust.boot<-boot(data=scores, statistic=boot.huber, R=100, maxit=100)
+
+boot.ci(robust.boot, index=1, type="perc")
+boot.ci(robust.boot, index=2, type="perc")
+boot.ci(robust.boot, index=3, type="perc")
+boot.ci(robust.boot, index=4, type="perc") 
+boot.ci(robust.boot, index=5, type="perc") 
+
+
+```
 
 
 
