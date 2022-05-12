@@ -1,0 +1,124 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+df<-read.csv("/Users/jialincheoh/analysis-2017/spring-2017/script/analysis/overall_phase5_bogota3.csv", header =TRUE, sep=",")
+df
+```
+
+```{r}
+df0<-read.csv("/Users/jialincheoh/analysis-2017/spring-2017/script/analysis/overall_phase5_bogota0.csv", header =TRUE, sep=",")
+df0
+```
+
+```{r}
+library(car)
+avPlots(lm(len_unique ~ add.loc.45 + novelty.phase5, df))
+```
+
+```{r}
+model <- lm(len_unique ~ add.loc.15, df)
+summary(model)
+plot(model)
+```
+```{r}
+library(MASS)
+r <- rlm(len_unique ~ add.loc.15, data=df, psi=psi.bisquare) 
+summary(r)
+```
+
+```{r}
+confint.default(r)
+```
+
+```{r}
+WLS.mod <- lm(len_unique ~ add.loc.15, data=df)
+wts1 <- 1/fitted(lm(abs(residuals(WLS.mod)) ~ add.loc.15, df))^2
+WLS.mod2 <- lm(len_unique ~ add.loc.15, data=df, weight=wts1)
+summary(WLS.mod2)
+```
+
+```{r}
+confint(WLS.mod2)
+```
+
+
+```{r}
+residualPlots(model)
+```
+```{r}
+lmLength <- residuals(model)
+shapiro.test(lmLength)
+qqnorm(lmLength)
+qqline(lmLength)
+```
+```{r}
+library(car)
+ncvTest(model)
+```
+
+```{r}
+plot(lm(len_unique ~ add.loc.45 + novelty.phase5, df), pch=18, col="red", which=c(4))
+```
+
+```{r}
+qf(0.2, 3, 38)
+```
+
+```{r}
+qf(0.5, 3, 38)
+```
+
+```{r}
+boxplot(df[c(6, 66, 144)]) 
+plot(df[c(6, 66, 144)]) 
+cor(df[c(6, 66, 144)])
+cor.test.p <- function(x){
+    FUN <- function(x, y) cor.test(x, y)[["p.value"]] 
+    z <- outer(
+    colnames(x),
+    colnames(x),
+    Vectorize(function(i,j) FUN(x[,i], x[,j]))
+  )
+dimnames(z) <- list(colnames(x), colnames(x)) }
+
+cor.test.p(df[c(6, 66, 144)])
+```
+
+```{r}
+library(car)
+influencePlot(lm(len_unique ~ add.loc.45 + novelty.phase5, df))
+```
+```{r}
+df1<-read.csv("/Users/jialincheoh/analysis-2017/spring-2017/script/analysis/overall_phase5_bogota3_copy.csv", header =TRUE, sep=",")
+df1
+```
+ 
+ 
+```{r}
+library(car)
+avPlots(lm(len_unique ~ add.loc.45 + novelty.phase5, df1))
+```
+```{r}
+model1 <- lm(len_unique ~ add.loc.45 + novelty.phase5, df1)
+summary(model1)
+plot(model1)
+```
+ 
+```{r}
+lmLength <- residuals(model1)
+shapiro.test(lmLength)
+qqnorm(lmLength)
+qqline(lmLength)
+```
+```{r}
+library(car)
+ncvTest(model1)
+```
+
