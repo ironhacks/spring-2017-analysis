@@ -1,0 +1,95 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Top 10% Rare Functions [ OVERALL CASE ]
+
+```{r}
+df<-read.csv("/Users/jialincheoh/analysis-2017/spring-2017/script/analysis/remove_na_overall.csv", header =TRUE, sep=",")
+df0 <- df[df$Group == 0, ] 
+```
+
+```{r}
+remove <- df0[!is.na(df0$len_match),]
+#log_y <- log10(complete$len_match)
+#create histogram for original distribution
+#hist(log_y, col='steelblue', main='Original')
+log_y <- log10(remove$len_match)
+log_y
+```
+
+```{r}
+#create histogram for original distribution
+hist(remove$len_match, col='steelblue', main='Original')
+```
+
+
+```{r}
+hist(log_y, col='coral2', main='Log Transformed')
+```
+```{r}
+shapiro.test(log_y)
+```
+
+```{r}
+df1 <- df[df$Group == 1, ] 
+remove <- df1[!is.na(df1$len_match),]
+log_y <- log10(remove$len_match)
+log_y
+```
+
+```{r}
+#create histogram for original distribution
+hist(remove$len_match, col='steelblue', main='Original')
+```
+```{r}
+hist(log_y, col='coral2', main='Log Transformed')
+```
+```{r}
+shapiro.test(log_y)
+```
+
+```{r}
+df2 <- df[df$Group == 2, ] 
+remove <- df2[!is.na(df2$len_match),]
+log_y <- log10(remove$len_match)
+log_y
+```
+
+```{r}
+#create histogram for original distribution
+hist(remove$len_match, col='steelblue', main='Original')
+```
+
+```{r}
+hist(log_y, col='coral2', main='Log Transformed')
+```
+```{r}
+shapiro.test(log_y)
+```
+
+```{r}
+df3 <- df[df$Group == 3, ] 
+remove <- df3[!is.na(df3$len_match),]
+log_y <- log10(remove$len_match)
+log_y
+```
+```{r}
+#create histogram for original distribution
+hist(remove$len_match, col='steelblue', main='Original')
+```
+```{r}
+hist(log_y, col='coral2', main='Log Transformed')
+```
+```{r}
+shapiro.test(remove$len_match)
+```
+
+
+```{r}
+shapiro.test(log_y)
+```
+
+
+
