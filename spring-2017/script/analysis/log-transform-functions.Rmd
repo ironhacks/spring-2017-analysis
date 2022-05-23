@@ -6,7 +6,7 @@ output: html_notebook
 # Top 10% Rare Functions [ OVERALL CASE ]
 
 ```{r}
-df<-read.csv("/Users/jialincheoh/analysis-2017/spring-2017/script/analysis/remove_na_overall.csv", header =TRUE, sep=",")
+df<-read.csv("/Users/jialincheoh/Library/CloudStorage/Box-Box/NSF IronHacks App 2016 - 2019/05 Experiments 2017/01 Hack Spring 2017/01 Summary Spring 2017/02 Data/processed-data/remove_na_overall.csv", header =TRUE, sep=",")
 df0 <- df[df$Group == 0, ] 
 ```
 
@@ -91,5 +91,8 @@ shapiro.test(remove$len_match)
 shapiro.test(log_y)
 ```
 
+```{r}
+
+```
 
 
