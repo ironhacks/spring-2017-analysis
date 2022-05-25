@@ -3,10 +3,38 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-# Top 10% Rare Functions [ OVERALL CASE ]
+# All Phases and All Groups 
 
 ```{r}
 df<-read.csv("/Users/jialincheoh/Library/CloudStorage/Box-Box/NSF IronHacks App 2016 - 2019/05 Experiments 2017/01 Hack Spring 2017/01 Summary Spring 2017/02 Data/processed-data/remove_na_overall.csv", header =TRUE, sep=",")
+df[is.na(df)] <- 0
+log_y <- log10(df$len_match + 1)
+log_y
+```
+
+```{r}
+quantile(df$len_match, 0.2)
+```
+
+```{r}
+for (x in 0.05:1:0.05){
+  quantile(log_y, 0.2)
+}
+```
+
+
+```{r}
+#create histogram for original distribution
+hist(df0$len_match, col='steelblue', main='Original')
+```
+```{r}
+hist(log_y, col='coral2', main='Log Transformed')
+```
+
+
+# Top 10% Rare Functions [ OVERALL CASE ]
+
+```{r}
 df0 <- df[df$Group == 0, ] 
 df0[is.na(df0)] <- 0
 ```
@@ -71,7 +99,7 @@ shapiro.test(log_y)
 
 ```{r}
 df3 <- df[df$Group == 3, ] 
-remove <- df3[!is.na(df3$len_match),]
+df3[is.na(df3)] <- 0
 log_y <- log10(remove$len_match)
 log_y
 ```
