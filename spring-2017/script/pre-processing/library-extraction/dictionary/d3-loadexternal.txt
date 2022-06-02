@@ -1,0 +1,13 @@
+d3.xhr
+xhr.header
+xhr.mimeType
+xhr.response
+xhr.get
+xhr.post
+xhr.send
+xhr.abort
+xhr.on
+d3.text
+d3.json
+d3.html
+d3.xml

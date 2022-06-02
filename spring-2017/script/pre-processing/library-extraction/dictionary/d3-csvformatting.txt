@@ -1,0 +1,11 @@
+d3.csv
+d3.csv.parse
+d3.csv.parseRows
+d3.csv.format
+d3.csv.formatRows
+d3.tsv
+d3.tsv.parse
+d3.tsv.parseRows
+d3.tsv.format
+d3.tsv.formatRows
+d3.dsv

@@ -1,0 +1,5 @@
+d3.functor
+d3.rebind
+d3.dispatch
+dispatch.on
+dispatch.type

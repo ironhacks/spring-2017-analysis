@@ -1,0 +1,1 @@
+python wordCound.py usr/tmp/project1 usr/tmp/project2

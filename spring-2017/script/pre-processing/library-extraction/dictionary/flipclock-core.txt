@@ -1,0 +1,5 @@
+FlipClock(
+clock.on(
+clock.once(
+clock.off(
+clock.trigger(

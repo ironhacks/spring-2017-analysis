@@ -1,0 +1,3 @@
+beautifulsoup4==4.6.0
+certifi==2018.4.16
+unidiff==0.5.5

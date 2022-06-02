@@ -1,0 +1,83 @@
+d3.svg.line - create a new line generator.
+line - generate a piecewise linear curve, as in a line chart.
+line.x - get or set the x-coordinate accessor.
+line.y - get or set the y-coordinate accessor.
+line.interpolate - get or set the interpolation mode.
+line.tension - get or set the cardinal spline tension.
+line.defined - control whether the line is defined at a given point.
+d3.svg.line.radial - create a new radial line generator.
+line - generate a piecewise linear curve, as in a polar line chart.
+line.radius - get or set the radius accessor.
+line.angle - get or set the angle accessor.
+line.interpolate - get or set the interpolation mode.
+line.tension - get or set the cardinal spline tension.
+line.defined - control whether the line is defined at a given point.
+d3.svg.area - create a new area generator.
+area - generate a piecewise linear area, as in an area chart.
+area.x - get or set the x-coordinate accessors.
+area.x0 - get or set the x0-coordinate (baseline) accessor.
+area.x1 - get or set the x1-coordinate (topline) accessor.
+area.y - get or set the y-coordinate accessors.
+area.y0 - get or set the y0-coordinate (baseline) accessor.
+area.y1 - get or set the y1-coordinate (topline) accessor.
+area.interpolate - get or set the interpolation mode.
+area.tension - get or set the cardinal spline tension.
+area.defined - control whether the area is defined at a given point.
+d3.svg.area.radial - create a new area generator.
+area - generate a piecewise linear area, as in a polar area chart.
+area.radius - get or set the radius accessors.
+area.innerRadius - get or set the inner radius (baseline) accessor.
+area.outerRadius - get or set the outer radius (topline) accessor.
+area.angle - get or set the angle accessors.
+area.startAngle - get or set the angle (baseline) accessor.
+area.endAngle - get or set the angle (topline) accessor.
+area.defined - control whether the area is defined at a given point.
+d3.svg.arc - create a new arc generator.
+arc - generate a solid arc, as in a pie or donut chart.
+arc.innerRadius - get or set the inner radius accessor.
+arc.outerRadius - get or set the outer radius accessor.
+arc.cornerRadius - get or set the corner radius accessor.
+arc.padRadius - get or set the pad radius accessor.
+arc.startAngle - get or set the start angle accessor.
+arc.endAngle - get or set the end angle accessor.
+arc.padAngle - get or set the pad angle accessor.
+arc.centroid - compute the arc centroid.
+d3.svg.symbol - create a new symbol generator.
+symbol - generate categorical symbols, as in a scatterplot.
+symbol.type - get or set the symbol type accessor.
+symbol.size - get or set the symbol size (in square pixels) accessor.
+d3.svg.symbolTypes - the array of supported symbol types.
+d3.svg.chord - create a new chord generator.
+chord - generate a quadratic Bézier connecting two arcs, as in a chord diagram.
+chord.radius - get or set the arc radius accessor.
+chord.startAngle - get or set the arc start angle accessor.
+chord.endAngle - get or set the arc end angle accessor.
+chord.source - get or set the source arc accessor.
+chord.target - get or set the target arc accessor.
+d3.svg.diagonal - create a new diagonal generator.
+diagonal - generate a two-dimensional Bézier connector, as in a node-link diagram.
+diagonal.source - get or set the source point accessor.
+diagonal.target - get or set the target point accessor.
+diagonal.projection - get or set an optional point transform.
+d3.svg.diagonal.radial - create a new diagonal generator.
+diagonal - generate a two-dimensional Bézier connector, as in a node-link diagram.
+d3.svg.axis - create a new axis generator.
+axis - creates or updates an axis for the given selection or transition.
+axis.scale - get or set the axis scale.
+axis.orient - get or set the axis orientation.
+axis.ticks - control how ticks are generated for the axis.
+axis.tickValues - specify tick values explicitly.
+axis.tickSize - specify the size of major, minor and end ticks.
+axis.innerTickSize - specify the size of inner ticks.
+axis.outerTickSize - specify the size of outer ticks.
+axis.tickPadding - specify padding between ticks and tick labels.
+axis.tickFormat - override the tick formatting for labels.
+d3.svg.brush - click and drag to select one- or two-dimensional regions.
+brush - apply a brush to the given selection or transition.
+brush.x - the brush’s x-scale, for horizontal brushing.
+brush.y - the brush’s y-scale, for vertical brushing.
+brush.extent - the brush’s extent in zero, one or two dimensions.
+brush.clear - reset the brush extent.
+brush.empty - whether or not the brush extent is empty.
+brush.on - listeners for when the brush is moved.
+brush.event - dispatch brush events after setting the extent.

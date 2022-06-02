@@ -1,0 +1,7 @@
+d3.layout.pie - construct a new default pie layout.
+pie - compute the start and end angles for arcs in a pie or donut chart.
+pie.value - get or set the value accessor function.
+pie.sort - control the clockwise order of pie slices.
+pie.startAngle - get or set the overall start angle of the pie.
+pie.endAngle - get or set the overall end angle of the pie.
+pie.padAngle - get or set the pad angle of the pie.

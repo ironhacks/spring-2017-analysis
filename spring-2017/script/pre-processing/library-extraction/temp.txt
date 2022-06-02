@@ -1,0 +1,785 @@
+diff --git a/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css b/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css
+new file mode 100644
+index 0000000..cfdbb18
++++ b/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css
+@@ -0,0 +1,39 @@
++html, body { 
++height: 100%; 
++margin: 0; 
++padding: 0; 
++}
++
++*{
++	margin: 0px;
++	padding: 0px;
++}
++#map{
++	margin-top: 10px;
++	position: absolute;
++    height: 610px;
++    width: 500px;
++    padding: 2px;
++    display: block;
++}
++
++#chart{
++}
++
++#side-menu{
++	margin-top: 10px;
++	margin-left: 500px;
++	display: block;
++	float: center;
++	height: 90%;
++}	
++
++#closer{
++	
++	margin-left: 450px;
++	position: absolute;
++	display: block;
++	float: center;
++
++
++}
+\ No newline at end of file
+diff --git a/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css b/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css
+new file mode 100644
+index 0000000..cfdbb18
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/css/tutorial.css b/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/css/tutorial.css
+deleted file mode 100644
+index 2617a84..0000000
++++ /dev/null
+@@ -1,27 +0,0 @@
+-html, body { 
+-height: 100%; 
+-margin: 0; 
+-padding: 0; 
+-}
+-
+-*{
+-	margin: 0px;
+-	padding: 0px;
+-}
+-#map{
+-	margin-top: 10px;
+-	position: absolute;
+-    height: 90%;
+-    padding: 2px;
+-    display: block;
+-}
+-
+-#chart{
+-}
+-
+-#side-menu{
+-	margin-top: 10px;
+-	display: block;
+-	float: right;
+-	height: 90%;
+-}	
+\ No newline at end of file
+diff --git a/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css b/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css
+new file mode 100644
+index 0000000..cfdbb18
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/css/tutorial.css b/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/css/tutorial.css
+deleted file mode 100644
+index 2617a84..0000000
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/home.html b/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/home.html
+index a3bbd17..2ea5dba 100644
+--- a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/home.html
+@@ -2,9 +2,9 @@
+ <html>
+   <head>
+ 	<meta charset="UTF-8">
+-	<meta name="description" content="Place to Eat">
+-	<meta name="author" content="Priyank Jain">
+-	<title>2016 Purdue Ironhacks Tutorial Project</title>
++	<meta name="description" content="CZ Fresh Food">
++	<meta name="author" content="Carl Zhang">
++	<title>CZ Fresh Food</title>
+ 		<!-- Latest compiled and minified CSS -->
+ 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+ 
+@@ -14,7 +14,7 @@
+ 	<!-- Latest compiled and minified JavaScript -->
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+ 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+-	<link rel="stylesheet" href="css/tutorial.css" type="text/css"/>
++	<link rel="stylesheet" href="css/cz.css" type="text/css"/>
+ 	<script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+ 	<script src="http://d3js.org/d3.v3.min.js"></script>
+ 	<script src="js/RadarChart.js"></script>
+@@ -24,15 +24,19 @@
+ 
+   </head>
+   <body>
++	
+   	<div class="container">
+   	<div class="container-fluid">
+   		<div class="row">
+   			<div id="col-md-12">
+-  				<h3>2016 Purdue Ironhacks Tutorial Project</h3>
++  				<h3 style="color:green;">CZ Fresh Food Application (Hello World/Formatting Version)</h3>
++				<h6 styel="color:gray;">Select a location for more information</h6>
++				<h3 style ="color:blue;">MAP OF LOCAL AREA<h3>
+   			</div>
+   		</div>
+   		<div class="row">			
+ 			<div id="side-menu" class="col-md-5 jumbotron" >
++			<h3 style ="color:blue;">MARKET INFORMATION</h3>
+ 				<div id="menu-cover">
+ 					<div id="basic-info">
+ 						<div id="weather"></div>
+@@ -54,8 +58,15 @@
+ 		</div>
+ 	</div>
+ 	</div>
++	<hr>
++<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC4lO1PjOC9xzRaOK86FJoht6VBFYcsB8&callback=initMap"></script>
+ 
+-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiXdNvw4_e5ZGuFLCj_gLlV3v0L-Ely6c&callback=initMap"></script>
++	<hr>
++	<div class = "row">
++		<div id="closer">
++			<h3> Thank you for using the CZ Fresh Food Application - Hope to see you again!<h3>
++		</div>
++	</div>
+ 
+   </body>
+ </html>
+diff --git a/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css b/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css
+new file mode 100644
+index 0000000..cfdbb18
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/css/tutorial.css b/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/css/tutorial.css
+deleted file mode 100644
+index 2617a84..0000000
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/home.html b/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/home.html
+index a3bbd17..2ea5dba 100644
+--- a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/home.html
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-RadarChart.js b/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-RadarChart.js
+deleted file mode 100644
+index 8759099..0000000
++++ /dev/null
+@@ -1,250 +0,0 @@
+-/**
+-2015-09-07 by Charles Song
+-This is the javascript file for the radar chart.
+-It will create the basic template for the rader chart. All the numbers/information will be set in the script.js file.
+-**/
+-
+-// basic parameters for a radar chart template
+-var cfg = {
+-	 radius: 5,
+-	 w: 500,
+-	 h: 500,
+-	 factor: 1,
+-	 factortitle: .85,
+-	 levels: 3,
+-	 maxValue: 0,
+-	 radians: 2 * Math.PI,
+-	 opacityArea: 0.5,
+-	 ToRight: 5,
+-	 TranslateX: 80,
+-	 TranslateY: 30,
+-	 ExtraWidthX: 100,
+-	 ExtraWidthY: 100,
+-	 color: d3.scale.category10()
+-	};
+-
+-var RadarChart = {
+-	//id is the ID for the chart in HTML
+-	//d is the data stored for presenting
+-	//options a potential styles for the chart
+-
+-  draw: function(id, d, options){
+-  
+-  var cfg = {
+-	 radius: 5,
+-	 w: 500,
+-	 h: 500,
+-	 factor: 1,
+-	 factortitle: .85,
+-	 levels: 3,
+-	 maxValue: 0,
+-	 radians: 2 * Math.PI,
+-	 opacityArea: 0.5,
+-	 ToRight: 5,
+-	 TranslateX: 80,
+-	 TranslateY: 30,
+-	 ExtraWidthX: 100,
+-	 ExtraWidthY: 100,
+-	 color: d3.scale.category10()
+-	};
+-	
+-	//if there is no definition for the style of the chart, we will use the first model by default
+-	if('undefined' !== typeof options){
+-	  for(var i in options){
+-		if('undefined' !== typeof options[i]){
+-		  cfg[i] = options[i];
+-		}
+-	  }
+-	}
+-
+-	//get the max value for showing in percentage
+-	cfg.maxValue = Math.max(cfg.maxValue, d3.max(d, function(i){return d3.max(i.map(function(o){return o.value;}))}));
+-	//get all the axis and lines for the chart template
+-	var allAxis = (d[0].map(function(i, j){return i.axis}));
+-	var total = allAxis.length;
+-	var radius = cfg.factor*Math.min(cfg.w/2, cfg.h/2);
+-	var Format = d3.format('%');
+-	d3.select(id).select("svg").remove();
+-	
+-	//set the final position information for the chart area
+-	var g = d3.select(id)
+-			.append("svg")
+-			.attr("width", cfg.w+cfg.ExtraWidthX)
+-			.attr("height", cfg.h+cfg.ExtraWidthY)
+-			.append("g")
+-			.attr("transform", "translate(" + cfg.TranslateX + "," + cfg.TranslateY + ")");
+-			;
+-	//variable for showing tips while mouse moving on
+-	var tooltip;
+-	
+-	//Circular segments
+-	for(var j=0; j<cfg.levels-1; j++){
+-	  var levelFactor = cfg.factor*radius*((j+1)/cfg.levels);
+-	  g.selectAll(".levels")
+-	   .data(allAxis)
+-	   .enter()
+-	   .append("svg:line")
+-	   .attr("x1", function(d, i){return levelFactor*(1-cfg.factor*Math.sin(i*cfg.radians/total));})
+-	   .attr("y1", function(d, i){return levelFactor*(1-cfg.factor*Math.cos(i*cfg.radians/total));})
+-	   .attr("x2", function(d, i){return levelFactor*(1-cfg.factor*Math.sin((i+1)*cfg.radians/total));})
+-	   .attr("y2", function(d, i){return levelFactor*(1-cfg.factor*Math.cos((i+1)*cfg.radians/total));})
+-	   .attr("class", "line")
+-	   .style("stroke", "grey")
+-	   .style("stroke-opacity", "0.75")
+-	   .style("stroke-width", "0.3px")
+-	   .attr("transform", "translate(" + (cfg.w/2-levelFactor) + ", " + (cfg.h/2-levelFactor) + ")");
+-	}
+-
+-	//Text indicating at what % each level is
+-	for(var j=0; j<cfg.levels; j++){
+-	  var levelFactor = cfg.factor*radius*((j+1)/cfg.levels);
+-	  g.selectAll(".levels")
+-	   .data([1]) //dummy data
+-	   .enter()
+-	   .append("svg:text")
+-	   .attr("x", function(d){return levelFactor*(1-cfg.factor*Math.sin(0));})
+-	   .attr("y", function(d){return levelFactor*(1-cfg.factor*Math.cos(0));})
+-	   .attr("class", "title")
+-	   .style("font-family", "sans-serif")
+-	   .style("font-size", "12px")
+-	   .attr("transform", "translate(" + (cfg.w/2-levelFactor + cfg.ToRight) + ", " + (cfg.h/2-levelFactor) + ")")
+-	   .attr("fill", "#737373")
+-	   .text(Format((j+1)*cfg.maxValue/cfg.levels));
+-	}
+-	
+-	series = 0;
+-
+-	//define all the axis in the chart as class "axis"
+-	var axis = g.selectAll(".axis")
+-			.data(allAxis)
+-			.enter()
+-			.append("g")
+-			.attr("class", "axis");
+-
+-	//define all the lines in the chart as class "line"
+-	axis.append("line")
+-		.attr("x1", cfg.w/2)
+-		.attr("y1", cfg.h/2)
+-		.attr("x2", function(d, i){return cfg.w/2*(1-cfg.factor*Math.sin(i*cfg.radians/total));})
+-		.attr("y2", function(d, i){return cfg.h/2*(1-cfg.factor*Math.cos(i*cfg.radians/total));})
+-		.attr("class", "line")
+-		.style("stroke", "grey")
+-		.style("stroke-width", "1px");
+-
+-	//define all the title in the chart as class "title"
+-	axis.append("text")
+-		.attr("class", "title")
+-		.text(function(d){return d})
+-		.style("font-family", "sans-serif")
+-		.style("font-size", "12px")
+-		.attr("text-anchor", "middle")
+-		.attr("dy", "1.5em")
+-		.attr("transform", function(d, i){return "translate(0, -10)"})
+-		.attr("x", function(d, i){return cfg.w/2*(1-cfg.factortitle*Math.sin(i*cfg.radians/total))-60*Math.sin(i*cfg.radians/total);})
+-		.attr("y", function(d, i){return cfg.h/2*(1-Math.cos(i*cfg.radians/total))-20*Math.cos(i*cfg.radians/total);});
+-
+- 	//create nodes for each point for scores
+-	d.forEach(function(y, x){
+-	  dataValues = [];
+-	  g.selectAll(".nodes")
+-		.data(y, function(j, i){
+-		  dataValues.push([
+-			cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total)), 
+-			cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total))
+-		  ]);
+-		});
+-	  dataValues.push(dataValues[0]);
+-	  g.selectAll(".area")
+-					 .data([dataValues])
+-					 .enter()
+-					 .append("polygon")
+-					 .attr("class", "radar-chart-serie"+series)
+-					 .style("stroke-width", "2px")
+-					 .style("stroke", cfg.color(series))
+-					 .attr("points",function(d) {
+-						 var str="";
+-						 for(var pti=0;pti<d.length;pti++){
+-							 str=str+d[pti][0]+","+d[pti][1]+" ";
+-						 }
+-						 return str;
+-					  })
+-					 .style("fill", function(j, i){return cfg.color(series)})
+-					 .style("fill-opacity", cfg.opacityArea)
+-					 .on('mouseover', function (d){
+-										z = "polygon."+d3.select(this).attr("class");
+-										g.selectAll("polygon")
+-										 .transition(200)
+-										 .style("fill-opacity", 0.1); 
+-										g.selectAll(z)
+-										 .transition(200)
+-										 .style("fill-opacity", .7);
+-									  })
+-					 .on('mouseout', function(){
+-										g.selectAll("polygon")
+-										 .transition(200)
+-										 .style("fill-opacity", cfg.opacityArea);
+-					 });
+-	  series++;
+-	});
+-	series=0;
+-
+-
+-	d.forEach(function(y, x){
+-	  g.selectAll(".nodes")
+-		.data(y).enter()
+-		.append("svg:circle")
+-		.attr("class", "radar-chart-serie"+series)
+-		.attr('r', cfg.radius)
+-		.attr("alt", function(j){return Math.max(j.value, 0)})
+-		.attr("cx", function(j, i){
+-		  dataValues.push([
+-			cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total)), 
+-			cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total))
+-		]);
+-		return cfg.w/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total));
+-		})
+-		.attr("cy", function(j, i){
+-		  return cfg.h/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total));
+-		})
+-		.attr("data-id", function(j){return j.axis})
+-		.style("fill", cfg.color(series)).style("fill-opacity", .9)
+-		.on('mouseover', function (d){
+-					newX =  parseFloat(d3.select(this).attr('cx')) - 10;
+-					newY =  parseFloat(d3.select(this).attr('cy')) - 5;
+-					
+-					tooltip
+-						.attr('x', newX)
+-						.attr('y', newY)
+-						.text(Format(d.value))
+-						.transition(200)
+-						.style('opacity', 1);
+-						
+-					z = "polygon."+d3.select(this).attr("class");
+-					g.selectAll("polygon")
+-						.transition(200)
+-						.style("fill-opacity", 0.1); 
+-					g.selectAll(z)
+-						.transition(200)
+-						.style("fill-opacity", .7);
+-				  })
+-		.on('mouseout', function(){
+-					tooltip
+-						.transition(200)
+-						.style('opacity', 0);
+-					g.selectAll("polygon")
+-						.transition(200)
+-						.style("fill-opacity", cfg.opacityArea);
+-				  })
+-		.append("svg:title")
+-		.text(function(j){return Math.max(j.value, 0)});
+-
+-	  series++;
+-	});
+-	//Tooltip
+-	tooltip = g.append('text')
+-			   .style('opacity', 0)
+-			   .style('font-family', 'sans-serif')
+-			   .style('font-size', '13px');
+-  }
+-};
+-
+diff --git a/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css b/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css
+new file mode 100644
+index 0000000..cfdbb18
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/css/tutorial.css b/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/css/tutorial.css
+deleted file mode 100644
+index 2617a84..0000000
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/home.html b/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/home.html
+index a3bbd17..2ea5dba 100644
+--- a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/home.html
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-RadarChart.js b/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-RadarChart.js
+deleted file mode 100644
+index 8759099..0000000
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-script.js b/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-script.js
+deleted file mode 100644
+index aaec0fa..0000000
++++ /dev/null
+@@ -1,99 +0,0 @@
+-/**
+-2015-09-07 by Charles Song
+-This is the javascript file for the radar chart。 We can define the content of the chart here. We can also defind the numbers by accessing external links and resources such as JSON files.
+-**/
+-
+-
+-//create a new httprequest for this session
+-var xmlhttp = new XMLHttpRequest();
+-//json format data resource url 
+-var url = "http://api.openweathermap.org/data/2.5/weather?q=chicago&appid=6aa0bdb1f586c5630d60b6237dfce45c";
+-xmlhttp.open("GET", url, true);
+-xmlhttp.send();
+-
+-//once the request is accepted, process the fowllowing function to get data and complete the app information
+-xmlhttp.onreadystatechange = function() {
+-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+-        var myArr = xmlhttp.responseText;
+-        var text = myArr;
+-        var json = JSON.parse(text);
+-        //alert(JSON.parse(text).coord.lon);
+-        //document.getElementById("id01").innerHTML = myArr;
+-    
+-        document.getElementById("weather").innerHTML = "Today the weather is <em><b>" + json.weather[0].main + "</b></em>";
+-		//
+-		//variables for the title
+-		//
+-
+-		//initiate the title
+-		var svg = d3.select('#body')
+-			.selectAll('svg')
+-			.append('svg')
+-			.attr("width", cfg.w+300)
+-			.attr("height", cfg.h)
+-
+-
+-		//variables for creating colour squares
+-		var colorscale = d3.scale.category10();
+-
+-		//titles
+-		var titleOptions = ['Final Scores'];
+-		var text = svg.append("text")
+-			.attr("class", "title")
+-			.attr('transform', 'translate(90,0)') 
+-			.attr("x", cfg.w-70)
+-			.attr("y", 10)
+-			.attr("font-size", "12px")
+-			.attr("fill", "#404040")
+-			.text("Find your best place to get food!");
+-				
+-		//Initiate title	
+-		var title = svg.append("g")
+-			.attr("class", "title")
+-			.attr("height", 100)
+-			.attr("width", 200)
+-			.attr('transform', 'translate(90,20)') 
+-			;
+-			//Create colour squares
+-			title.selectAll('rect')
+-			  .data(titleOptions)
+-			  .enter()
+-			  .append("rect")
+-			  .attr("x", cfg.w - 65)
+-			  .attr("y", function(d, i){ return i * 20;})
+-			  .attr("width", 10)
+-			  .attr("height", 10)
+-			  .style("fill", function(d, i){ return colorscale(i);})
+-			  ;
+-			//Create text next to squares
+-			title.selectAll('text')
+-			  .data(titleOptions)
+-			  .enter()
+-			  .append("text")
+-			  .attr("x", cfg.w - 52)
+-			  .attr("y", function(d, i){ return i * 20 + 9;})
+-			  .attr("font-size", "13px")
+-			  .attr("fill", "#737373")
+-			  .text(function(d) { return d; })
+-			  ;	
+-
+-		// those are functions for calculating scores for each store
+-
+-
+-    }
+-};
+-
+-//show the request function in the text format
+-function myRequestFunction(arr) {
+-    var out = "";
+-    var i;
+-    for(i = 0; i < arr.length; i++) {
+-        out += '<a href="' + arr[i].url + '">' + 
+-        arr[i].display + '</a><br>';
+-    }
+-    document.getElementById("id01").innerHTML = out;
+-}
+-
+-
+-
+-
+diff --git a/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css b/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/css/cz.css
+new file mode 100644
+index 0000000..cfdbb18
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/css/tutorial.css b/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/css/tutorial.css
+deleted file mode 100644
+index 2617a84..0000000
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/home.html b/data/fall2016-goldironhack-phase2/fall2016-goldironhack-zhan1046/home.html
+index a3bbd17..2ea5dba 100644
+--- a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/home.html
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-RadarChart.js b/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-RadarChart.js
+deleted file mode 100644
+index 8759099..0000000
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-script.js b/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-script.js
+deleted file mode 100644
+index aaec0fa..0000000
+diff --git a/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-tutorial.js b/data/fall2016-goldironhack-phase1/fall2016-goldironhack-zhan1046/js-tutorial.js
+deleted file mode 100644
+index 9e8c348..0000000
++++ /dev/null
+@@ -1,235 +0,0 @@
+-/**
+-Author: Priyank Jain
+-This is the core js logic for adding markes and radarchart for Purdue 2016 Ironhacks Tutorials
+-**/
+-
+-//variables for map and marks
+-var elevator;
+-var map;
+-// 2-level array for washed markets data
+-var washedData = [];
+-
+-
+-String.prototype.capitalizeFirstLetter = function() {
+-    return this.charAt(0).toUpperCase() + this.slice(1);
+-}
+-
+-//init the google map in the webpage
+-function initMap() {
+-    
+-    //create the google map
+-    map = new google.maps.Map(document.getElementById('map'), {
+-        center: {lat: 41.85081542, lng: -87.69123528},
+-        zoom: 12
+-    });
+-
+-
+-    var infowindow = new google.maps.InfoWindow({
+-                            content: ""
+-                        });
+-    
+-    //create a new httprequest for this session
+-    var xmlhttp = new XMLHttpRequest();
+-    //json format data resource url 
+-    var url = "https://data.cityofchicago.org/api/views/hu6v-hsqb/rows.json?accessType=DOWNLOAD";
+-    xmlhttp.open("GET", url, true);
+-    xmlhttp.send();
+-
+-    //once the request is accepted, process the fowllowing function to get data and complete the app information
+-    xmlhttp.onreadystatechange = function() {
+-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+-            //get the text content from the page response
+-            var myArr = xmlhttp.responseText;
+-            var text = myArr;
+-            json = JSON.parse(text);
+-            //alert(json.data[1][1]);
+-            //document.getElementById("id01").innerHTML = myArr;
+-            
+-            //
+-            //add the information of the markets here 
+-            //
+-            for (var i = 0; i<44; i++) {
+-                var dataLine = [];
+-                //latitude - 0
+-                dataLine.push(json.data[i][18]);
+-                //longitude - 1
+-                dataLine.push(json.data[i][19]);
+-                //name - 2
+-                dataLine.push(json.data[i][8]);
+-                //street - 3
+-                dataLine.push(json.data[i][9]);
+-                //day in week - 4
+-                dataLine.push(json.data[i][10]);
+-                //start time - 5
+-                dataLine.push(json.data[i][11]);
+-                //end time - 6
+-                dataLine.push(json.data[i][12]);
+-                //start date -7
+-                dataLine.push(json.data[i][13]);
+-                //end date - 8
+-                dataLine.push(json.data[i][14]);
+-                //website - 9
+-                dataLine.push(json.data[i][15][0]);
+-
+-                washedData.push(dataLine);
+-            };
+-            //alert(washedData);
+-            //number of the markets
+-            var numberOfMarkets = washedData.length;
+-
+-            //add markers on the map
+-            var markers = [];
+-            google.maps.event.addListener(map, 'idle', function() {
+-            // Create an ElevationService
+-            elevator = new google.maps.ElevationService();
+-            $.each(markers, function(key, value)
+-            {
+-                value.setMap(null);
+-            });
+-            // getting bounds of current location
+-            var boundBox = map.getBounds();
+-            var southWest = boundBox.getSouthWest();
+-            var northEast = boundBox.getNorthEast();
+-            var lngSpan = northEast.lng() - southWest.lng();
+-            var latSpan = northEast.lat() - southWest.lat();
+-            // adding 20 markers to the map at random locations
+-            var locations = [];
+-            for (var j = 0; j < numberOfMarkets; j++)
+-            {
+-                var location = new google.maps.LatLng(
+-                        southWest.lat() + latSpan * Math.random(),
+-                        southWest.lng() + lngSpan * Math.random()
+-                        );
+-                locations.push(location);
+-            }
+-
+-            // Create a LocationElevationRequest object using the array's one value
+-            var positionalRequest = {
+-                'locations': locations
+-            };
+-
+-            elevator.getElevationForLocations(positionalRequest, function(results, status)
+-            {
+-                if (status === google.maps.ElevationStatus.OK)
+-                {
+-                    //if the infowindow is open
+-                    var prev_infowindow =false;
+-
+-                    $.each(results, function(key, value) {
+-
+-                        //alert(key);
+-                        markers[key] = new google.maps.Marker({
+-                            position: {lat: Number(washedData[key][0]), lng: Number(washedData[key][1])},
+-                            map: map,
+-                            //icon: 'http://google-maps-icons.googlecode.com/files/red' + ('0' + key.toString()).slice(-2) + '.png'
+-                        });
+-                        google.maps.event.addListener(markers[key], 'click', function() {
+-                            //if another window is open, close it
+-                            if( prev_infowindow ) {
+-                                prev_infowindow.close();
+-                            }
+-                            infowindow.setContent(washedData[key][2]);
+-                            infowindow.open(map, markers[key]);
+-                            //set the menu information about the market
+-                            document.getElementById("market-name").innerHTML = "<b>Market Name</b>: " + washedData[key][2] + "</em>";
+-                            document.getElementById("street-name").innerHTML = "<b>Address</b>: <em>" + washedData[key][3] + "</em>";
+-                            if(washedData[key][9])
+-                                document.getElementById("website").innerHTML = "<b>Website</b>: <em><a href=\"" + washedData[key][9] + "\">" + washedData[key][9] + "</a></em>";
+-                            else
+-                                document.getElementById("website").innerHTML = "<b>Website</b>: <em>Not available</em>";
+-                            document.getElementById("open-status").innerHTML = "<b>Market Status</b>: <em>" + contain(washedData[key][4], day()).capitalizeFirstLetter() + "</em>";
+-
+-                            //dtata - scored stores
+-                            //you will use scoring algorithm to get these value in the final project
+-                            //here we only use random method to show the process
+-                            var w = 200,
+-                            h = 250;
+-                            var array  = [];
+-                            for (var i = 0; i<9; i++) {
+-                                array[i] = Math.random();
+-                            }
+-                            var d = [
+-                                [
+-                                    {axis:"Open hours",value:array[0]},
+-                                    {axis:"Availability",value:array[1]},
+-                                    {axis:"Freshness",value:array[2]},
+-                                    {axis:"Distance",value:array[3]},
+-                                    {axis:"Prices",value:array[4]},
+-                                    {axis:"Customer ratings",value:array[5]},
+-                                    {axis:"Personal preference",value:array[6]},
+-                                    {axis:"Other",value:array[7]},
+-                                    {axis:"service",value:array[8]}
+-                                ]
+-                            ];
+-
+-                            document.getElementById("scores").innerHTML = "The final score for this market is <b><em>" + parseInt(score(array)*100) + "</b></em> out of <b><em>100</b></em>";                            
+-
+-                            //Options for the Radar chart, other than default
+-                            var mycfg = {
+-                              w: w,
+-                              h: h,
+-                              maxValue: 0.6,
+-                              levels: 6,
+-                              ExtraWidthX: 200
+-                            }
+-
+-                            //Call function to draw the Radar chart
+-                            //Will expect that data is in %'s
+-                            RadarChart.draw("#chart", d, mycfg);
+-                        });
+-                        
+-                    });
+-                }
+-            });
+-        
+-        });
+-
+-        }
+-    };
+-
+-}
+-
+-//show the request function in the text format
+-function myRequestFunction(arr) {
+-        var out = "";
+-        var i;
+-        for(i = 0; i < arr.length; i++) {
+-            out += '<a href="' + arr[i].url + '">' + 
+-            arr[i].display + '</a><br>';
+-        }
+-        document.getElementById("id01").innerHTML = out;
+-    }
+-// Add a listener for idle event and call getElevation on a random set of marker in the bound
+-
+-//get the result of whether contains a substring
+-function contain(str, substr) {
+-    if(str.indexOf(substr) > -1)
+-        return "open";
+-    else
+-        return "closed";
+-}
+-
+-//get the day in a week by the number
+-function day() {
+-    var d = new Date();
+-    var weekday = new Array(7);
+-    weekday[0]=  "Sunday";
+-    weekday[1] = "Monday";
+-    weekday[2] = "Tuesday";
+-    weekday[3] = "Wednesday";
+-    weekday[4] = "Thursday";
+-    weekday[5] = "Friday";
+-    weekday[6] = "Saturday";
+-
+-    return weekday[d.getDay()];
+-}
+-
+-//the algorithm for scoring
+-//you should create your own reasonable methods for calculating scores
+-function score(data) {
+-    return data[0]*0.1 + data[2]*0.01 + data[3]*0.11 + data[1]*0.1 + data[4]*0.2 + data[5]*0.1 + data[6]*0.2 + data[7]*0.01 + data[8]*0.01;
+-}
+-
+-
+-
+-

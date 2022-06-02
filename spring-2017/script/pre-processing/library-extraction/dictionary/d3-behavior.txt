@@ -1,0 +1,15 @@
+d3.behavior.drag
+drag.origin
+drag.on
+d3.behavior.zoom
+zoom
+zoom.scale
+zoom.translate
+zoom.scaleExtent
+zoom.center
+zoom.size
+zoom.duration
+zoom.x
+zoom.y
+zoom.on
+zoom.event

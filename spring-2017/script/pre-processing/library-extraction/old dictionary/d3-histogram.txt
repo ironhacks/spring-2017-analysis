@@ -1,0 +1,6 @@
+d3.layout.histogram - construct a new default histogram layout.
+histogram - compute the distribution of data using quantized bins.
+histogram.value - get or set the value accessor function.
+histogram.range - get or set the considered value range.
+histogram.bins - specify how values are organized into bins.
+histogram.frequency - compute the distribution as counts or probabilities.

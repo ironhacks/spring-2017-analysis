@@ -1,0 +1,9 @@
+new google.maps.Map,zoom,center
+new google.maps.Marker,position,map
+new google.maps.InfoWindow,content,
+"addListener('click', ",open,
+new google.maps.Polyilne,paths,geodesic
+map.data.loadGeoJson,url,
+new google.maps.FusionTablesLayer,query,heatmap
+new google.maps.DistanceMatrixService,origins,destinations
+marker,

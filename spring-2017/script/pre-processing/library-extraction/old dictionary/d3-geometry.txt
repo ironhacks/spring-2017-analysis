@@ -1,0 +1,19 @@
+d3.geom.voronoi - create a Voronoi layout with default accessors.
+voronoi - compute the Voronoi tessellation for the specified points.
+voronoi.x - get or set the x-coordinate accessor for each point.
+voronoi.y - get or set the y-coordinate accessor for each point.
+voronoi.clipExtent - get or set the clip extent for the tesselation.
+voronoi.links - compute the Delaunay mesh as a network of links.
+voronoi.triangles - compute the Delaunay mesh as a triangular tessellation.
+d3.geom.quadtree - constructs a quadtree for an array of points.
+quadtree.add - add a point to the quadtree.
+quadtree.visit - recursively visit nodes in the quadtree.
+quadtree.find - find the closest point in the quadtree.
+d3.geom.polygon - create a polygon from the specified array of points.
+polygon.area - compute the counterclockwise area of this polygon.
+polygon.centroid - compute the area centroid of this polygon.
+polygon.clip - clip the specified polygon to this polygon.
+d3.geom.hull - create a convex hull layout with default accessors.
+hull - compute the convex hull for the given array of points.
+hull.x - get or set the x-coordinate accessor.
+hull.y - get or set the y-coordinate accessor.

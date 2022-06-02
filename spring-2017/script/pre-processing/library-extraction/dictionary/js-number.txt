@@ -1,0 +1,8 @@
+NaN
+.isFinite(
+.isInteger(
+.isNaN(
+.isSafeInteger(
+.toExponential(
+.toFixed(
+.toPrecision(

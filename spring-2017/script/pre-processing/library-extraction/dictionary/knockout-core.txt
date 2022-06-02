@@ -1,0 +1,5 @@
+ko.applyBindings(
+ko.observable(
+ko.observableArray(
+ko.computed(
+ko.utils.arrayFilter(

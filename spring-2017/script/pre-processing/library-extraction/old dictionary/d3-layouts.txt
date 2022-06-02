@@ -1,0 +1,73 @@
+d3.layout.bundle - construct a new default bundle layout.
+bundle - apply Holten's hierarchical bundling algorithm to edges.
+d3.layout.bundle - construct a new default bundle layout.
+bundle - apply Holten's hierarchical bundling algorithm to edges.
+d3.layout.chord - produce a chord diagram from a matrix of relationships.
+chord.matrix - get or set the matrix data backing the layout.
+chord.padding - get or set the angular padding between chord segments.
+chord.sortGroups - get or set the comparator function for groups.
+chord.sortSubgroups - get or set the comparator function for subgroups.
+chord.sortChords - get or set the comparator function for chords (z-order).
+chord.chords - retrieve the computed chord angles.
+chord.groups - retrieve the computed group angles.
+d3.layout.cluster - cluster entities into a dendrogram.
+cluster - alias for cluster.nodes.
+cluster.nodes - compute the cluster layout and return the array of nodes.
+cluster.links - compute the parent-child links between tree nodes.
+cluster.children - get or set the accessor function for child nodes.
+cluster.sort - get or set the comparator function for sibling nodes.
+cluster.separation - get or set the spacing function between neighboring nodes.
+cluster.size - get or set the layout size in x and y.
+cluster.nodeSize - specify a fixed size for each node.
+d3.layout.force - position linked nodes using physical simulation.
+force.on - listen to updates in the computed layout positions.
+force.nodes - get or set the array of nodes to layout.
+force.links - get or set the array of links between nodes.
+force.size - get or set the layout size in x and y.
+force.linkDistance - get or set the link distance.
+force.linkStrength - get or set the link strength.
+force.friction - get or set the friction coefficient.
+force.charge - get or set the charge strength.
+force.chargeDistance - get or set the maximum charge distance.
+force.gravity - get or set the gravity strength.
+force.theta - get or set the accuracy of the charge interaction.
+force.start - start or restart the simulation when the nodes change.
+force.resume - reheat the cooling parameter and restart simulation.
+force.stop - immediately terminate the simulation.
+force.alpha - get or set the layout's cooling parameter.
+force.tick - run the layout simulation one step.
+force.drag - bind a behavior to nodes to allow interactive dragging.
+d3.layout.hierarchy - derive a custom hierarchical layout implementation.
+hierarchy - alias for hierarchy.nodes.
+hierarchy.nodes - compute the layout and return the array of nodes.
+hierarchy.links - compute the parent-child links between tree nodes.
+hierarchy.children - get or set the accessor function for child nodes.
+hierarchy.sort - get or set the comparator function for sibling nodes.
+hierarchy.value - get or set the value accessor function.
+hierarchy.revalue - recompute the hierarchy values.
+d3.layout.pack - produce a hierarchical layout using recursive circle-packing.
+pack - alias for pack.nodes.
+pack.nodes - compute the pack layout and return the array of nodes.
+pack.links - compute the parent-child links between tree nodes.
+pack.children - get or set the children accessor function.
+pack.sort - control the order in which sibling nodes are traversed.
+pack.value - get or set the value accessor used to size circles.
+pack.size - specify the layout size in x and y.
+pack.radius - specify the node radius, rather than deriving it from value.
+pack.padding - specify the layout padding in (approximate) pixels.
+d3.layout.partition - recursively partition a node tree into a sunburst or icicle.
+partition - alias for partition.nodes.
+partition.nodes - compute the partition layout and return the array of nodes.
+partition.links - compute the parent-child links between tree nodes.
+partition.children - get or set the children accessor function.
+partition.sort - control the order in which sibling nodes are traversed.
+partition.value - get or set the value accessor used to size circles.
+partition.size - specify the layout size in x and y.
+d3.layout.stack - construct a new default stack layout.
+stack - compute the baseline for each series in a stacked bar or area chart.
+stack.values - get or set the values accessor function per series.
+stack.order - control the order in which series are stacked.
+stack.offset - specify the overall baseline algorithm.
+stack.x - get or set the x-dimension accessor function.
+stack.y - get or set the y-dimension accessor function.
+stack.out - get or set the output function for storing the baseline.

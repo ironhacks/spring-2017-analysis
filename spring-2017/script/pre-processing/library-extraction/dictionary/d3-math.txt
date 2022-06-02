@@ -1,0 +1,5 @@
+d3.random.normal
+d3.random.logNormal
+d3.random.bates
+d3.random.irwinHall
+d3.transform

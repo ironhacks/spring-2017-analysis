@@ -1,0 +1,4 @@
+Gauge(
+gauge.maxValue
+gauge.animationSpeed
+gauge.set(
