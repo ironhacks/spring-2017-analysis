@@ -1,0 +1,78 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+df<-read.csv("novelty.csv", header =TRUE, sep=",")
+df
+```
+
+
+```{r}
+mod <- lm( similarity ~ Q10 + Q8_Q8_1 + Q7_Q7_1 + Q7_Q7_2, data = df)
+summary(mod)
+```
+
+```{r}
+mod <- lm( similarity ~ factor(group) , data = df)
+summary(mod)
+```
+
+```{r}
+mod <- lm( similarity ~ factor(group) + Q10 + Q8_Q8_1 + Q7_Q7_1 + Q7_Q7_2 , data = df)
+summary(mod)
+```
+
+```{r}
+mod <- lm( similarity ~ factor(group) * factor(stage) + Q10 + Q8_Q8_1 + Q7_Q7_1 + Q7_Q7_2 , data = df)
+summary(mod)
+```
+
+## Nest Phase in Group [ Linear Mixed Model ]
+
+```{r}
+# convert to nominal factor
+df$user2 = factor(df$user2)
+df$stage = factor(df$stage)
+df$group = factor(df$group)
+```
+
+```{r}
+# explore the data and their levels 
+library(plyr)
+ddply(df, ~ group * stage, function(data) summary(data$similarity) )
+ddply(df, ~ group * stage, summarise, similarity.mean=mean(similarity), similarity.sd = sd(similarity))
+```
+```{r}
+# histograms for two factors
+with(df, interaction.plot(group, stage, similarity, ylim=c(0, max(df$similarity)))) # interaction plot
+```
+```{r}
+# library for LMM we will use on relational novelty 
+
+library(lme4)
+library(lmerTest)
+library(car)
+```
+
+# set sum-to-zero contrasts for the Anova cells 
+
+```{r}
+contrasts(df$group) <= "contr.sum"
+contrasts(df$stage) <= "contr.sum"
+```
+
+
+```{r}
+m = lmer(similarity ~ ( group / stage ) +  ( 1 | user2), data = df)
+m
+```
+
+
+
+
