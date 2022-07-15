@@ -14,7 +14,6 @@
 12,pcberriop,jdsuarezj,1,2,0.5,1,0,1.0,3.0,3.0,2.0
 13,pcberriop,UNhcrodriguezl,1,2,0.5609756097560976,1,0,3.0,3.0,5.0,3.0
 14,hsmartineza,capinillab,1,2,0.5666666666666667,1,0,0.0,0.0,0.0,0.0
-15,janoguerab,CristianLozano,1,2,0.5714285714285714,1,0,,,,
 16,hsmartineza,pcberriop,1,2,0.6086956521739131,1,0,0.0,1.0,3.0,2.0
 17,hsmartineza,mnguzmanc,1,2,0.6285714285714286,1,0,2.0,1.0,3.0,2.0
 18,pcberriop,hsmartineza,1,2,0.6363636363636364,1,0,0.0,1.0,3.0,2.0
@@ -55,7 +54,6 @@
 53,JoseMolano,camilo13152,2,3,0.5189873417721519,2,0,3.0,5.0,5.0,2.0
 54,JoseMolano,jjrodriguezn,2,3,0.52,2,0,2.0,2.0,3.0,1.0
 55,JoseMolano,UNhcrodriguezl,2,3,0.5833333333333333,2,0,3.0,3.0,5.0,3.0
-56,maikellPardoA,CristianLozano,2,3,0.625,2,0,,,,
 57,CristianLozano,maikellPardoA,2,3,0.625,2,0,3.0,3.0,3.0,2.0
 58,capinillab,pipemax85,2,3,0.6285714285714286,2,0,1.0,3.0,5.0,2.0
 59,pcberriop,jdsuarezj,2,3,0.6625,2,0,1.0,3.0,3.0,2.0
@@ -92,7 +90,6 @@
 90,JoseMolano,UNhcrodriguezl,3,4,0.5918367346938775,3,0,3.0,3.0,5.0,3.0
 91,JoseMolano,camilo13152,3,4,0.5979381443298969,3,0,3.0,5.0,5.0,2.0
 92,CristianLozano,maikellPardoA,3,4,0.625,3,0,3.0,3.0,3.0,2.0
-93,maikellPardoA,CristianLozano,3,4,0.625,3,0,,,,
 94,capinillab,pipemax85,3,4,0.6285714285714286,3,0,1.0,3.0,5.0,2.0
 95,jjrodriguezn,hsmartineza,3,4,0.6363636363636364,3,0,0.0,1.0,3.0,2.0
 96,JoseMolano,pcberriop,3,4,0.6470588235294117,3,0,0.0,1.0,3.0,2.0
@@ -128,7 +125,6 @@
 126,JoseMolano,jjrodriguezn,4,5,0.5714285714285714,4,0,2.0,2.0,3.0,1.0
 127,JoseMolano,UNhcrodriguezl,4,5,0.5918367346938775,4,0,3.0,3.0,5.0,3.0
 128,JoseMolano,camilo13152,4,5,0.5979381443298969,4,0,3.0,5.0,5.0,2.0
-129,maikellPardoA,CristianLozano,4,5,0.625,4,0,,,,
 130,CristianLozano,maikellPardoA,4,5,0.625,4,0,3.0,3.0,3.0,2.0
 131,jjrodriguezn,hsmartineza,4,5,0.6571428571428571,4,0,0.0,1.0,3.0,2.0
 132,capinillab,juandavidro,4,5,0.6842105263157895,4,0,1.0,2.0,2.0,2.0
@@ -156,7 +152,6 @@
 154,ItsNavi,maikellPardo,1,2,0.0,1,1,4.0,4.0,4.0,2.0
 155,nabautistal,bdcajicam,1,2,0.0,1,1,0.0,2.0,5.0,2.0
 156,gsuarezc04,ItsNavi,1,2,0.0,1,1,1.0,2.0,5.0,2.0
-157,nabautistal,adamantwharf,1,2,0.0,1,1,,,,
 158,joahernandezca,nabautistal,1,2,0.0,1,1,0.0,0.0,3.0,1.0
 159,diegoaguevarar,joahernandezca,1,2,0.10948905109489049,1,1,1.0,1.0,0.0,0.0
 160,gcantem,diegoaguevarar,1,2,0.18840579710144922,1,1,0.0,1.0,5.0,2.0
@@ -194,7 +189,6 @@
 192,dfhincapiem,Christian7sr,1,2,1.0,1,1,3.0,3.0,3.0,2.0
 193,ItsNavi,maikellPardo,2,3,0.0,2,1,4.0,4.0,4.0,2.0
 194,andfsanchezlem,Zeugmax,2,3,0.0,2,1,1.0,3.0,5.0,2.0
-195,bdcajicam,adamantwharf,2,3,0.0,2,1,,,,
 196,ItsNavi,andfsanchezlem,2,3,0.0,2,1,0.0,1.0,3.0,1.0
 197,maikellPardo,ItsNavi,2,3,0.0,2,1,1.0,2.0,5.0,2.0
 198,joahernandezca,diegoaguevarar,2,3,0.1159420289855072,2,1,0.0,1.0,5.0,2.0
@@ -240,7 +234,6 @@
 238,joahernandezca,diegoaguevarar,3,4,0.1159420289855072,3,1,0.0,1.0,5.0,2.0
 239,diegoaguevarar,joahernandezca,3,4,0.12857142857142856,3,1,1.0,1.0,0.0,0.0
 240,joahernandezca,jmhurtadoc,3,4,0.18000000000000005,3,1,6.0,6.0,6.0,2.0
-241,dfhincapiem,adamantwharf,3,4,0.25,3,1,,,,
 242,adamantwharf,dfhincapiem,3,4,0.25,3,1,4.0,1.0,5.0,1.0
 243,adamantwharf,crigar,3,4,0.25,3,1,1.0,0.0,2.0,4.0
 244,jesusfchavarro,oeroaq,3,4,0.4106813996316758,3,1,4.0,4.0,5.0,3.0
@@ -283,7 +276,6 @@
 281,joahernandezca,jmhurtadoc,4,5,0.1907894736842105,4,1,6.0,6.0,6.0,2.0
 282,adamantwharf,crigar,4,5,0.25,4,1,1.0,0.0,2.0,4.0
 283,adamantwharf,dfhincapiem,4,5,0.25,4,1,4.0,1.0,5.0,1.0
-284,dfhincapiem,adamantwharf,4,5,0.25,4,1,,,,
 285,bdcajicam,nabautistal,4,5,0.38888888888888884,4,1,0.0,0.0,3.0,1.0
 286,joahernandezca,diegoaguevarar,4,5,0.40909090909090906,4,1,0.0,1.0,5.0,2.0
 287,bdcajicam,gasierram,4,5,0.484375,4,1,3.0,4.0,5.0,4.0
@@ -328,7 +320,6 @@
 326,luegilca,kmendezp96,1,2,0.6486486486486487,1,2,1.0,5.0,6.0,1.0
 327,Gantiva,ykchautai,1,2,0.6956521739130435,1,2,4.0,4.0,4.0,1.0
 328,oserasoa,diegocruz10,1,2,0.7027027027027026,1,2,3.0,3.0,3.0,1.0
-329,JulianaNino,jusherrerama,1,2,0.7142857142857143,1,2,,,,
 330,jhriverasa,davidrh195,1,2,0.8,1,2,3.0,3.0,5.0,1.0
 331,kmendezp96,begarzonf,1,2,0.9481641468682506,1,2,2.0,3.0,4.0,2.0
 332,juasmartinezbel,xdanielsb,1,2,0.9545454545454546,1,2,3.0,3.0,3.0,2.0
@@ -339,7 +330,6 @@
 337,ccvacad,jhcardenasa,2,3,0.0,2,2,4.0,4.0,5.0,3.0
 338,jhcardenasa,ccvacad,2,3,0.0,2,2,1.0,0.0,4.0,2.0
 339,jhcardenasa,crarojasca,2,3,0.0,2,2,1.0,3.0,5.0,2.0
-340,ligibrial,jusherrerama,2,3,0.012313104661389573,2,2,,,,
 341,JuanitoAli,ligibrial,2,3,0.023427331887201697,2,2,1.0,5.0,3.0,2.0
 342,ligibrial,JuanitoAli,2,3,0.036449399656946824,2,2,1.0,1.0,5.0,2.0
 343,bdvegat,jjmuesesq,2,3,0.25,2,2,0.0,3.0,2.0,2.0
@@ -379,7 +369,6 @@
 377,jhcardenasa,crarojasca,3,4,0.0,3,2,1.0,3.0,5.0,2.0
 378,crarojasca,jhcardenasa,3,4,0.0,3,2,4.0,4.0,5.0,3.0
 379,jhcardenasa,CSebasGomez,3,4,0.0,3,2,3.0,3.0,5.0,2.0
-380,ligibrial,jusherrerama,3,4,0.014041246160596765,3,2,,,,
 381,jusherrerama,ligibrial,3,4,0.014473684210526305,3,2,1.0,5.0,3.0,2.0
 382,ligibrial,JuanitoAli,3,4,0.05776475512766843,3,2,1.0,1.0,5.0,2.0
 383,mdbelloc,HashNick,3,4,0.303030303030303,3,2,1.0,3.0,5.0,3.0
@@ -420,7 +409,6 @@
 418,crarojasca,CSebasGomez,4,5,0.0,4,2,3.0,3.0,5.0,2.0
 419,crarojasca,jhcardenasa,4,5,0.0,4,2,4.0,4.0,5.0,3.0
 420,jhcardenasa,crarojasca,4,5,0.0,4,2,1.0,3.0,5.0,2.0
-421,ligibrial,jusherrerama,4,5,0.014473684210526305,4,2,,,,
 422,ligibrial,kmendezp96,4,5,0.04375531011045031,4,2,1.0,5.0,6.0,1.0
 423,ligibrial,JuanitoAli,4,5,0.05815899581589956,4,2,1.0,1.0,5.0,2.0
 424,mdbelloc,HashNick,4,5,0.303030303030303,4,2,1.0,3.0,5.0,3.0
