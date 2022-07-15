@@ -1,0 +1,141 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Q10 is aspirations 
+# Q7_7_1 is javascript skills 
+# Q7_7_2 is mashup skills 
+# Q8_8_1 is general programming skills 
+
+```{r}
+# reading input 
+df<-read.csv("input/novelty.csv", header =TRUE, sep=",")
+df
+```
+
+```{r}
+# create new columns called log relational novelty
+df$log_relational_novelty <- log(df$similarity+1) 
+df
+```
+
+
+```{r}
+# standardizing variables for skills and aspirations. 
+cols <- c("Q7_Q7_1", "Q7_Q7_2", "Q8_Q8_1", "Q10", "log_relational_novelty")
+df[cols] <- scale(df[cols])
+df
+```
+
+
+
+```{r}
+mod <- lm( log_relational_novelty ~ Q10 + Q8_Q8_1 + Q7_Q7_1 + Q7_Q7_2, data = df)
+summary(mod)
+```
+
+```{r}
+mod <- lm( log_relational_novelty ~ factor(group) , data = df)
+summary(mod)
+```
+
+```{r}
+mod <- lm( log_relational_novelty ~ factor(group) + Q10 + Q8_Q8_1 + Q7_Q7_1 + Q7_Q7_2 , data = df)
+summary(mod)
+```
+
+## Nest Phase in Group [ Linear Mixed Model ]
+
+```{r}
+# convert to nominal factor
+df$user2 = factor(df$user2)
+df$stage = factor(df$stage)
+df$group = factor(df$group)
+```
+
+```{r}
+# explore the data and their levels 
+library(plyr)
+ddply(df, ~ group * stage, function(data) summary(data$log_relational_novelty) )
+ddply(df, ~ group * stage, summarise, log_relational_novelty.mean=mean(log_relational_novelty), log_relational_novelty.sd = sd(log_relational_novelty))
+```
+```{r}
+# histograms for two factors
+hist(df[df$group == 0 & df$stage == 1,]$log_relational_novelty)
+hist(df[df$group == 0 & df$stage == 2,]$log_relational_novelty)
+hist(df[df$group == 0 & df$stage == 3,]$log_relational_novelty)
+hist(df[df$group == 0 & df$stage == 4,]$log_relational_novelty)
+hist(df[df$group == 1 & df$stage == 1,]$log_relational_novelty)
+hist(df[df$group == 1 & df$stage == 2,]$log_relational_novelty)
+hist(df[df$group == 1 & df$stage == 3,]$log_relational_novelty)
+hist(df[df$group == 1 & df$stage == 4,]$log_relational_novelty)
+hist(df[df$group == 2 & df$stage == 1,]$log_relational_novelty)
+hist(df[df$group == 2 & df$stage == 2,]$log_relational_novelty)
+hist(df[df$group == 2 & df$stage == 3,]$log_relational_novelty)
+hist(df[df$group == 2 & df$stage == 4,]$log_relational_novelty)
+hist(df[df$group == 3 & df$stage == 1,]$log_relational_novelty)
+hist(df[df$group == 3 & df$stage == 2,]$log_relational_novelty)
+hist(df[df$group == 3 & df$stage == 3,]$log_relational_novelty)
+hist(df[df$group == 3 & df$stage == 4,]$log_relational_novelty)
+boxplot(log_relational_novelty ~ group * stage, data = df, xlab="Group.Stage", ylab="log_relational_novelty")
+with(df, interaction.plot(group, stage, log_relational_novelty, ylim=c(0, max(log_relational_novelty)))) # interaction plot
+```
+```{r}
+# library for LMM we will use on relational novelty 
+
+library(lme4)
+library(lmerTest)
+library(car)
+```
+
+# set sum-to-zero contrasts for the Anova cells 
+
+```{r}
+contrasts(df$group) <= "contr.sum"
+contrasts(df$stage) <= "contr.sum"
+```
+
+
+```{r}
+# stage nested within group 
+full.model = lmer( log_relational_novelty ~ group/stage + (1 | user2 ), data = df, REML = FALSE)
+Anova(full.model, type=3, test.statistics="F")
+full.model
+```
+```{r}
+library(performance)
+
+check_collinearity(full.model)
+
+
+```
+```{r}
+full.model.2 = lmer( log_relational_novelty ~ group/stage + + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + (1 | user2 ), data = df, REML = FALSE)
+Anova(full.model, type=3, test.statistics="F")
+full.model.2
+```
+
+```{r}
+check_collinearity(full.model.2)
+```
+
+
+```{r}
+anova(full.model, full.model.2)
+```
+```{r}
+library(car)
+
+vif(full.model)
+```
+```{r}
+vif(full.model.2)
+```
+
+```{r}
+library(multcomp)
+library(lsmeans)
+summary(glht(full.model, lsm(pairwise ~ group / stage)), test = adjusted(type='holm'))
+```
+
