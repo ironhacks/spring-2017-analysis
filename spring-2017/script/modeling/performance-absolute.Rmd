@@ -1,0 +1,182 @@
+---
+title: "R Notebook"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+# library for LMM 
+
+library(lme4)
+library(lmerTest)
+library(car)
+```
+
+
+
+```{r}
+df<-read.csv("input/overall_scores.csv", header =TRUE, sep=",")
+df <- df[complete.cases(df), ]                  # Apply complete.cases function
+df
+```
+
+
+```{r}
+df$log_novelty <- log(df$novelty+1) 
+df$log_user_requirement <- log(df$user.requirement+1)
+df$log_infovis <- log(df$infovis+1)
+df$log_total <- log(df$total+1)
+```
+
+
+```{r}
+# standardizing variables for skills and aspirations. 
+cols <- c("Q7_Q7_1", "Q7_Q7_2", "Q8_Q8_1", "Q10", "log_novelty", "log_user_requirement", "log_infovis", "log_total")
+df[cols] <- scale(df[cols])
+df
+```
+
+
+```{r}
+mod <- lm( log_novelty ~ factor(Group), data = df)
+summary(mod)
+```
+```{r}
+mod <- lm(log_user_requirement ~ factor(Group) , data = df)
+summary(mod)
+```
+```{r}
+mod <- lm( log_infovis ~ factor(Group) , data = df)
+summary(mod)
+```
+
+```{r}
+mod <- lm( log_total ~ factor(Group) , data = df)
+summary(mod)
+```
+
+```{r}
+# convert to nominal factor
+df$Group = factor(df$Group)
+df$phase = factor(df$phase)
+```
+
+```{r}
+library(plyr)
+ddply(df, ~ Group * phase, function(data) summary(data$log_novelty) )
+ddply(df, ~ Group * phase, summarise, log_novelty.mean=mean(log_novelty), log_novelty.sd = sd(log_novelty))
+```
+```{r}
+# histograms for two factors
+boxplot(log_novelty ~ Group * phase, data = df, xlab="Group.Phase", ylab="log_novelty")
+with(df, interaction.plot(Group, phase, log_novelty, ylim=c(0, max(log_novelty)))) # interaction plot
+```
+
+```{r}
+# histograms for two factors
+boxplot(log_novelty ~ Group * phase, data = df, xlab="Group.Phase", ylab="log_user_requirement")
+with(df, interaction.plot(Group, phase, log_user_requirement, ylim=c(0, max(log_user_requirement)))) # interaction plot
+```
+
+```{r}
+# histograms for two factors
+boxplot(log_novelty ~ Group * phase, data = df, xlab="Group.Phase", ylab="log_infovis")
+with(df, interaction.plot(Group, phase, log_infovis, ylim=c(0, max(log_infovis)))) # interaction plot
+```
+
+```{r}
+# histograms for two factors
+boxplot(log_novelty ~ Group * phase, data = df, xlab="Group.Phase", ylab="log_total")
+with(df, interaction.plot(Group, phase, log_total, ylim=c(0, max(log_total)))) # interaction plot
+```
+
+
+
+
+
+
+```{r}
+m = lmer(log_novelty ~ Group + (1|Student), data=df, REML=FALSE)
+summary(m)
+```
+```{r}
+plot(resid(m, type = "pearson") ~ fitted(m))
+qqnorm(resid(m, type = "pearson"))
+qqline(resid(m, type = "pearson"))
+```
+```{r}
+# library for LMM we will use on relational log_novelty 
+
+library(lme4)
+library(lmerTest)
+library(car)
+```
+
+# set sum-to-zero contrast for ANOVA cells 
+
+```{r}
+contrasts(df$Group) <= "contr.sum"
+contrasts(df$phase) <= "contr.sum"
+```
+
+```{r}
+# phase is nested within group 
+fit <- lmer(log_novelty ~ ( Group / phase ) +  ( 1 | Student), data = df, REML = FALSE)
+Anova(fit, type=3, test.statistics="F")
+fit
+```
+
+```{r}
+library(multcomp)
+library(lsmeans)
+summary(glht(fit, lsm(pairwise ~ Group / phase)), test = adjusted(type='holm'))
+```
+
+```{r}
+fit.full <- lmer(log_novelty ~ ( Group / phase ) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student), data = df, REML = FALSE)
+Anova(fit.full, type=3, test.statistics="F")
+fit.full
+```
+
+```{r}
+anova(fit, fit.full)
+```
+
+# User Requirement Score
+
+```{r}
+# phase is nested within group 
+fit.requirement.full <- lmer(log_user_requirement ~ ( Group / phase ) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student), data = df, REML = FALSE)
+Anova(fit.requirement.full, type=3, test.statistics="F")
+fit.requirement.full
+```
+
+```{r}
+# histograms for two factors
+boxplot(log_user_requirement ~ Group * phase, data = df, xlab="Group.Phase", ylab="log_user_requirement")
+with(df, interaction.plot(Group, phase, log_user_requirement, ylim=c(0, max(log_user_requirement)))) # interaction plot
+```
+
+
+```{r}
+# phase is nested within group 
+fit.requirement <- lmer(log_user_requirement ~ ( Group / phase ) +  ( 1 | Student), data = df, REML = FALSE)
+Anova(fit, type=3, test.statistics="F")
+fit.requirement
+```
+
+```{r}
+plot(resid(m, type = "pearson") ~ fitted(m))
+qqnorm(resid(m, type = "pearson"))
+qqline(resid(m, type = "pearson"))
+```
+
+```{r}
+anova(fit.requirement, fit.requirement.full)
+```
+ 
