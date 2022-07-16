@@ -10,7 +10,8 @@ output: html_notebook
 
 ```{r}
 # reading input 
-df<-read.csv("input/novelty.csv", header =TRUE, sep=",")
+df<-read.csv("input/commits_novelty.csv", header =TRUE, sep=",")
+df <- df[complete.cases(df), ]  
 df
 ```
 
