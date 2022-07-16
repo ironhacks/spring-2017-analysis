@@ -16,19 +16,30 @@ df
 ```
 
 ```{r}
+df$group = factor(df$group)
+```
+
+
+```{r}
 # create new columns called log relational novelty
 df$log_relational_novelty <- log(df$similarity+1) 
+df$log_count <- log(df$count+1) 
 df
 ```
 
 
 ```{r}
 # standardizing variables for skills and aspirations. 
-cols <- c("Q7_Q7_1", "Q7_Q7_2", "Q8_Q8_1", "Q10", "log_relational_novelty")
+cols <- c("Q7_Q7_1", "Q7_Q7_2", "Q8_Q8_1", "Q10", "log_relational_novelty", "log_count")
 df[cols] <- scale(df[cols])
 df
 ```
 
+
+```{r}
+mod <- lm(log_count ~ factor(group), data=df)
+summary(mod)
+```
 
 
 ```{r}
@@ -37,9 +48,67 @@ summary(mod)
 ```
 
 ```{r}
-mod <- lm( log_relational_novelty ~ factor(group) , data = df)
+mod <- lm( log_relational_novelty ~ log_count , data = df)
 summary(mod)
 ```
+
+```{r}
+mod <- lm( log_relational_novelty ~ factor(group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(mod)
+```
+
+```{r}
+# Proposed model by stepwise regression
+library(stats)
+mod <- lm( log_relational_novelty ~ factor(group) + log_count + Q7_Q7_2 , data = df)
+summary(mod)
+AIC(mod)
+BIC(mod)
+```
+
+```{r}
+# without the factor ( group ) and with all confounding variables 
+library(stats)
+mod <- lm( log_relational_novelty ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(mod)
+AIC(mod)
+BIC(mod)
+```
+
+```{r}
+library(stats)
+mod.1 <- lm( log_relational_novelty ~ log_count + Q7_Q7_2 , data = df)
+summary(mod.1)
+AIC(mod.1)
+BIC(mod.1)
+```
+
+```{r}
+library(stats)
+mod.2 <- lm( log_relational_novelty ~ factor(group) + log_count + Q7_Q7_2 , data = df)
+summary(mod.2)
+AIC(mod.2)
+BIC(mod.2)
+```
+
+```{r}
+# model with and without groups are very different ( significant )
+anova(mod.1, mod.2)
+```
+
+
+```{r}
+library(ALSM)
+step(lm(log_relational_novelty ~ factor(group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df),
+method="both", trace = 1 )
+```
+```{r}
+library(ALSM)
+bs <- BestSub(df[c(3, 4, 5, 6, 7, 10, 11, 12)], log_relational_novelty, num=1)
+bs
+```
+
+
 
 ```{r}
 mod <- lm( log_relational_novelty ~ factor(group) + Q10 + Q8_Q8_1 + Q7_Q7_1 + Q7_Q7_2 , data = df)
