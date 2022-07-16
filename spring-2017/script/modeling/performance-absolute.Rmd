@@ -56,7 +56,7 @@ summary(mod)
 ```
 
 ```{r}
-mod <- lm( log_total ~ factor(Group) , data = df)
+mod <- lm( log_total ~ factor(Group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
 summary(mod)
 ```
 

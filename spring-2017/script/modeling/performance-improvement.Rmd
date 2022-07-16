@@ -1,0 +1,63 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+# library for LMM 
+
+library(lme4)
+library(lmerTest)
+library(car)
+```
+
+```{r}
+df<-read.csv("input/improve_scores.csv", header =TRUE, sep=",")
+df <- df[complete.cases(df), ]                  # Apply complete.cases function
+df
+```
+```{r}
+df$log_improve_novel <- log(df$improve.novel+400) 
+df$log_improve_ur<- log(df$improve.ur+400)
+df$log_improve_vis<- log(df$improve.vis+400)
+df$log_improve_total<- log(df$improve.total+400)
+```
+
+
+```{r}
+# standardizing variables for skills and aspirations. 
+cols <- c("Q7_Q7_1", "Q7_Q7_2", "Q8_Q8_1", "Q10", "log_improve_novel", "log_improve_ur", "log_improve_vis", "log_improve_total")
+df[cols] <- scale(df[cols])
+df
+```
+
+
+```{r}
+mod <- lm( log_improve_novel ~ factor(Group), data = df)
+summary(mod)
+```
+```{r}
+mod <- lm( log_improve_ur ~ factor(Group), data = df)
+summary(mod)
+```
+```{r}
+mod <- lm( log_improve_vis ~ factor(Group), data = df)
+summary(mod)
+```
+```{r}
+mod <- lm( log_improve_total ~ factor(Group), data = df)
+summary(mod)
+```
+```{r}
+# convert to nominal factor
+df$Group = factor(df$Group)
+df$stage = factor(df$stage)
+```
+ 
+```{r}
+library(plyr)
+ddply(df, ~ Group * stage, function(data) summary(data$log_improve_total) )
+ddply(df, ~ Group * stage, summarise, log_improve_total.mean=mean(log_improve_total), log_improve_total.sd = sd(log_improve_total))
+```
+
