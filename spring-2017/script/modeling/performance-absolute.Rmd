@@ -21,8 +21,14 @@ library(car)
 
 ```{r}
 df<-read.csv("input/scores_commits.csv", header =TRUE, sep=",")
-#df <- df[complete.cases(df), ]                  # Apply complete.cases function
+df <- df[complete.cases(df), ]                  # Apply complete.cases function
 df
+```
+
+```{r}
+# convert to nominal factor
+df$Group = factor(df$Group)
+df$phase = factor(df$phase)
 ```
 
 
@@ -109,11 +115,11 @@ anova(mod.reduce.vis, mod.full.vis)
 ```
 ```{r}
 library(ALSM)
-step(lm(log_infovis ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df),
+step(lm(log_infovis ~ Group + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df),
 method="both", trace = 1 )
 ```
 ```{r}
-mod.reduce.total <- lm( log_total ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+mod.reduce.total <- lm( log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
 summary(mod.reduce.total)
 AIC(mod.reduce.total)
 BIC(mod.reduce.total)
@@ -121,7 +127,7 @@ BIC(mod.reduce.total)
 
 
 ```{r}
-mod.full.total <- lm( log_total ~ factor(Group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+mod.full.total <- lm( log_total ~ Group + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
 summary(mod.full.total)
 AIC(mod.full.total)
 BIC(mod.full.total)
@@ -196,9 +202,10 @@ contrasts(df$phase) <= "contr.sum"
 
 ```{r}
 # phase is nested within group 
-fit <- lmer(log_novelty ~ ( Group / phase ) +  ( 1 | Student), data = df, REML = FALSE)
-Anova(fit, type=3, test.statistics="F")
-fit
+library(apaTables)
+fit <- lm(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+apa.reg.table(lm(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, df),filename = "Example9.doc",table.number = 6)
+summary(fit)
 ```
 
 ```{r}
@@ -208,13 +215,20 @@ summary(glht(fit, lsm(pairwise ~ Group / phase)), test = adjusted(type='holm'))
 ```
 
 ```{r}
-fit.full <- lmer(log_novelty ~ ( Group / phase ) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student), data = df, REML = FALSE)
-Anova(fit.full, type=3, test.statistics="F")
-fit.full
+library(apaTables)
+fit.full <- lm(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
+apa.reg.table(lm(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, df),filename = "Example8.doc",table.number = 6)
+summary(fit.full)
 ```
 
 ```{r}
 anova(fit, fit.full)
+```
+
+
+```{r}
+library(apaTables)
+apa.reg.table(lm(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10,df),lm(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10,df),filename = "Example6.doc",table.number = 5)
 ```
 
 # User Requirement Score
