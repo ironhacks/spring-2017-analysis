@@ -20,9 +20,15 @@ library(car)
 
 
 ```{r}
-df<-read.csv("input/overall_scores.csv", header =TRUE, sep=",")
+df<-read.csv("input/scores_commits.csv", header =TRUE, sep=",")
 df <- df[complete.cases(df), ]                  # Apply complete.cases function
 df
+```
+
+```{r}
+# convert to nominal factor
+df$Group = factor(df$Group)
+df$phase = factor(df$phase)
 ```
 
 
@@ -31,33 +37,103 @@ df$log_novelty <- log(df$novelty+1)
 df$log_user_requirement <- log(df$user.requirement+1)
 df$log_infovis <- log(df$infovis+1)
 df$log_total <- log(df$total+1)
+df$log_count <- log(df$count+1)
 ```
 
 
 ```{r}
 # standardizing variables for skills and aspirations. 
-cols <- c("Q7_Q7_1", "Q7_Q7_2", "Q8_Q8_1", "Q10", "log_novelty", "log_user_requirement", "log_infovis", "log_total")
+cols <- c("Q7_Q7_1", "Q7_Q7_2", "Q8_Q8_1", "Q10", "log_novelty", "log_user_requirement", "log_infovis", "log_total", "log_count")
 df[cols] <- scale(df[cols])
 df
 ```
+```{r}
+mod.reduce.novelty <- lm( log_novelty ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
+summary(mod.reduce.novelty)
+AIC(mod.reduce.novelty)
+BIC(mod.reduce.novelty)
+
+```
+
+
+```{r}
+mod.full.novelty <- lm( log_novelty ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
+summary(mod.full.novelty)
+AIC(mod.full.novelty)
+BIC(mod.full.novelty)
+
+```
+
+```{r}
+anova(mod.reduce.novelty, mod.full.novelty)
+```
+```{r}
+library(ALSM)
+step(lm(log_novelty ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df),
+method="both", trace = 1 )
+```
+
+```{r}
+mod.reduce.ur <- lm(log_user_requirement ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(mod.reduce.ur)
+AIC(mod.reduce.ur)
+BIC(mod.reduce.ur)
+```
+
+```{r}
+mod.full.ur <- lm(log_user_requirement ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(mod.full.ur)
+AIC(mod.full.ur)
+BIC(mod.full.ur)
+```
+```{r}
+anova(mod.reduce.ur, mod.full.ur)
+```
+```{r}
+library(ALSM)
+step(lm(log_user_requirement ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df),
+method="both", trace = 1 )
+```
+
+
+
+```{r}
+mod.reduce.vis <- lm( log_infovis ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(mod.reduce.vis)
+AIC(mod.reduce.vis)
+BIC(mod.reduce.vis)
+```
+
+```{r}
+mod.full.vis <- lm( log_infovis ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(mod.full.vis)
+AIC(mod.full.vis)
+BIC(mod.full.vis)
+```
+```{r}
+anova(mod.reduce.vis, mod.full.vis)
+```
+```{r}
+library(ALSM)
+step(lm(log_infovis ~ Group + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df),
+method="both", trace = 1 )
+```
+```{r}
+mod.reduce.total <- lm( log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(mod.reduce.total)
+AIC(mod.reduce.total)
+BIC(mod.reduce.total)
+```
 
 
 ```{r}
-mod <- lm( log_novelty ~ factor(Group), data = df)
-summary(mod)
+mod.full.total <- lm( log_total ~ Group + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(mod.full.total)
+AIC(mod.full.total)
+BIC(mod.full.total)
 ```
 ```{r}
-mod <- lm(log_user_requirement ~ factor(Group) , data = df)
-summary(mod)
-```
-```{r}
-mod <- lm( log_infovis ~ factor(Group) , data = df)
-summary(mod)
-```
-
-```{r}
-mod <- lm( log_total ~ factor(Group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
-summary(mod)
+anova(mod.reduce.total, mod.full.total)
 ```
 
 ```{r}
@@ -126,9 +202,10 @@ contrasts(df$phase) <= "contr.sum"
 
 ```{r}
 # phase is nested within group 
-fit <- lmer(log_novelty ~ ( Group / phase ) +  ( 1 | Student), data = df, REML = FALSE)
-Anova(fit, type=3, test.statistics="F")
-fit
+library(apaTables)
+fit <- lm(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+apa.reg.table(lm(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, df),filename = "Example9.doc",table.number = 6)
+summary(fit)
 ```
 
 ```{r}
@@ -138,13 +215,20 @@ summary(glht(fit, lsm(pairwise ~ Group / phase)), test = adjusted(type='holm'))
 ```
 
 ```{r}
-fit.full <- lmer(log_novelty ~ ( Group / phase ) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student), data = df, REML = FALSE)
-Anova(fit.full, type=3, test.statistics="F")
-fit.full
+library(apaTables)
+fit.full <- lm(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
+apa.reg.table(lm(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, df),filename = "Example8.doc",table.number = 6)
+summary(fit.full)
 ```
 
 ```{r}
 anova(fit, fit.full)
+```
+
+
+```{r}
+library(apaTables)
+apa.reg.table(lm(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10,df),lm(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10,df),filename = "Example6.doc",table.number = 5)
 ```
 
 # User Requirement Score
