@@ -202,22 +202,18 @@ contrasts(df$phase) <= "contr.sum"
 
 ```{r}
 # phase is nested within group 
-library(apaTables)
 fit <- lm(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
-apa.reg.table(lm(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, df),filename = "Example9.doc",table.number = 6)
 summary(fit)
 ```
 
 ```{r}
 library(multcomp)
 library(lsmeans)
-summary(glht(fit, lsm(pairwise ~ Group / phase)), test = adjusted(type='holm'))
+#summary(glht(fit, lsm(pairwise ~ roup / phase)), test = adjusted(type='holm'))
 ```
 
 ```{r}
-library(apaTables)
 fit.full <- lm(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
-apa.reg.table(lm(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, df),filename = "Example8.doc",table.number = 6)
 summary(fit.full)
 ```
 
@@ -226,10 +222,6 @@ anova(fit, fit.full)
 ```
 
 
-```{r}
-library(apaTables)
-apa.reg.table(lm(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10,df),lm(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10,df),filename = "Example6.doc",table.number = 5)
-```
 
 # User Requirement Score
 

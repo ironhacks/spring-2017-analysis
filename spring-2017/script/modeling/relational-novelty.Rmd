@@ -56,6 +56,17 @@ summary(mod)
 mod <- lm( log_relational_novelty ~ factor(group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
 summary(mod)
 ```
+```{r}
+mod <- lm( log_relational_novelty ~ factor(group)/stage + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(mod)
+```
+
+```{r}
+mod <- lm( log_relational_novelty ~ factor(group) * stage + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(mod)
+```
+
+
 
 ```{r}
 # Proposed model by stepwise regression
@@ -102,11 +113,7 @@ library(ALSM)
 step(lm(log_relational_novelty ~ factor(group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df),
 method="both", trace = 1 )
 ```
-```{r}
-library(ALSM)
-bs <- BestSub(df[c(3, 4, 5, 6, 7, 10, 11, 12)], log_relational_novelty, num=1)
-bs
-```
+
 
 
 
@@ -180,32 +187,51 @@ check_collinearity(full.model)
 
 
 ```
-```{r}
-full.model.2 = lmer( log_relational_novelty ~ group/stage + + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + (1 | user2 ), data = df, REML = FALSE)
-Anova(full.model, type=3, test.statistics="F")
-full.model.2
-```
+# variability is very much higher in individual user and than in stages/phases for relational novelty. The remaining variability of  0.203502 comes from factor other than individual users and stage. factor(group)1  has higher relational novelty than group 0 by about  0.2099 . factor(group)3 has higher relational novelty than group 0 by about 0.3765. 
 
 ```{r}
-check_collinearity(full.model.2)
+var.model = lmer( log_relational_novelty ~ factor(group) + ( 1 | user2) + ( 1 | stage), data = df)
+summary(var.model)
 ```
 
 
 ```{r}
-anova(full.model, full.model.2)
+reduced.model = lm( log_relational_novelty ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
+summary(reduced.model)
 ```
+
+
+```{r}
+full.model = lm( log_relational_novelty ~ factor(group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
+summary(full.model)
+```
+
+```{r}
+anova(reduced.model, full.model)
+```
+
+
+```{r}
+boxplot(log_relational_novelty~ stage*group,
+col=c("white","lightgray", "blue", "green"),df)
+```
+
+```{r}
+check_collinearity(full.model)
+```
+
 ```{r}
 library(car)
 
 vif(full.model)
 ```
 ```{r}
-vif(full.model.2)
+vif(reduced.model)
 ```
 
 ```{r}
 library(multcomp)
 library(lsmeans)
-summary(glht(full.model, lsm(pairwise ~ group / stage)), test = adjusted(type='holm'))
+#summary(glht(full.model, lsm(pairwise ~ group / stage)), test = adjusted(type='holm'))
 ```
 
