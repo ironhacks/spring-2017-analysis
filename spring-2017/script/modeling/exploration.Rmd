@@ -28,6 +28,13 @@ df$phase = factor(df$phase)
 ```
 
 ```{r}
+simple.model <- lm(log_exploration ~ group , data=df)
+summary(simple.model)
+```
+
+
+
+```{r}
 reduced.model <- lm(log_exploration ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data=df)
 summary(reduced.model)
 ```

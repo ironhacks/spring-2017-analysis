@@ -3,12 +3,41 @@ title: "R Notebook"
 output: html_notebook
 ---
 
+```{r}
+# library for LMM 
+
+library(lme4)
+library(lmerTest)
+library(car)
+```
+
 
 ```{r}
 df <- read.csv("input/rare.csv", header =TRUE, sep=",")
 df <- df[complete.cases(df), ]                  # Apply complete.cases function
 df
 ```
+```{r}
+# convert to nominal factor
+df$phase = factor(df$phase)
+df$Group = factor(df$Group)
+```
+
+```{r}
+contrasts(df$Group) <- "contr.sum"
+contrasts(df$phase) <- "contr.sum"
+```
+
+```{r}
+m = glmer(len_match ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | user2 ), data=df, family = poisson)
+Anova(m, type = 3)
+```
+```{r}
+library(fitdistrplus)
+fit = fitdist(df[df$Group == 3 & df$phase == 5, ]$len_match, "pois", discrete=TRUE)
+gofstat(fit)
+```
+
 ```{r}
 # create new columns called log exploration
 df$log_rare <- log(df$len_match+1) 
@@ -32,6 +61,11 @@ df$phase = factor(df$phase)
 ```
 
 ```{r}
+boxplot(log_rare ~ Group * phase, data = df, xlab="Group.Stage", ylab="rareness")
+with(df, interaction.plot(Group, phase, log_rare, ylim=c(0, max(log_rare))))
+```
+
+```{r}
 # stage nested within group 
 nested.model = lmer( log_rare ~ Group + (1 | user2 ) +  ( 1 | phase), data = df, REML = FALSE)
 summary(nested.model)
@@ -48,5 +82,17 @@ summary(reduced.model)
 ```
 ```{r}
 anova(reduced.model, full.model)
+```
+```{r}
+reduced.model1 = lm( log_rare ~ Group + log_count , data = df)
+summary(reduced.model1)
+```
+
+```{r}
+reduced.model2 = lm( log_rare ~ log_count , data = df)
+summary(reduced.model2)
+```
+```{r}
+anova(reduced.model1, reduced.model2)
 ```
 
