@@ -1,0 +1,77 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+df <- read.csv("input/exploration.csv", header =TRUE, sep=",")
+df <- df[complete.cases(df), ]                  # Apply complete.cases function
+df
+```
+```{r}
+# create new columns called log exploration
+df$log_exploration <- log(df$exploration+1) 
+df$log_count <- log(df$count+1) 
+df
+```
+
+```{r}
+# standardizing variables for skills and aspirations. 
+cols <- c("Q7_Q7_1", "Q7_Q7_2", "Q8_Q8_1", "Q10", "log_exploration", "log_count")
+df[cols] <- scale(df[cols])
+df
+```
+
+```{r}
+df$group = factor(df$group)
+df$phase = factor(df$phase)
+```
+
+```{r}
+reduced.model <- lm(log_exploration ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data=df)
+summary(reduced.model)
+```
+```{r}
+full.model <- lm(log_exploration ~ group + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data=df)
+summary(full.model)
+```
+```{r}
+anova(reduced.model, full.model)
+```
+
+```{r}
+simple.model <- lm(log_exploration ~ group , data=df)
+summary(simple.model)
+```
+```{r}
+# library for LMM we will use on exploration
+
+library(lme4)
+library(lmerTest)
+library(car)
+```
+
+```{r}
+
+# set sum-to-zero contrasts for the Anova cells 
+
+contrasts(df$group) <= "contr.sum"
+contrasts(df$phase) <= "contr.sum"
+```
+
+```{r}
+# stage nested within group 
+nested.model = lmer( log_exploration ~ group + (1 | user2 ) + ( 1 | phase), data = df, REML = FALSE)
+summary(nested.model)
+```
+
+```{r}
+# stage nested within group 
+nested.model = lmer( log_exploration ~ group + (1 | user2 ) + ( 1 | phase), data = df, REML = FALSE)
+summary(nested.model)
+```
+```{r}
+boxplot(log_exploration ~ group * phase, data = df, xlab="Group.Stage", ylab="log_exploration")
+with(df, interaction.plot(group, phase, log_exploration, ylim=c(0, max(log_exploration))))
+```
+
