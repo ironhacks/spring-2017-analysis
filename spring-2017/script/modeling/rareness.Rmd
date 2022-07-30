@@ -1,0 +1,52 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+df <- read.csv("input/rare.csv", header =TRUE, sep=",")
+df <- df[complete.cases(df), ]                  # Apply complete.cases function
+df
+```
+```{r}
+# create new columns called log exploration
+df$log_rare <- log(df$len_match+1) 
+df$log_count <- log(df$count+1) 
+df$Q7_Q7_1<- log(df$Q7_Q7_1+1)
+df$Q7_Q7_2<- log(df$Q7_Q7_2+1)
+df$Q8_Q8_1<- log(df$Q8_Q8_1+1)
+df$Q10<- log(df$Q10+1)
+df
+```
+```{r}
+# standardizing variables 
+cols <- c("Q7_Q7_1", "Q7_Q7_2", "Q8_Q8_1", "Q10", "log_rare", "log_count")
+df[cols] <- scale(df[cols])
+df
+```
+
+```{r}
+df$Group = factor(df$Group)
+df$phase = factor(df$phase)
+```
+
+```{r}
+# stage nested within group 
+nested.model = lmer( log_rare ~ Group + (1 | user2 ) +  ( 1 | phase), data = df, REML = FALSE)
+summary(nested.model)
+```
+
+```{r}
+full.model = lm( log_rare ~ Group + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(full.model)
+```
+
+```{r}
+reduced.model = lm( log_rare ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+summary(reduced.model)
+```
+```{r}
+anova(reduced.model, full.model)
+```
+

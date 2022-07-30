@@ -16,7 +16,11 @@ df
 ```{r}
 # create new columns called log exploration
 df$log_exploration <- log(df$exploration+1) 
-df$log_count <- log(df$count+1) 
+df$log_count <- log(df$count+1)
+df$Q7_Q7_1 <- log(df$Q7_Q7_1)
+df$Q7_Q7_2 <- log(df$Q7_Q7_2)
+df$Q8_Q8_1 <- log(df$Q8_Q8_1)
+df$Q10 <- log(df$Q10)
 df$log_perform_dist <- log(df$abs_perform_diff_best+1) 
 df
 ```
@@ -37,5 +41,10 @@ df$phase = factor(df$phase)
 # stage nested within group 
 nested.model = lmer( log_exploration ~ group + (1 | user2 ) + (1 | log_perform_dist) + ( 1 | phase), data = df, REML = FALSE)
 summary(nested.model)
+```
+
+```{r}
+full.model = lm(log_exploration ~ group + log_count , data = df)
+summary(full.model)
 ```
 
