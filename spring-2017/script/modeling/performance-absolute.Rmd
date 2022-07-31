@@ -38,6 +38,10 @@ df$log_user_requirement <- log(df$user.requirement+1)
 df$log_infovis <- log(df$infovis+1)
 df$log_total <- log(df$total+1)
 df$log_count <- log(df$count+1)
+df$Q7_Q7_1 <- log(df$Q7_Q7_1+1)
+df$Q7_Q7_2 <- log(df$Q7_Q7_2+1)
+df$Q8_Q8_1 <- log(df$Q8_Q8_1+1)
+df$Q10 <- log(df$Q10+1)
 ```
 
 
@@ -98,14 +102,14 @@ method="both", trace = 1 )
 
 
 ```{r}
-mod.reduce.vis <- lm( log_infovis ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+mod.reduce.vis <- lmer( log_infovis ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student) + ( 1 | phase) , data = df, REML = FALSE)
 summary(mod.reduce.vis)
 AIC(mod.reduce.vis)
 BIC(mod.reduce.vis)
 ```
 
 ```{r}
-mod.full.vis <- lm( log_infovis ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+mod.full.vis <- lmer( log_infovis ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student) + ( 1 | phase) , data = df, REML = FALSE)
 summary(mod.full.vis)
 AIC(mod.full.vis)
 BIC(mod.full.vis)
@@ -220,14 +224,39 @@ summary(fit.full)
 ```{r}
 anova(fit, fit.full)
 ```
+```{r}
+# histograms for two factors
+boxplot(log_total ~ Group * phase, data = df, xlab="Group.Phase", ylab="log_total")
+with(df, interaction.plot(Group, phase, log_total, ylim=c(0, max(log_total)))) # interaction plot
+```
+```{r}
+fit.lmer <- lmer(log_total ~ (1 | Group) + (1| phase:Group), data = df, REML= FALSE)
+summary(fit.lmer)
+```
 
+
+
+```{r}
+fit.lmer <- lmer(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student ) + ( 1 | phase), data = df, REML= FALSE)
+summary(fit.lmer)
+```
+
+
+```{r}
+fit.lmer.reduced <- lmer(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student) + ( 1 | phase), data = df, REML=FALSE)
+summary(fit.lmer.reduced)
+```
+
+```{r}
+anova(fit.lmer.reduced, fit.lmer)
+```
 
 
 # User Requirement Score
 
 ```{r}
 # phase is nested within group 
-fit.requirement.full <- lmer(log_user_requirement ~ ( Group / phase ) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student), data = df, REML = FALSE)
+fit.requirement.full <- lmer(log_user_requirement ~  factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student) + ( 1 | phase), data = df, REML = FALSE)
 Anova(fit.requirement.full, type=3, test.statistics="F")
 fit.requirement.full
 ```
@@ -241,7 +270,7 @@ with(df, interaction.plot(Group, phase, log_user_requirement, ylim=c(0, max(log_
 
 ```{r}
 # phase is nested within group 
-fit.requirement <- lmer(log_user_requirement ~ ( Group / phase ) +  ( 1 | Student), data = df, REML = FALSE)
+fit.requirement <- lmer(log_user_requirement ~  log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student) + ( 1 | phase), data = df, REML = FALSE)
 Anova(fit, type=3, test.statistics="F")
 fit.requirement
 ```
