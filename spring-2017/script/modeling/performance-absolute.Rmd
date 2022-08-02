@@ -52,7 +52,7 @@ df[cols] <- scale(df[cols])
 df
 ```
 ```{r}
-mod.reduce.novelty <- lm( log_novelty ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
+mod.reduce.novelty <- lmer( log_novelty ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase ), data = df, REML = FALSE)
 summary(mod.reduce.novelty)
 AIC(mod.reduce.novelty)
 BIC(mod.reduce.novelty)
@@ -61,7 +61,7 @@ BIC(mod.reduce.novelty)
 
 
 ```{r}
-mod.full.novelty <- lm( log_novelty ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
+mod.full.novelty <- lmer( log_novelty ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + (1 | phase), data = df, REML = FALSE)
 summary(mod.full.novelty)
 AIC(mod.full.novelty)
 BIC(mod.full.novelty)
@@ -85,7 +85,7 @@ BIC(mod.reduce.ur)
 ```
 
 ```{r}
-mod.full.ur <- lm(log_user_requirement ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+mod.full.ur <- lm(log_user_requirement ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
 summary(mod.full.ur)
 AIC(mod.full.ur)
 BIC(mod.full.ur)
@@ -102,14 +102,14 @@ method="both", trace = 1 )
 
 
 ```{r}
-mod.reduce.vis <- lmer( log_infovis ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student) + ( 1 | phase) , data = df, REML = FALSE)
+mod.reduce.vis <- lmer( log_infovis ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase) , data = df, REML = FALSE)
 summary(mod.reduce.vis)
 AIC(mod.reduce.vis)
 BIC(mod.reduce.vis)
 ```
 
 ```{r}
-mod.full.vis <- lmer( log_infovis ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student) + ( 1 | phase) , data = df, REML = FALSE)
+mod.full.vis <- lmer( log_infovis ~ factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase) , data = df, REML = FALSE)
 summary(mod.full.vis)
 AIC(mod.full.vis)
 BIC(mod.full.vis)
@@ -237,13 +237,13 @@ summary(fit.lmer)
 
 
 ```{r}
-fit.lmer <- lmer(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student ) + ( 1 | phase), data = df, REML= FALSE)
+fit.lmer <- lmer(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase), data = df, REML= FALSE)
 summary(fit.lmer)
 ```
 
 
 ```{r}
-fit.lmer.reduced <- lmer(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student) + ( 1 | phase), data = df, REML=FALSE)
+fit.lmer.reduced <- lmer(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase), data = df, REML=FALSE)
 summary(fit.lmer.reduced)
 ```
 
@@ -256,7 +256,7 @@ anova(fit.lmer.reduced, fit.lmer)
 
 ```{r}
 # phase is nested within group 
-fit.requirement.full <- lmer(log_user_requirement ~  factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student) + ( 1 | phase), data = df, REML = FALSE)
+fit.requirement.full <- lmer(log_user_requirement ~  factor(Group) + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase), data = df, REML = FALSE)
 Anova(fit.requirement.full, type=3, test.statistics="F")
 fit.requirement.full
 ```
@@ -270,7 +270,7 @@ with(df, interaction.plot(Group, phase, log_user_requirement, ylim=c(0, max(log_
 
 ```{r}
 # phase is nested within group 
-fit.requirement <- lmer(log_user_requirement ~  log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | Student) + ( 1 | phase), data = df, REML = FALSE)
+fit.requirement <- lmer(log_user_requirement ~  log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 +  ( 1 | phase), data = df, REML = FALSE)
 Anova(fit, type=3, test.statistics="F")
 fit.requirement
 ```

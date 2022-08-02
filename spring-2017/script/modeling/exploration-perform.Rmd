@@ -17,10 +17,10 @@ df
 # create new columns called log exploration
 df$log_exploration <- log(df$exploration+1) 
 df$log_count <- log(df$count+1)
-df$Q7_Q7_1 <- log(df$Q7_Q7_1)
-df$Q7_Q7_2 <- log(df$Q7_Q7_2)
-df$Q8_Q8_1 <- log(df$Q8_Q8_1)
-df$Q10 <- log(df$Q10)
+df$Q7_Q7_1 <- log(df$Q7_Q7_1+1)
+df$Q7_Q7_2 <- log(df$Q7_Q7_2+1)
+df$Q8_Q8_1 <- log(df$Q8_Q8_1+1)
+df$Q10 <- log(df$Q10+1)
 df$log_perform_dist <- log(df$abs_perform_diff_best+1) 
 df
 ```
@@ -39,12 +39,25 @@ df$phase = factor(df$phase)
 
 ```{r}
 # stage nested within group 
-nested.model = lmer( log_exploration ~ group + (1 | user2 ) + (1 | log_perform_dist) + ( 1 | phase), data = df, REML = FALSE)
+nested.model = lmer( log_exploration ~ group + (1 | user2 ) + (1 | log_perform_dist) + ( 1 | phase), data = df)
 summary(nested.model)
 ```
 
 ```{r}
-full.model = lm(log_exploration ~ group + log_count , data = df)
+full.model = lmer(log_exploration ~ group + log_count + log_perform_dist + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase ), data = df, REML = FALSE)
 summary(full.model)
 ```
+
+```{r}
+reduced.model = lmer(log_exploration ~ log_count + log_perform_dist + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase ), data = df, REML = FALSE)
+summary(reduced.model)
+```
+
+ˆ
+```{r}
+anova(reduced.model, full.model)
+```
+
+
+
 

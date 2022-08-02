@@ -32,14 +32,14 @@ simple.model <- lm(log_exploration ~ group , data=df)
 summary(simple.model)
 ```
 
-
-
 ```{r}
-reduced.model <- lm(log_exploration ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data=df)
+reduced.model <- lmer(log_exploration ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase ) , data=df, REML = FALSE)
 summary(reduced.model)
 ```
+
+
 ```{r}
-full.model <- lm(log_exploration ~ group + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data=df)
+full.model <- lmer(log_exploration ~ group + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase ) , data=df, REML = FALSE)
 summary(full.model)
 ```
 ```{r}
