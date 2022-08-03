@@ -49,6 +49,7 @@ summary(full.model)
 ```
 
 ```{r}
+<<<<<<< HEAD
 reduced.model = lmer(log_exploration ~ log_count + log_perform_dist + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase ), data = df, REML = FALSE)
 summary(reduced.model)
 ```
@@ -61,3 +62,9 @@ anova(reduced.model, full.model)
 
 
 
+=======
+full.model = lmer( log_exploration ~ group + (1 | user2 ) + (1 | log_perform_dist) + ( 1 | phase), data = df, REML = FALSE)
+summary(full.model)
+```
+
+>>>>>>> f592b9a (performance distance exploration)
