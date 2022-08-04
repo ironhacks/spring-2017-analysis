@@ -3,17 +3,58 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
-
+ 
 ```{r}
-plot(cars)
+# reading input 
+df<-read.csv("input/scores_novelty.csv", header =TRUE, sep=",")
+df <- df[complete.cases(df), ]  
+df
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+```{r}
+df$group = factor(df$group)
+df$stage = factor(df$stage)
+```
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+```{r}
+df$log_relational_novelty <- log(df$similarity+1) 
+df$log_count <- log(df$count+1) 
+df$log_improve_total<- log(df$improve.total+350)
+df$Q7_Q7_1 <- log(df$Q7_Q7_1+1)
+df$Q7_Q7_2 <- log(df$Q7_Q7_2+1)
+df$Q8_Q8_1 <- log(df$Q8_Q8_1+1)
+df$Q10 <- log(df$Q10+1)
+df
+```
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+```{r}
+cols <- c("Q7_Q7_1", "Q7_Q7_2", "Q8_Q8_1", "Q10", "log_relational_novelty", "log_count", "log_improve_total")
+df[cols] <- scale(df[cols])
+df
+```
+
+
+```{r}
+mod0 <- lm(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count, data = df )
+summary(mod0)
+```
+
+```{r}
+mod1 <- lm(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + group, data = df )
+summary(mod1)
+```
+
+```{r}
+mod2<- lm(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count + group + log_improve_total, data = df )
+summary(mod2)
+```
+
+```{r}
+mod3<- lm(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count + group + log_improve_total + group * log_improve_total, data = df )
+summary(mod3)
+```
+
+```{r}
+anova(mod2, mod3)
+```
 
