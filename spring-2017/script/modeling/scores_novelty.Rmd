@@ -45,16 +45,45 @@ summary(mod1)
 ```
 
 ```{r}
-mod2<- lm(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count + group + log_improve_total, data = df )
+mod2<- lm(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count + group, data = df )
 summary(mod2)
+AIC(mod2)
 ```
 
 ```{r}
-mod3<- lm(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count + group + log_improve_total + group * log_improve_total, data = df )
+mod2b<- lm(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count + group + log_improve_total, data = df )
+summary(mod2b)
+AIC(mod2b)
+```
+
+```{r}
+anova(mod2, mod2b)
+```
+
+
+```{r}
+mod3<- lm(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count + group + group * log_improve_total, data = df )
 summary(mod3)
+AIC(mod3)
 ```
 
 ```{r}
 anova(mod2, mod3)
 ```
+
+```{r}
+anova(mod2b, mod3)
+```
+
+
+```{r}
+library(car)
+vif(mod3)
+```
+
+```{r}
+check_collinearity(mod3)
+```
+
+
 
