@@ -65,6 +65,7 @@ mod.full.novelty <- lmer( log_novelty ~ factor(Group) + log_count + Q7_Q7_1 + Q7
 summary(mod.full.novelty)
 AIC(mod.full.novelty)
 BIC(mod.full.novelty)
+anova(mod.full.novelty)
 
 ```
 
@@ -237,8 +238,15 @@ summary(fit.lmer)
 
 
 ```{r}
+library(lmerTest)
 fit.lmer <- lmer(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase), data = df, REML= FALSE)
 summary(fit.lmer)
+anova(fit.lmer)
+```
+
+```{r}
+library(multcomp)
+summary(glht(fit.lmer, linfct = mcp(Group = "Tukey")), test = adjusted("holm"))
 ```
 
 
@@ -281,7 +289,7 @@ qqnorm(resid(m, type = "pearson"))
 qqline(resid(m, type = "pearson"))
 ```
 
-```{r}
+```{r}                                        
 anova(fit.requirement, fit.requirement.full)
 ```
  
