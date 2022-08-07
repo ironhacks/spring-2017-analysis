@@ -77,6 +77,14 @@ summary(full.model)
 ```
 
 ```{r}
+library(multcomp)
+summary(glht(full.model, linfct = mcp(Group = "Tukey")), test = adjusted("holm"))
+```
+
+
+
+
+```{r}
 reduced.model = lmer( log_rare ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase ), data = df, REML = FALSE)
 summary(reduced.model)
 ```
