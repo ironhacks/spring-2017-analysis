@@ -100,7 +100,8 @@ library(car)
 vif(mod3)
 ```
 ```{r}
-mod4<- lmer(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count + group + log_improve_total + ( 1 | stage ), data = df, REML = FALSE )
+library(lme4)
+mod4<- lmer(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count + group + log_improve_total + ( 1 | stage ) + ( 1 | user2), data = df, REML = FALSE )
 summary(mod4)
 ```
 
@@ -158,4 +159,6 @@ summary(mod5b)
 ```{r}
 anova(mod5, mod5b)
 ```
+
+
 

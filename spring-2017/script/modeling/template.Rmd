@@ -30,3 +30,14 @@ df$Q10<- log(df$Q10+1)
 df
 ```
 
+
+```{r}
+df
+```
+
+```{r}
+library(lme4)
+mod1 <- lm(log_template_similarity ~ group, data=df)
+summary(mod1)
+```
+
