@@ -37,7 +37,19 @@ df
 
 ```{r}
 library(lme4)
-mod1 <- lm(log_template_similarity ~ group, data=df)
+mod1 <- lm(log_template_similarity ~ group + log_count+ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df)
 summary(mod1)
+```
+```{r}
+table <- aov(log_template_similarity ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count + group, data = df)
+summary(table)
+```
+
+```{r}
+forplot <- TukeyHSD(table, which = 'group')
+plot(forplot)
+```
+```{r}
+TukeyHSD(table, which = 'group')
 ```
 
