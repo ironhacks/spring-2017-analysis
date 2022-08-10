@@ -210,8 +210,6 @@ full.model = lm( log_relational_novelty ~ factor(group) + log_count + Q7_Q7_1 + 
 summary(full.model)
 ```
 
-
-
 ```{r}
 anova(reduced.model, full.model)
 ```
