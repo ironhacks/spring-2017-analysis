@@ -1,0 +1,15 @@
+styles.css
+script.js
+bootstrap.min.css
+sites.jpg
+social.jpg
+google.maps.Map
+document.getElementById
+google.maps.Marker
+xmlhttp.open
+xmlhttp.send
+xmlhttp.onreadystatechange
+xmlhttp.readyState
+xmlhttp.status
+xmlhttp.responseText
+JSON.parse

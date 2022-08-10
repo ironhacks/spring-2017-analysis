@@ -1,0 +1,15 @@
+funciones.js
+jquery.min.js
+bootstrap.min.js
+estilos.css
+document.getElementById
+.click
+google.maps.Map
+google.maps.Marker
+document.getElementsByClassName
+tabcontent.length
+.style.display
+tablinks.length
+.className
+.className.replace
+evt.currentTarget.className

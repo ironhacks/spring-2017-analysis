@@ -1,0 +1,15 @@
+styles.css
+jquery.min.js
+scripts.js
+integration.js
+google.maps.Map
+document.getElementById
+google.maps.visualization.HeatmapLayer
+google.maps.Marker
+.ready
+.ajax
+data.cityofchicago.org
+xi.json
+.done
+data.length
+console.log

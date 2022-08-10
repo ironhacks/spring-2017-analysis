@@ -1,0 +1,12 @@
+document.getElementById
+google.maps.Map
+google.maps.Marker
+api.openweathermap.org
+xmlhttp.open
+xmlhttp.send
+xmlhttp.onreadystatechange
+xmlhttp.responseText
+JSON.parse
+.innerHTML
+json.weather
+.main
