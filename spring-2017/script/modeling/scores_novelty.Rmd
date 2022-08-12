@@ -45,7 +45,7 @@ summary(mod1)
 ```
 
 ```{r}
-mod2<- lm(log_relational_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + log_count + group, data = df )
+mod2<- lm(log_relational_novelty ~ group + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df )
 summary(mod2)
 AIC(mod2)
 ```
@@ -57,6 +57,9 @@ summary(table)
 ```{r}
 forplot <- TukeyHSD(table, which = 'group')
 plot(forplot)
+```
+```{r}
+TukeyHSD(table, which = 'group')
 ```
 
 

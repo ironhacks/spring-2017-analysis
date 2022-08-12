@@ -218,6 +218,7 @@ library(lsmeans)
 ```
 
 ```{r}
+df
 fit.full <- lm(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
 summary(fit.full)
 ```
@@ -249,6 +250,17 @@ library(multcomp)
 summary(glht(fit.lmer, linfct = mcp(Group = "Tukey")), test = adjusted("holm"))
 ```
 
+```{r}
+aovresults <- aov(log_total ~ Group  + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
+aovresults
+```
+```{r}
+forplot <- TukeyHSD(aovresults, which = 'Group')
+plot(forplot)
+```
+```{r}
+TukeyHSD(aovresults, which = 'Group')
+```
 
 ```{r}
 fit.lmer.reduced <- lmer(log_total ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + ( 1 | phase), data = df, REML=FALSE)
