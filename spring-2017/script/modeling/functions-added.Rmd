@@ -1,0 +1,40 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+# reading input 
+df<-read.csv("input/functions_added.csv", header =TRUE, sep=",")
+df <- df[complete.cases(df), ]  
+df
+```
+
+```{r}
+df$log_added_sum <- log(df$added_sum+1) 
+cols <- c("log_added_sum")
+df[cols] <- scale(df[cols])
+df
+```
+
+```{r}
+df$Group <- factor(df$Group)
+```
+
+
+
+```{r}
+mod1 <- lm(log_added_sum ~ Group, data = df)
+summary(mod1)
+```
+```{r}
+tableb <- aov(log_added_sum ~ Group, data = df)
+summary(tableb)
+```
+
+```{r}
+TukeyHSD(tableb, which = 'Group')
+```
+
+
