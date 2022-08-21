@@ -12,63 +12,152 @@ library(lmerTest)
 library(car)
 ```
 
+# Read in the data 
+
 ```{r}
 df<-read.csv("input/improve_scores.csv", header =TRUE, sep=",")
 df <- df[complete.cases(df), ]  # Apply complete.cases function
 df
 ```
-```{r}
-df$log_improve_novel <- log(df$improve.novel+400) 
-df$log_improve_ur<- log(df$improve.ur+400)
-df$log_improve_vis<- log(df$improve.vis+400)
-df$log_improve_total<- log(df$improve.total+400)
-df$log_Q7_Q7_1<- log(df$Q7_Q7_1+400)
-df$log_Q7_Q7_2<- log(df$Q7_Q7_2+400)
-df$log_Q8_Q8_1<- log(df$Q8_Q8_1+400)
-df$log_Q10<- log(df$Q10+400)
-df$log_count<- log(df$count+400)
+# Make the group a form of nominal factor
 
+```{r}
+df$Group <- factor(df$Group)
 ```
 
+# subset for last stage
+
+```{r}
+df <- subset(df, stage == 5)
+df
+```
+
+# scaling the variables 
 
 ```{r}
 # standardizing variables for skills and aspirations. 
-cols <- c("log_Q7_Q7_1", "log_Q7_Q7_2", "log_Q8_Q8_1", "log_Q10", "log_improve_novel", "log_improve_ur", "log_improve_vis", "log_improve_total")
+cols <- c("Q7_Q7_1", "Q7_Q7_2", "Q8_Q8_1", "Q10", "improve.novel", "improve.ur", "improve.vis", "improve.total", "count")
 df[cols] <- scale(df[cols])
 df
 ```
 
+# get the correlations
 
 ```{r}
-mod.full <- lm( log_improve_novel ~ factor(Group) + log_count + log_Q7_Q7_1 + log_Q7_Q7_2 + log_Q8_Q8_1 +  log_Q10, data = df)
+cor(df[cols])
+```
+# get the significance of the correlations
+
+```{r}
+cor.test(df$improve.vis, df$improve.total, method='spearman')
+```
+```{r}
+cor.test(df$improve.vis, df$improve.ur, method='spearman')
+```
+```{r}
+hist(df[df$Group == 0 & df$stage == 5,]$improve.total)
+hist(df[df$Group == 1 & df$stage == 5,]$improve.total)
+hist(df[df$Group == 2 & df$stage == 5,]$improve.total)
+hist(df[df$Group == 3 & df$stage == 5,]$improve.total)
+boxplot(improve.total ~ Group * stage, data = df, xlab="Group.Stage", ylab="improve.total")
+with(df, interaction.plot(Group, stage, improve.total, ylim=c(0, max(improve.total)))) # interaction plot
+```
+
+## Total improvement score phase 4 - 5
+
+```{r}
+mod.full <- lm( improve.total ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
 summary(mod.full)
 ```
 ```{r}
-mod.reduced <- lm( log_improve_novel ~ log_count + log_Q7_Q7_1 + log_Q7_Q7_2 + log_Q8_Q8_1 +  log_Q10, data = df)
+mod.reduced <- lm( improve.total ~ count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
 summary(mod.reduced)
 ```
 
 ```{r}
 anova(mod.reduced, mod.full)
 ```
+```{r}
+table <- aov(improve.total ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
+summary(table)
+```
+```{r}
+forplot <- TukeyHSD(table, which = 'Group')
+plot(forplot)
+```
 
+```{r}
+TukeyHSD(table, which = 'Group')
+```
+## Total improvement user requirement score
 
 ```{r}
-mod <- lm( improve.ur ~ factor(Group), data = df)
-summary(mod)
+mod.full.ur <- lm( improve.ur ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
+summary(mod.full.ur)
+```
+
+```{r}
+mod.reduced.ur <- lm( improve.ur ~ count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
+summary(mod.reduced.ur)
+```
+
+```{r}
+anova(mod.reduced.ur, mod.full.ur)
 ```
 ```{r}
-mod <- lm( improve.vis ~ factor(Group), data = df)
-summary(mod)
+table.ur <- aov(improve.ur ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
+summary(table.ur)
 ```
 ```{r}
-mod <- lm( improve.total ~ factor(Group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
-summary(mod)
+forplot <- TukeyHSD(table.ur, which = 'Group')
+plot(forplot)
+```
+## Total improvement visualization score
+
+```{r}
+mod.full.vis <- lm( improve.vis ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
+summary(mod.full.vis)
 ```
 ```{r}
-# convert to nominal factor
-df$Group = factor(df$Group)
-df$stage = factor(df$stage)
+mod.reduced.vis <- lm( improve.vis ~ count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
+summary(mod.reduced.vis)
 ```
- 
+```{r}
+anova(mod.reduced.vis, mod.full.vis)
+```
+
+```{r}
+table.vis <- aov(improve.vis ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
+summary(table.vis)
+```
+```{r}
+forplot <- TukeyHSD(table.vis, which = 'Group')
+plot(forplot)
+```
+```{r}
+TukeyHSD(table.vis, which = 'Group')
+```
+## Total improvement novelty score
+
+```{r}
+mod.full.novelty <- lm( improve.novel ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
+summary(mod.full.novelty)
+```
+
+```{r}
+mod.reduced.novelty <- lm( improve.novel ~ count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
+summary(mod.reduced.novelty)
+```
+```{r}
+anova(mod.reduced.novelty, mod.full.novelty)
+```
+```{r}
+table.novel <- aov(improve.novel ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df)
+summary(table.novel)
+```
+
+```{r}
+forplot <- TukeyHSD(table.novel, which = 'Group')
+plot(forplot)
+```
 
