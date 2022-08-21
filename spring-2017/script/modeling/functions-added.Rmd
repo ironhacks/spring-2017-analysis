@@ -11,6 +11,12 @@ df <- df[complete.cases(df), ]
 df
 ```
 
+
+```{r}
+df <- subset(df, added_sum > 0)
+df
+```
+
 ```{r}
 df$log_added_sum <- log(df$added_sum+1) 
 cols <- c("log_added_sum")

@@ -11,6 +11,10 @@ df<-read.csv("input/rare_sum.csv", header =TRUE, sep=",")
 df <- df[complete.cases(df), ]  
 df
 ```
+```{r}
+df <- subset(df, added_sum > 0)
+df
+```
 
 ```{r}
 df$log_added_sum <- log(df$added_sum+1) 
@@ -25,12 +29,18 @@ df$Group <- factor(df$Group)
 
 
 ```{r}
-mod1 <- lm(log_added_sum ~ Group, data = df)
+mod1 <- lmer(log_added_sum ~ Group + ( 1 | stage ) , data = df, REML = FALSE)
 summary(mod1)
 ```
 
 ```{r}
-tableb <- aov(log_added_sum ~ Group, data = df)
+library(multcomp)
+summary(glht(mod1, linfct = mcp(Group = "Tukey")), test = adjusted("holm"))
+```
+
+
+```{r}
+tableb <- aov(log_added_sum ~ Group , data = df)
 summary(tableb)
 ```
 

@@ -10,17 +10,24 @@ df<-read.csv("input/rare5.csv", header =TRUE, sep=",")
 df
 ```
 ```{r}
+df <- subset(df, len_match5 > 0)
+df
+```
+
+
+
+```{r}
 df$Group = factor(df$Group)
 df$phase = factor(df$phase)
 ```
 
 ```{r}
 df$log_len_match5 <- log(df$len_match5+1) 
-#df$log_count <- log(df$count+1) 
-#$Q7_Q7_1 <- log(df$Q7_Q7_1+1)
-#df$Q7_Q7_2 <- log(df$Q7_Q7_2+1)
-#df$Q8_Q8_1 <- log(df$Q8_Q8_1+1)
-#df$Q10 <- log(df$Q10+1)
+df$log_count <- log(df$count+1) 
+df$Q7_Q7_1 <- log(df$Q7_Q7_1+1)
+df$Q7_Q7_2 <- log(df$Q7_Q7_2+1)
+df$Q8_Q8_1 <- log(df$Q8_Q8_1+1)
+df$Q10 <- log(df$Q10+1)
 df
 ```
 
@@ -48,5 +55,13 @@ plot(forplot)
 
 ```{r}
 TukeyHSD(table, which = 'Group')
+```
+```{r}
+tableb <- aov(len_match5 ~ Group + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data = df)
+summary(tableb)
+```
+
+```{r}
+TukeyHSD(tableb, which = 'Group')
 ```
 
