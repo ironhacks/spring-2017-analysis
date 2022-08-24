@@ -89,6 +89,25 @@ plot(forplot)
 ```{r}
 TukeyHSD(table, which = 'Group')
 ```
+
+# Total improvement score Quantile regression 
+
+```{r}
+
+# Loading the packages
+library(quantreg)
+library(dplyr)
+library(ggplot2)
+library(caret)
+
+# Model: Quantile Regression
+Quan_fit <- rq(improve.total ~ factor(Group), data = df)
+
+# Summary of Model
+summary(Quan_fit)
+```
+
+
 ## Total improvement user requirement score
 
 ```{r}
