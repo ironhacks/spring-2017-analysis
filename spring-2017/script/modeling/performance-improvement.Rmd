@@ -101,7 +101,7 @@ library(ggplot2)
 library(caret)
 
 # Model: Quantile Regression
-Quan_fit <- rq(improve.total ~ factor(Group), data = df)
+Quan_fit <- rq(improve.total ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df, tau = 0.25)
 
 # Summary of Model
 summary(Quan_fit)
