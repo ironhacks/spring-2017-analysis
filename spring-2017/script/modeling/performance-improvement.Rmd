@@ -108,6 +108,17 @@ summary(Quan_fit)
 ```
 
 
+```{r}
+Quan_fit_75 <- rq(improve.total ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df, tau = 0.75)
+
+# Summary of Model
+summary(Quan_fit_75)
+```
+
+```{r}
+anova(Quan_fit, Quan_fit_75)
+```
+
 ## Total improvement user requirement score
 
 ```{r}
