@@ -118,6 +118,16 @@ summary(Quan_fit_75)
 ```{r}
 anova(Quan_fit, Quan_fit_75)
 ```
+# Plotting Quantile Data 
+
+```{r}
+qs <- 1:9/10
+qr2 <- rq(improve.total ~ Group + count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 +  Q10, data = df, tau = qs)
+ggplot(df, aes(x, y)) + geom_point() + geom_quantile(quantiles = qs)
+```
+
+
+
 
 ## Total improvement user requirement score
 
