@@ -132,8 +132,10 @@ BIC(mod.reduce.total)
 
 
 ```{r}
-mod.full.total <- lm( log_total ~ Group + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
+library(apaTables)
+mod.full.total <- lm( log_total ~ Group + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df)
 summary(mod.full.total)
+apa.reg.table(mod.full.total, filename = "Table2_total_score_absolute.doc", table.number = 2)
 AIC(mod.full.total)
 BIC(mod.full.total)
 ```
