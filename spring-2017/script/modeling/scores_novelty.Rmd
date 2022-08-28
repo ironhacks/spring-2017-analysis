@@ -53,8 +53,25 @@ AIC(mod2)
 ```
 
 ```{r}
+library(modelsummary)
+library(kableExtra)
+library(gt)
+
+rename(df, JavaScript = Q7_Q7_1
+         , Visualization = Q7_Q7_2
+         , Coding = Q8_Q8_1
+         , Aspiration = Q10
+       )
+
+models <- list(
+  "With Treatment"     = lm(log_relational_novelty ~ group + log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df ),
+  "Without Treatment" = lm(log_relational_novelty ~ log_count + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 , data = df )
+
+) 
+modelsummary(models, output = "table.tex", statistic = "{std.error} ({p.value})")
 
 ```
+
 
 
 ```{r}
