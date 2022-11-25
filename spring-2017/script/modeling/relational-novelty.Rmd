@@ -45,6 +45,18 @@ mod <- lm(log_count ~ factor(group), data=df)
 summary(mod)
 ```
 
+```{r}
+mod <- lm( log_relational_novelty ~ group, data = df)
+summary(mod)
+```
+
+```{r}
+library(plyr)
+df$group <- revalue(df$group, c(0 = 3))
+mod <- lm( log_relational_novelty ~ factor(group), data = frame)
+summary(mod)
+```
+
 
 ```{r}
 mod <- lm( log_relational_novelty ~ Q10 + Q8_Q8_1 + Q7_Q7_1 + Q7_Q7_2, data = df)
