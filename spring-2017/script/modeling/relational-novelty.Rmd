@@ -51,9 +51,8 @@ summary(mod)
 ```
 
 ```{r}
-library(plyr)
-df$group <- revalue(df$group, c(0 = 3))
-mod <- lm( log_relational_novelty ~ factor(group), data = frame)
+df$group <- relevel(df$group, ref = "3")
+mod <- lm( log_relational_novelty ~ factor(group), data = df)
 summary(mod)
 ```
 
