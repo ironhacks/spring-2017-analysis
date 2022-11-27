@@ -1,0 +1,25 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+# reading input 
+df <- read.csv("perform_dist.csv", header =TRUE, sep=",")
+df <- df[complete.cases(df), ]  
+df
+```
+
+```{r}
+df$group = factor(df$group)
+df$log_abs_perform_diff_best <- log(df$abs_perform_diff_best + 1) 
+df$group <- relevel(df$group, ref = "3")
+```
+
+
+```{r}
+mod <- lm(log_abs_perform_diff_best ~ group, data = df)
+summary(mod)
+```
+
