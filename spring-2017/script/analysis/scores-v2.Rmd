@@ -1,0 +1,45 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+df <- read.csv("merged.csv", header =TRUE, sep=",")
+#df <- df[complete.cases(df), ]  
+df
+```
+
+
+```{r}
+df$ln_novelty <- log(df$novelty+1)
+df$ln_total <- log(df$total+1) 
+df$group = factor(df$group)
+df
+```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_total ~ factor(group), data=df)
+summary(mod)
+```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_novelty ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+summary(mod)
+```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_total ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+summary(mod)
+```
+```{r}
+with(df, interaction.plot(group, phase, ln_total, ylim=c(0, max(ln_total)))) # interaction plot
+```
+
+```{r}
+with(df, interaction.plot(group, phase, ln_novelty, ylim=c(0, max(ln_novelty)))) # interaction plot
+```
+
