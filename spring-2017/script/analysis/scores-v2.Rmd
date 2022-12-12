@@ -5,7 +5,7 @@ output: html_notebook
 
 
 ```{r}
-df <- read.csv("merged.csv", header =TRUE, sep=",")
+df <- read.csv("merged-rev.csv", header =TRUE, sep=",")
 #df <- df[complete.cases(df), ]  
 df
 ```
@@ -29,12 +29,40 @@ df$group <- relevel(df$group, ref = "3")
 mod <- lm(ln_novelty ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
 summary(mod)
 ```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod1 <- lm(ln_novelty ~ factor(group) + factor(phase) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+summary(mod1)
+```
+
+```{r}
+anova(mod, mod1)
+```
+
+
 ```{r}
 library(lmerTest)
 fit.lmer <- lmer(ln_novelty ~ factor(group) + ( 1 | phase), data = df, REML= FALSE)
 fit.lmer
 ```
 
+```{r}
+tapply(df$ln_novelty, df$group, summary)
+```
+
+```{r}
+tapply(df$ln_total, df$group, summary)
+```
+```{r}
+library(vtree)
+vtree(df, "group")
+```
+```{r}
+vtree(df, c("phase", "group"), 
+   fillcolor = c( phase = "#e7d4e8", group = "#99d8c9"),
+   horiz = FALSE)
+```
 
 
 ```{r}
