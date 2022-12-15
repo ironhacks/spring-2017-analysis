@@ -5,8 +5,8 @@ output: html_notebook
 
 
 ```{r}
-df <- read.csv("merged-rev.csv", header =TRUE, sep=",")
-#df <- df[complete.cases(df), ]  
+df <- read.csv("merge-new-version.csv", header =TRUE, sep=",")
+#df <- df[!complete.cases(df), ]   
 df
 ```
 
@@ -26,13 +26,20 @@ summary(mod)
 
 ```{r}
 df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_novelty ~ factor(group), data=df)
+summary(mod)
+```
+
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
 mod <- lm(ln_novelty ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
 summary(mod)
 ```
 
 ```{r}
 df$group <- relevel(df$group, ref = "3")
-mod1 <- lm(ln_novelty ~ factor(group) + factor(phase) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+mod1 <- lm(ln_novelty ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
 summary(mod1)
 ```
 
