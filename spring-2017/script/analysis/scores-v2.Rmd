@@ -36,8 +36,16 @@ summary(mod)
 ```
 ```{r}
 df$group <- relevel(df$group, ref = "3")
-mod <- lm(ln_exploration ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
-summary(mod)
+mod2 <- lm(ln_exploration ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+summary(mod2)
+```
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod3 <- lm(ln_exploration ~  Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+summary(mod3)
+```
+```{r}
+anova(mod2, mod3)
 ```
 
 
@@ -52,9 +60,16 @@ df$group <- relevel(df$group, ref = "3")
 mod1 <- lm(ln_novelty ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
 summary(mod1)
 ```
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod4 <- lm(ln_novelty ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+summary(mod4)
+```
+
+
 
 ```{r}
-anova(mod, mod1)
+anova(mod1, mod4)
 ```
 
 
@@ -88,9 +103,22 @@ vtree(df, c("phase", "group"),
 
 ```{r}
 df$group <- relevel(df$group, ref = "3")
-mod <- lm(ln_total ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
-summary(mod)
+mod5 <- lm(ln_total ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+summary(mod5)
 ```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod6 <- lm(ln_total ~ Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+summary(mod6)
+```
+
+```{r}
+anova(mod5, mod6)
+```
+
+
+
 ```{r}
 with(df, interaction.plot(group, phase, ln_total, ylim=c(0, max(ln_total)))) # interaction plot
 ```
