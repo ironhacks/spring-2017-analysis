@@ -3,10 +3,9 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-
 ```{r}
-df <- read.csv("merge-new-version.csv", header =TRUE, sep=",")
-#df <- df[!complete.cases(df), ]   
+df <- read.csv("merged-new-version2.csv", header =TRUE, sep=",")
+#df <- df[!complete.cases(df), ]  
 df
 ```
 
@@ -14,8 +13,14 @@ df
 ```{r}
 df$ln_novelty <- log(df$novelty+1)
 df$ln_total <- log(df$total+1) 
+df$ln_exploration <- log(df$exploration+1) 
 df$group = factor(df$group)
 df
+```
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_exploration ~ factor(group), data=df)
+summary(mod)
 ```
 
 ```{r}
@@ -52,7 +57,7 @@ anova(mod, mod1)
 library(lmerTest)
 fit.lmer <- lmer(ln_novelty ~ factor(group) + ( 1 | phase), data = df, REML= FALSE)
 fit.lmer
-```
+``` 
 
 ```{r}
 tapply(df$ln_novelty, df$group, summary)
@@ -61,6 +66,10 @@ tapply(df$ln_novelty, df$group, summary)
 ```{r}
 tapply(df$ln_total, df$group, summary)
 ```
+```{r}
+tapply(df$ln_exploration, df$group, summary)
+```
+
 ```{r}
 library(vtree)
 vtree(df, "group")
@@ -80,6 +89,16 @@ summary(mod)
 ```{r}
 with(df, interaction.plot(group, phase, ln_total, ylim=c(0, max(ln_total)))) # interaction plot
 ```
+
+```{r}
+with(df, interaction.plot(group, phase, ln_novelty, ylim=c(0, max(ln_novelty)))) # interaction plot
+```
+
+```{r}
+with(df, interaction.plot(group, phase, ln_exploration, ylim=c(0, max(ln_exploration)))) # interaction plot
+```
+
+
 
 ```{r}
 with(df, interaction.plot(group, phase, ln_novelty, ylim=c(0, max(ln_novelty)))) # interaction plot
