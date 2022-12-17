@@ -34,6 +34,11 @@ df$group <- relevel(df$group, ref = "3")
 mod <- lm(ln_novelty ~ factor(group), data=df)
 summary(mod)
 ```
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_exploration ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+summary(mod)
+```
 
 
 ```{r}
