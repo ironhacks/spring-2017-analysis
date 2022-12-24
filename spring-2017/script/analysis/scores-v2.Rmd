@@ -8,6 +8,11 @@ df <- read.csv("merged-new-version2.csv", header =TRUE, sep=",")
 #df <- df[!complete.cases(df), ]  
 df
 ```
+```{r}
+df <- read.csv("merged-variety.csv", header =TRUE, sep=",")
+#df <- df[!complete.cases(df), ]  
+df
+```
 
 
 ```{r}
@@ -15,12 +20,35 @@ df$ln_novelty <- log(df$novelty+1)
 df$ln_total <- log(df$total+1) 
 df$ln_exploration <- log(df$exploration+1) 
 df$group = factor(df$group)
+df$ln_len_unique <- log(df$len_unique+1) 
 df
 ```
+```{r}
+df_new <- df[, sapply(df, is.numeric)]
+cor(df_new, use = "complete.obs", method = "spearman" )
+```
+
+
+```{r}
+library(car)
+mod <- lm(ln_total~ ln_novelty + ln_len_unique, data=df)
+vif(mod)
+```
+
+
 ```{r}
 df$group <- relevel(df$group, ref = "3")
 mod <- lm(ln_exploration ~ factor(group), data=df)
 summary(mod)
+```
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_len_unique ~ factor(group), data=df)
+summary(mod)
+```
+
+```{r}
+tapply(df$ln_len_unique, df$group, summary)
 ```
 
 ```{r}
