@@ -13,6 +13,11 @@ df <- read.csv("merged-variety.csv", header =TRUE, sep=",")
 #df <- df[!complete.cases(df), ]  
 df
 ```
+```{r}
+df <- read.csv("merged-added-functions.csv", header =TRUE, sep=",")
+#df <- df[!complete.cases(df), ]  
+df
+```
 
 
 ```{r}
@@ -21,6 +26,7 @@ df$ln_total <- log(df$total+1)
 df$ln_exploration <- log(df$exploration+1) 
 df$group = factor(df$group)
 df$ln_len_unique <- log(df$len_unique+1) 
+df$ln_added_sum <- log(df$added_sum+1)
 df
 ```
 ```{r}
@@ -33,6 +39,12 @@ cor(df_new, use = "complete.obs", method = "spearman" )
 library(car)
 mod <- lm(ln_total~ ln_novelty + ln_len_unique, data=df)
 vif(mod)
+```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_added_sum ~ factor(group), data=df)
+summary(mod)
 ```
 
 
@@ -117,6 +129,14 @@ tapply(df$ln_total, df$group, summary)
 ```{r}
 tapply(df$ln_exploration, df$group, summary)
 ```
+
+```{r}
+tapply(df$ln_len_unique, df$group, summary)
+```
+```{r}
+tapply(df$ln_added_sum, df$group, summary)
+```
+
 
 ```{r}
 library(vtree)
