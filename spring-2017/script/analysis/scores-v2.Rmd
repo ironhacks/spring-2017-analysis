@@ -19,6 +19,13 @@ df <- read.csv("merged-added-functions.csv", header =TRUE, sep=",")
 df
 ```
 
+```{r}
+df <- read.csv("merged-sim-best.csv", header =TRUE, sep=",")
+#df <- df[!complete.cases(df), ]  
+df
+```
+
+
 
 ```{r}
 df$ln_novelty <- log(df$novelty+1)
@@ -27,6 +34,7 @@ df$ln_exploration <- log(df$exploration+1)
 df$group = factor(df$group)
 df$ln_len_unique <- log(df$len_unique+1) 
 df$ln_added_sum <- log(df$added_sum+1)
+df$ln_sim_best <- log(df$sim.to.best+1)
 df
 ```
 ```{r}
@@ -68,6 +76,13 @@ df$group <- relevel(df$group, ref = "3")
 mod <- lm(ln_total ~ factor(group), data=df)
 summary(mod)
 ```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_sim_best ~ factor(group), data=df)
+summary(mod)
+```
+
 
 ```{r}
 df$group <- relevel(df$group, ref = "3")
@@ -134,7 +149,7 @@ tapply(df$ln_exploration, df$group, summary)
 tapply(df$ln_len_unique, df$group, summary)
 ```
 ```{r}
-tapply(df$ln_added_sum, df$group, summary)
+tapply(df$ln_sim_best, df$group, summary)
 ```
 
 
