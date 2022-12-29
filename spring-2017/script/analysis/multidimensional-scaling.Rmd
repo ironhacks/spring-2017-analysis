@@ -8,7 +8,7 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
-df <- read.csv("adjacency_df.csv")
+df <- read.csv("stage1_bogota3_edge.csv")
 df
 ```
 
@@ -30,7 +30,195 @@ colnames(mds) <- c("Dim.1", "Dim.2")
 # Plot MDS
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
           label = rownames(df),
+          title = "Stage 1 Full Transparency", 
           size = 1,
+          repel = TRUE)
+```
+
+```{r}
+# K-means clustering
+clust <- kmeans(mds, 3)$cluster %>%
+  as.factor()
+mds <- mds %>%
+  mutate(groups = clust)
+# Plot and color by groups
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = rownames(df),
+          color = "groups",
+          palette = "jco",
+          title = "Stage 1 Full Transparency", 
+          size = 1, 
+          ellipse = TRUE,
+          ellipse.type = "convex",
+          repel = TRUE)
+```
+
+```{r}
+df <- read.csv("stage4_bogota3_edge.csv")
+df
+```
+
+```{r}
+# K-means clustering
+clust <- kmeans(mds, 3)$cluster %>%
+  as.factor()
+mds <- mds %>%
+  mutate(groups = clust)
+# Plot and color by groups
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = rownames(df),
+          color = "groups",
+          palette = "jco",
+          title = "Stage 4 Full Transparency", 
+          size = 1, 
+          ellipse = TRUE,
+          ellipse.type = "convex",
+          repel = TRUE)
+```
+
+
+```{r}
+df <- read.csv("stage1_bogota0_edge.csv")
+df
+```
+
+```{r}
+# Load required packages
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = rownames(df),
+          title = "Stage 1 No Transparency", 
+          size = 1,
+          repel = TRUE)
+```
+
+```{r}
+# K-means clustering
+clust <- kmeans(mds, 3)$cluster %>%
+  as.factor()
+mds <- mds %>%
+  mutate(groups = clust)
+# Plot and color by groups
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = rownames(df),
+          color = "groups",
+          palette = "jco",
+          title = "Stage 1 No Transparency", 
+          size = 1, 
+          ellipse = TRUE,
+          ellipse.type = "convex",
+          repel = TRUE)
+```
+
+```{r}
+df <- read.csv("stage2_bogota3_edge.csv")
+df
+
+```
+
+```{r}
+# Load required packages
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = rownames(df),
+          size = 1,
+          repel = TRUE)
+```
+
+```{r}
+# K-means clustering
+clust <- kmeans(mds, 3)$cluster %>%
+  as.factor()
+mds <- mds %>%
+  mutate(groups = clust)
+# Plot and color by groups
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = rownames(df),
+          color = "groups",
+          palette = "jco",
+          size = 1, 
+          ellipse = TRUE,
+          ellipse.type = "convex",
+          repel = TRUE)
+```
+```{r}
+df <- read.csv("stage2_bogota0_edge.csv")
+df
+```
+
+```{r}
+# Load required packages
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = rownames(df),
+          size = 1,
+          repel = TRUE)
+```
+
+```{r}
+# K-means clustering
+clust <- kmeans(mds, 3)$cluster %>%
+  as.factor()
+mds <- mds %>%
+  mutate(groups = clust)
+# Plot and color by groups
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = rownames(df),
+          color = "groups",
+          palette = "jco",
+          size = 1, 
+          ellipse = TRUE,
+          ellipse.type = "convex",
+          repel = TRUE)
+```
+
+```{r}
+df <- read.csv("stage4_bogota0_edge.csv")
+df
+```
+
+```{r}
+# K-means clustering
+clust <- kmeans(mds, 3)$cluster %>%
+  as.factor()
+mds <- mds %>%
+  mutate(groups = clust)
+# Plot and color by groups
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = rownames(df),
+          color = "groups",
+          palette = "jco",
+          title = "Stage 4 No Transparency", 
+          size = 1, 
+          ellipse = TRUE,
+          ellipse.type = "convex",
           repel = TRUE)
 ```
 
