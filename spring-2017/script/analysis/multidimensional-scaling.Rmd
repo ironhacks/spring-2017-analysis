@@ -1,0 +1,36 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+df <- read.csv("adjacency_df.csv")
+df
+```
+
+```{r}
+head(df)
+```
+
+```{r}
+# Load required packages
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = rownames(df),
+          size = 1,
+          repel = TRUE)
+```
+
