@@ -13,6 +13,14 @@ df
 ```
 
 ```{r}
+# add the rownames as a proper column
+rownames(df) <- NULL
+df
+```
+
+
+
+```{r}
 head(df)
 ```
 
@@ -33,6 +41,7 @@ ggscatter(mds, x = "Dim.1", y = "Dim.2",
           title = "Stage 1 Full Transparency", 
           size = 1,
           repel = TRUE)
+
 ```
 
 ```{r}
@@ -220,5 +229,7 @@ ggscatter(mds, x = "Dim.1", y = "Dim.2",
           ellipse = TRUE,
           ellipse.type = "convex",
           repel = TRUE)
+
+
 ```
 
