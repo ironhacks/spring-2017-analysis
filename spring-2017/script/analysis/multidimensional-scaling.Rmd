@@ -8,6 +8,7 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
+options(ggrepel.max.overlaps = Inf)
 df <- read.csv("stage1_bogota3_edge.csv")
 df
 ```
@@ -23,60 +24,86 @@ vec <- vec[-1]
 vec
 ```
 
-
-
 ```{r}
-library(dplyr, warn.conflicts = FALSE)
-library(ggpubr)
-#> Loading required package: ggplot2
-library(ggrepel)
-
-# Cmpute MDS
-mds <- swiss %>%
-  dist() %>%
-  cmdscale() %>%
-  as_tibble()
-#> Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if
-#> `.name_repair` is omitted as of tibble 2.0.0.
-#> ℹ Using compatibility `.name_repair`.
-colnames(mds) <- c("Dim.1", "Dim.2")
-
-mds$label <- colnames(df)
-
-# Plot MDS
-ggscatter(mds,
-  x = "Dim.1", y = "Dim.2",
-  size = 1, repel = TRUE
-) +
-  ggrepel::geom_text_repel(
-    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "bottom1", "bottom2", "bottom3", "bottom4"), label, ""))
-  )
-
+ nrow(df)
 ```
 
+
 ```{r}
-df <- read.csv("stage4_bogota3_edge.csv")
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = vec,
+          size = 1,
+          repel = TRUE)
+
+```
+```{r}
+df <- read.csv("stage2_bogota3_edge.csv")
 df
 ```
 
 ```{r}
-# K-means clustering
-clust <- kmeans(mds, 3)$cluster %>%
-  as.factor()
-mds <- mds %>%
-  mutate(groups = clust)
-# Plot and color by groups
+# add the rownames as a proper column
+rownames(df) <- NULL
+df
+```
+
+```{r}
+vec <- colnames(df)
+vec <- vec[-1]
+vec
+```
+
+```{r}
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = rownames(df),
-          color = "groups",
-          palette = "jco",
-          title = "Stage 4 Full Transparency", 
-          size = 1, 
-          ellipse = TRUE,
-          ellipse.type = "convex",
+          label = vec,
+          size = 1,
           repel = TRUE)
 ```
 
+```{r}
+df <- read.csv("stage3_bogota3_edge.csv")
+df
+```
+
+
+
+```{r}
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          label = vec,
+          size = 1,
+          repel = TRUE)
+
+```
 
 ```{r}
 df <- read.csv("stage1_bogota0_edge.csv")
@@ -84,7 +111,6 @@ df
 ```
 
 ```{r}
-# Load required packages
 library(magrittr)
 library(dplyr)
 library(ggpubr)
@@ -96,69 +122,10 @@ mds <- df %>%
 colnames(mds) <- c("Dim.1", "Dim.2")
 # Plot MDS
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = rownames(df),
-          title = "Stage 1 No Transparency", 
+          label = vec,
           size = 1,
           repel = TRUE)
-```
 
-```{r}
-# K-means clustering
-clust <- kmeans(mds, 3)$cluster %>%
-  as.factor()
-mds <- mds %>%
-  mutate(groups = clust)
-# Plot and color by groups
-ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = rownames(df),
-          color = "groups",
-          palette = "jco",
-          title = "Stage 1 No Transparency", 
-          size = 1, 
-          ellipse = TRUE,
-          ellipse.type = "convex",
-          repel = TRUE)
-```
-
-```{r}
-df <- read.csv("stage2_bogota3_edge.csv")
-df
-
-```
-
-```{r}
-# Load required packages
-library(magrittr)
-library(dplyr)
-library(ggpubr)
-# Cmpute MDS
-mds <- df %>%
-  dist() %>%          
-  cmdscale() %>%
-  as_tibble()
-colnames(mds) <- c("Dim.1", "Dim.2")
-# Plot MDS
-ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = rownames(df),
-          size = 1,
-          repel = TRUE)
-```
-
-```{r}
-# K-means clustering
-clust <- kmeans(mds, 3)$cluster %>%
-  as.factor()
-mds <- mds %>%
-  mutate(groups = clust)
-# Plot and color by groups
-ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = rownames(df),
-          color = "groups",
-          palette = "jco",
-          size = 1, 
-          ellipse = TRUE,
-          ellipse.type = "convex",
-          repel = TRUE)
 ```
 ```{r}
 df <- read.csv("stage2_bogota0_edge.csv")
@@ -166,7 +133,6 @@ df
 ```
 
 ```{r}
-# Load required packages
 library(magrittr)
 library(dplyr)
 library(ggpubr)
@@ -178,25 +144,29 @@ mds <- df %>%
 colnames(mds) <- c("Dim.1", "Dim.2")
 # Plot MDS
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = rownames(df),
+          label = vec,
           size = 1,
           repel = TRUE)
 ```
+```{r}
+df <- read.csv("stage3_bogota0_edge.csv")
+df
+```
 
 ```{r}
-# K-means clustering
-clust <- kmeans(mds, 3)$cluster %>%
-  as.factor()
-mds <- mds %>%
-  mutate(groups = clust)
-# Plot and color by groups
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = rownames(df),
-          color = "groups",
-          palette = "jco",
-          size = 1, 
-          ellipse = TRUE,
-          ellipse.type = "convex",
+          label = vec,
+          size = 1,
           repel = TRUE)
 ```
 
@@ -206,22 +176,19 @@ df
 ```
 
 ```{r}
-# K-means clustering
-clust <- kmeans(mds, 3)$cluster %>%
-  as.factor()
-mds <- mds %>%
-  mutate(groups = clust)
-# Plot and color by groups
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = rownames(df),
-          color = "groups",
-          palette = "jco",
-          title = "Stage 4 No Transparency", 
-          size = 1, 
-          ellipse = TRUE,
-          ellipse.type = "convex",
+          label = vec,
+          size = 1,
           repel = TRUE)
-
-
 ```
 
