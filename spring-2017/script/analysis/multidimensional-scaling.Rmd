@@ -26,41 +26,32 @@ vec
 
 
 ```{r}
-# Load required packages
-library(magrittr)
-library(dplyr)
+library(dplyr, warn.conflicts = FALSE)
 library(ggpubr)
+#> Loading required package: ggplot2
+library(ggrepel)
+
 # Cmpute MDS
-mds <- df %>%
-  dist() %>%          
+mds <- swiss %>%
+  dist() %>%
   cmdscale() %>%
   as_tibble()
+#> Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if
+#> `.name_repair` is omitted as of tibble 2.0.0.
+#> ℹ Using compatibility `.name_repair`.
 colnames(mds) <- c("Dim.1", "Dim.2")
+
+mds$label <- colnames(df)
+
 # Plot MDS
-ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = vec,
-          title = "Stage 1 Full Transparency", 
-          size = 1,
-          repel = TRUE)
+ggscatter(mds,
+  x = "Dim.1", y = "Dim.2",
+  size = 1, repel = TRUE
+) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "bottom1", "bottom2", "bottom3", "bottom4"), label, ""))
+  )
 
-```
-
-```{r}
-# K-means clustering
-clust <- kmeans(mds, 3)$cluster %>%
-  as.factor()
-mds <- mds %>%
-  mutate(groups = clust)
-# Plot and color by groups
-ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = rownames(df),
-          color = "groups",
-          palette = "jco",
-          title = "Stage 1 Full Transparency", 
-          size = 1, 
-          ellipse = TRUE,
-          ellipse.type = "convex",
-          repel = TRUE)
 ```
 
 ```{r}
