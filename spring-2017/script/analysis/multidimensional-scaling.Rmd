@@ -17,12 +17,13 @@ df
 rownames(df) <- NULL
 df
 ```
-
-
-
 ```{r}
-head(df)
+vec <- colnames(df)
+vec <- vec[-1]
+vec
 ```
+
+
 
 ```{r}
 # Load required packages
@@ -37,7 +38,7 @@ mds <- df %>%
 colnames(mds) <- c("Dim.1", "Dim.2")
 # Plot MDS
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = rownames(df),
+          label = vec,
           title = "Stage 1 Full Transparency", 
           size = 1,
           repel = TRUE)
