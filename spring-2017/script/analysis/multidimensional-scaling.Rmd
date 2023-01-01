@@ -46,30 +46,18 @@ mds <- df %>%
   as_tibble()
 colnames(mds) <- c("Dim.1", "Dim.2")
 # Plot MDS
+mds$label <- vec
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = vec,
           size = 1,
-          repel = TRUE)
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "bottom1", "bottom2", "bottom3", "bottom4"), label, ""))
+  )
 
 ```
+
 ```{r}
 df <- read.csv("stage2_bogota3_edge.csv")
-df
-```
-
-```{r}
-# add the rownames as a proper column
-rownames(df) <- NULL
-df
-```
-
-```{r}
-vec <- colnames(df)
-vec <- vec[-1]
-vec
-```
-
-```{r}
 library(magrittr)
 library(dplyr)
 library(ggpubr)
@@ -80,20 +68,20 @@ mds <- df %>%
   as_tibble()
 colnames(mds) <- c("Dim.1", "Dim.2")
 # Plot MDS
+mds$label <- vec
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = vec,
           size = 1,
-          repel = TRUE)
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "bottom1", "bottom2", "bottom3", "bottom4"), label, ""))
+  )
 ```
+
+
+
 
 ```{r}
 df <- read.csv("stage3_bogota3_edge.csv")
-df
-```
-
-
-
-```{r}
 library(magrittr)
 library(dplyr)
 library(ggpubr)
@@ -104,19 +92,219 @@ mds <- df %>%
   as_tibble()
 colnames(mds) <- c("Dim.1", "Dim.2")
 # Plot MDS
+mds$label <- vec
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = vec,
           size = 1,
-          repel = TRUE)
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "bottom1", "bottom2", "bottom3", "bottom4"), label, ""))
+  )
+```
+```{r}
+df <- read.csv("stage4_bogota3_edge.csv")
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+mds$label <- vec
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          size = 1,
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "bottom1", "bottom2", "bottom3", "bottom4"), label, ""))
+  )
+```
 
+
+```{r}
+df <- read.csv("stage1_bogota2_edge.csv")
+vec <- colnames(df)
+vec <- vec[-1]
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+mds$label <- vec
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          size = 1,
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "top5", "bottom1", "bottom2", "bottom3", "bottom4", "bottom5"), label, ""))
+  )
+```
+```{r}
+df <- read.csv("stage2_bogota2_edge.csv")
+vec <- colnames(df)
+vec <- vec[-1]
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+mds$label <- vec
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          size = 1,
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "top5", "bottom1", "bottom2", "bottom3", "bottom4", "bottom5"), label, ""))
+  )
+```
+```{r}
+df <- read.csv("stage3_bogota2_edge.csv")
+vec <- colnames(df)
+vec <- vec[-1]
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+mds$label <- vec
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          size = 1,
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "top5", "bottom1", "bottom2", "bottom3", "bottom4", "bottom5"), label, ""))
+  )
+```
+```{r}
+df <- read.csv("stage4_bogota2_edge.csv")
+vec <- colnames(df)
+vec <- vec[-1]
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+mds$label <- vec
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          size = 1,
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "top5", "bottom1", "bottom2", "bottom3", "bottom4", "bottom5"), label, ""))
+  )
+```
+
+```{r}
+df <- read.csv("stage1_bogota1_edge.csv")
+vec <- colnames(df)
+vec <- vec[-1]
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+mds$label <- vec
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          size = 1,
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "top5", "bottom1", "bottom2", "bottom3", "bottom4", "bottom5"), label, ""))
+  )
+```
+```{r}
+df <- read.csv("stage2_bogota1_edge.csv")
+vec <- colnames(df)
+vec <- vec[-1]
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+mds$label <- vec
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          size = 1,
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "top5", "bottom1", "bottom2", "bottom3", "bottom4", "bottom5"), label, ""))
+  )
+```
+```{r}
+df <- read.csv("stage3_bogota1_edge.csv")
+vec <- colnames(df)
+vec <- vec[-1]
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+mds$label <- vec
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          size = 1,
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "top5", "bottom1", "bottom2", "bottom3", "bottom4", "bottom5"), label, ""))
+  )
+```
+
+```{r}
+df <- read.csv("stage4_bogota1_edge.csv")
+vec <- colnames(df)
+vec <- vec[-1]
+library(magrittr)
+library(dplyr)
+library(ggpubr)
+# Cmpute MDS
+mds <- df %>%
+  dist() %>%          
+  cmdscale() %>%
+  as_tibble()
+colnames(mds) <- c("Dim.1", "Dim.2")
+# Plot MDS
+mds$label <- vec
+ggscatter(mds, x = "Dim.1", y = "Dim.2", 
+          size = 1,
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "top5", "bottom1", "bottom2", "bottom3", "bottom4", "bottom5"), label, ""))
+  )
 ```
 
 ```{r}
 df <- read.csv("stage1_bogota0_edge.csv")
-df
-```
-
-```{r}
+vec <- colnames(df)
+vec <- vec[-1]
 library(magrittr)
 library(dplyr)
 library(ggpubr)
@@ -127,18 +315,17 @@ mds <- df %>%
   as_tibble()
 colnames(mds) <- c("Dim.1", "Dim.2")
 # Plot MDS
+mds$label <- vec
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = vec,
           size = 1,
-          repel = TRUE)
-
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "bottom1", "bottom2", "bottom3", "bottom4"), label, ""))
+  )
 ```
+
 ```{r}
 df <- read.csv("stage2_bogota0_edge.csv")
-df
-```
-
-```{r}
 library(magrittr)
 library(dplyr)
 library(ggpubr)
@@ -149,17 +336,17 @@ mds <- df %>%
   as_tibble()
 colnames(mds) <- c("Dim.1", "Dim.2")
 # Plot MDS
+mds$label <- vec
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = vec,
           size = 1,
-          repel = TRUE)
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "bottom1", "bottom2", "bottom3", "bottom4"), label, ""))
+  )
 ```
+
 ```{r}
 df <- read.csv("stage3_bogota0_edge.csv")
-df
-```
-
-```{r}
 library(magrittr)
 library(dplyr)
 library(ggpubr)
@@ -170,18 +357,17 @@ mds <- df %>%
   as_tibble()
 colnames(mds) <- c("Dim.1", "Dim.2")
 # Plot MDS
+mds$label <- vec
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = vec,
           size = 1,
-          repel = TRUE)
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "bottom1", "bottom2", "bottom3", "bottom4"), label, ""))
+  )
 ```
 
 ```{r}
 df <- read.csv("stage4_bogota0_edge.csv")
-df
-```
-
-```{r}
 library(magrittr)
 library(dplyr)
 library(ggpubr)
@@ -192,9 +378,12 @@ mds <- df %>%
   as_tibble()
 colnames(mds) <- c("Dim.1", "Dim.2")
 # Plot MDS
+mds$label <- vec
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
-          label = vec,
           size = 1,
-          repel = TRUE) 
+          repel = TRUE) +
+  ggrepel::geom_text_repel(
+    aes(label = if_else(label %in% c('top1', 'top2', 'top3', "top4", "bottom1", "bottom2", "bottom3", "bottom4"), label, ""))
+  )
 ```
 
