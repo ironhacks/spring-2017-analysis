@@ -18,6 +18,12 @@ df
 rownames(df) <- NULL
 df
 ```
+
+```{r}
+rownames(df)
+```
+
+
 ```{r}
 vec <- colnames(df)
 vec <- vec[-1]
@@ -189,6 +195,6 @@ colnames(mds) <- c("Dim.1", "Dim.2")
 ggscatter(mds, x = "Dim.1", y = "Dim.2", 
           label = vec,
           size = 1,
-          repel = TRUE)
+          repel = TRUE) 
 ```
 
