@@ -35,6 +35,7 @@ df$group = factor(df$group)
 df$ln_len_unique <- log(df$len_unique+1) 
 df$ln_added_sum <- log(df$added_sum+1)
 df$ln_sim_best <- log(df$sim.to.best+1)
+df$ln_count <- log(df$count+1)
 df
 ```
 ```{r}
@@ -53,6 +54,38 @@ vif(mod)
 df$group <- relevel(df$group, ref = "3")
 mod <- lm(ln_added_sum ~ factor(group), data=df)
 summary(mod)
+```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_novelty ~ factor(group), data=df)
+summary(mod)
+```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_total~ factor(group), data=df)
+summary(mod)
+```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod_exp <- lm(ln_novelty ~ factor(group) + exploration, data=df)
+summary(mod_exp)
+```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod_exp_int <- lm(ln_novelty ~ factor(group) + exploration + factor(group) * exploration, data=df)
+summary(mod_exp_int)
+```
+
+```{r}
+anova(mod_exp_int, mod_exp)
+```
+
+```{r}
+anova(mod, mod_exp)
 ```
 
 
@@ -91,12 +124,12 @@ summary(mod)
 ```
 ```{r}
 df$group <- relevel(df$group, ref = "3")
-mod2 <- lm(ln_exploration ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+mod2 <- lm(ln_exploration ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df)
 summary(mod2)
 ```
 ```{r}
 df$group <- relevel(df$group, ref = "3")
-mod3 <- lm(ln_exploration ~  Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+mod3 <- lm(ln_exploration ~  Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df)
 summary(mod3)
 ```
 ```{r}
@@ -106,13 +139,13 @@ anova(mod2, mod3)
 
 ```{r}
 df$group <- relevel(df$group, ref = "3")
-mod <- lm(ln_novelty ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+mod <- lm(ln_novelty ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df)
 summary(mod)
 ```
 
 ```{r}
 df$group <- relevel(df$group, ref = "3")
-mod1 <- lm(ln_novelty ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+mod1 <- lm(ln_novelty ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df)
 summary(mod1)
 ```
 ```{r}
@@ -166,7 +199,7 @@ vtree(df, c("phase", "group"),
 
 ```{r}
 df$group <- relevel(df$group, ref = "3")
-mod5 <- lm(ln_total ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + count, data=df)
+mod5 <- lm(ln_total ~ factor(group) + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df)
 summary(mod5)
 ```
 
