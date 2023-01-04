@@ -36,6 +36,7 @@ df$ln_len_unique <- log(df$len_unique+1)
 df$ln_added_sum <- log(df$added_sum+1)
 df$ln_sim_best <- log(df$sim.to.best+1)
 df$ln_count <- log(df$count+1)
+df$ln_exploration <- log(df$exploration+1)
 df
 ```
 ```{r}
@@ -166,6 +167,42 @@ library(lmerTest)
 fit.lmer <- lmer(ln_novelty ~ factor(group) + ( 1 | phase), data = df, REML= FALSE)
 fit.lmer
 ``` 
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_novelty ~ factor(group) * exploration + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df)
+summary(mod)
+```
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_novelty ~ factor(group) + exploration + factor(group) * exploration + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df)
+summary(mod)
+```
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_novelty ~ factor(group) + exploration  + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df)
+summary(mod)
+```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_total ~ factor(group) + exploration  + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10, data=df)
+summary(mod)
+```
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_total ~ factor(group) + exploration  + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + factor(group) * exploration, data=df)
+summary(mod)
+```
+
+
+```{r}
+df$group <- relevel(df$group, ref = "3")
+mod <- lm(ln_novelty ~ factor(group) + exploration  + Q7_Q7_1 + Q7_Q7_2 + Q8_Q8_1 + Q10 + factor(group) * exploration, data=df)
+summary(mod)
+```
+
 
 ```{r}
 tapply(df$ln_novelty, df$group, summary)
