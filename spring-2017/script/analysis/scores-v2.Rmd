@@ -25,8 +25,6 @@ df <- read.csv("merged-sim-best.csv", header =TRUE, sep=",")
 df
 ```
 
-
-
 ```{r}
 df$ln_novelty <- log(df$novelty+1)
 df$ln_total <- log(df$total+1) 
@@ -37,6 +35,7 @@ df$ln_added_sum <- log(df$added_sum+1)
 df$ln_sim_best <- log(df$sim.to.best+1)
 df$ln_count <- log(df$count+1)
 df$ln_exploration <- log(df$exploration+1)
+df$group <- as.factor(df$group)
 df
 ```
 ```{r}
@@ -224,13 +223,13 @@ tapply(df$ln_sim_best, df$group, summary)
 
 
 ```{r}
-library(vtree)
-vtree(df, "group")
+#library(vtree)
+#vtree(df, "group")
 ```
 ```{r}
-vtree(df, c("phase", "group"), 
-   fillcolor = c( phase = "#e7d4e8", group = "#99d8c9"),
-   horiz = FALSE)
+#vtree(df, c("phase", "group"), 
+#   fillcolor = c( phase = "#e7d4e8", group = "#99d8c9"),
+#   horiz = FALSE)
 ```
 
 
@@ -268,5 +267,34 @@ with(df, interaction.plot(group, phase, ln_exploration, ylim=c(0, max(ln_explora
 
 ```{r}
 with(df, interaction.plot(group, phase, ln_novelty, ylim=c(0, max(ln_novelty)))) # interaction plot
+```
+```{r}
+df$stage <- with(df, phase)
+library(dplyr)
+mean_data <- group_by(df, group, stage) %>%
+             summarise(ln_novelty= mean(ln_novelty, na.rm = TRUE))
+library(ggplot2)
+ggplot(na.omit(mean_data), aes(x = stage, y = ln_novelty, colour = group)) +
+  geom_point() + geom_line() + theme_bw()
+```
+```{r}
+df$stage <- with(df, phase)
+library(dplyr)
+mean_data <- group_by(df, group, stage) %>%
+             summarise(ln_exploration= mean(ln_exploration, na.rm = TRUE))
+library(ggplot2)
+ggplot(na.omit(mean_data), aes(x = stage, y = ln_exploration, colour = group)) +
+  geom_point() + geom_line() + theme_bw()
+```
+
+```{r}
+df$phase <- df$phase+1
+library(dplyr)
+mean_data <- group_by(df, group, phase) %>%
+             summarise(ln_total= mean(ln_total, na.rm = TRUE))
+library(ggplot2)
+ggplot(na.omit(mean_data), aes(x = phase, y = ln_total, colour = group)) +
+  geom_point() + geom_line() + theme_bw()
+
 ```
 
