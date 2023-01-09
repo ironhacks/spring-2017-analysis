@@ -103,71 +103,16 @@ library(modelsummary)
 
 `Mean ± SD` <- function(x) { 
     sprintf("%.0f ± %.0f", round(mean(x)), round(sd(x)))
-}in
+}
 ```
 
 
 
 
-```{r}
-
-library(stargazer)
-
-# Simple linear model
-M1 <- lm(ln_total ~ factor(group), df)
-
-# Simple Linear Mixed Effects Model
-M2 <- lmer(ln_total ~ factor(group) + (1 | phase), df)
-
-stargazer(M1, M2, type = "html")
-
-```
 
 
-```{r}
-library(stargazer) 
-library(tidyverse) # for all-things workflow
-library(stevemisc) # for the r2sd() function and the data set
-library(lme4) # the workhorse mixed effects models package in R
-library(blme) # some Bayesian add-ons in an lme4 framework
-library(broom.mixed)
-# Simple linear model
-M1 <- lm(ln_total ~ factor(group), data=df)
 
-# Simple Linear Mixed Effects Model
-M2 <- lmer(ln_total ~ factor(group) + (1 | phase), df)
-             
-tidyM1 <- broom::tidy(M1)
-tidyM2 <- broom::tidy(M2) %>% filter(effect == "fixed")
 
- # Number of unique regions for that one random effect
-num_region <- as.numeric(sapply(ranef(M2),nrow)[1])
-
-# SD for region in M2
-sd_regionM2 <- round(as.numeric(attributes(VarCorr(M2)$"region")$stddev), 3)
-
-tribble(~stat, ~M1, ~M2
-        "Number of Phases", NA, num_region, num_region,
-        "sd(phase)", NA, sd_regionM2, sd_regionM3,
-        "N", nobs(M1), nobs(M2)) -> mod_stats
-
-stargazer(M1, M2, M2, type="latex", 
-          # ^  Notice2 is called twice. I'm going somewhere with this.
-          # Below: manually supply tidied coefficients and standard errors
-          coef = list(tidyM1$estimate, tidyM2$estimate),
-          se = list(tidyM1$std.error, tidyM2$std.error),
-          # Omit model statistics by default...
-          omit.table.layout = "s",
-          # ...but supply your own that you created (with random effects)
-          add.lines = lapply(1:nrow(mod_stats), function(i) unlist(mod_stats[i, ])),
-          covariate.labels = c("Age","Female","Years of Education", "Unemployed", "Household Income (Deciles)", "Ideology (L to R)"),
-          notes="<small>Data: ESS, Round 9 (United Kingdom)</small>",
-          dep.var.labels="Log Total Score",
-          model.names = FALSE,
-          column.labels = c("OLS", "Linear Mixed Effects")
-          )
-
-```
 
 
 
@@ -403,5 +348,28 @@ library(ggplot2)
 ggplot(na.omit(mean_data), aes(x = phase, y = ln_total, colour = group)) +
   geom_point() + geom_line() + theme_bw()
 
+```
+
+```{r}
+library(modelsummary)
+
+`Mean ± SD` <- function(x) { 
+    sprintf("%.0f ± %.0f", round(mean(x)), round(sd(x)))
+}
+```
+
+```{r}
+library(dplyr)
+
+with(df, factor(group, 
+    levels = c(0, 1, 2, 3), labels = c('No Transparency', 'Performance Transparency', 'Solution Transparency', 'Full Transparency')))
+
+
+datasummary(
+    ln_exploration * (Min + Max + `Mean ± SD`) +
+    ln_novelty * (Min + Max + `Mean ± SD`) +
+    ln_total * (Min + Max + `Mean ± SD`) ~
+    1 + group,
+    data = df, output = "latex")
 ```
 
