@@ -2,8 +2,8 @@
 
 ## Analysis Folder Structure 
 
-Journal -> Management Science
-Lead Author -> Sabine Brunswicker
+### Journal: Management Science
+### Lead Author: Sabine Brunswicker
 
 ```
 .
