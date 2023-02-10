@@ -1,4 +1,4 @@
-# Analysis Spring and Fall 2017
+# Analysis Spring 2017
 
 ## Analysis Folder Structure 
 
